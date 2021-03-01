@@ -51,9 +51,9 @@ type IProps = {
   };
 };
 
-const EXCHANGE_RATES = gql`
-  query GetExchangeRates {
-    getNote(id: "603bff2dffab1e542c7d498a") {
+const GET_NOTES = gql`
+  query getNotes {
+    getNotes {
       id
       title
       markdown
@@ -63,33 +63,14 @@ const EXCHANGE_RATES = gql`
 `;
 
 const Notes = ({ classes }: IProps) => {
-  const { loading, error, data } = useQuery(EXCHANGE_RATES);
+  const { loading, error, data } = useQuery(GET_NOTES);
 
   if (loading) return <Loading />;
   if (error) return <EmptyState message={error.message} />;
 
   console.log(data);
 
-  return (
-    <Card className={classes.root}>
-      <CardContent>
-        <Typography variant="h1">Welcome</Typography>
-        <br />
-        <Typography variant="body1"></Typography>
-      </CardContent>
-      <CardActions className={classes.actions}>
-        <Button
-          variant="contained"
-          color="primary"
-          component={Link}
-          aria-label="Button"
-          to="/"
-        >
-          Button
-        </Button>
-      </CardActions>
-    </Card>
-  );
+  return <React.Fragment></React.Fragment>;
 };
 
 export default withStyles(styles)(Notes);

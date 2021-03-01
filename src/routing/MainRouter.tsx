@@ -19,7 +19,8 @@ import { Grid } from "@material-ui/core";
 import Home from "../pages/Home";
 import Header from "../components/layout/Header";
 import EmptyState from "../components/global/EmptyState";
-import Notes from "../pages/Notes";
+
+import routes, { IRouteType } from "./routes";
 
 const MainRouter = () => {
   return (
@@ -33,7 +34,10 @@ const MainRouter = () => {
         <Grid item xs={11}>
           <Switch>
             <Route exact path="/" component={Home} />
-            <Route path="/notes" component={Notes} />
+
+            {routes.map(({ link, component }: IRouteType, i) => (
+              <Route path={link} component={component} key={i} />
+            ))}
 
             <Route
               render={() => (

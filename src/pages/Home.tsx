@@ -62,9 +62,9 @@ const Home = ({ classes }: IProps) => {
           color="primary"
           component={Link}
           aria-label="Button"
-          to="/notes"
+          to="/modules"
         >
-          Notes
+          Modules
         </Button>
       </CardActions>
     </Card>

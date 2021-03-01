@@ -12,6 +12,29 @@
  * Copyright 2021 WebSpace, WebSpace
  */
 
-const routes: any = [];
+import Modules from "../pages/module/Modules";
+import Notes from "../pages/Notes";
+
+export type IRouteType = {
+  name: string;
+  link: string;
+  component: any;
+  authed: boolean;
+};
+
+const routes: IRouteType[] = [
+  {
+    name: "Modules",
+    link: "/modules",
+    component: Modules,
+    authed: false,
+  },
+  {
+    name: "Notes",
+    link: "/notes",
+    component: Notes,
+    authed: false,
+  },
+];
 
 export default routes;
