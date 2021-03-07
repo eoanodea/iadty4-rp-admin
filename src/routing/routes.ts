@@ -12,6 +12,7 @@
  * Copyright 2021 WebSpace, WebSpace
  */
 
+import Module from "../pages/module/Module";
 import Modules from "../pages/module/Modules";
 import Notes from "../pages/Notes";
 
@@ -27,6 +28,12 @@ const routes: IRouteType[] = [
     name: "Modules",
     link: "/modules",
     component: Modules,
+    authed: false,
+  },
+  {
+    name: "Modules",
+    link: "/module/:id",
+    component: Module,
     authed: false,
   },
   {

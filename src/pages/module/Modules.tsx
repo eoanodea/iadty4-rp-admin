@@ -12,17 +12,7 @@
  * Copyright 2021 WebSpace, WebSpace
  */
 
-import {
-  Button,
-  Card,
-  CardActions,
-  CardContent,
-  createStyles,
-  Fab,
-  Theme,
-  Typography,
-  withStyles,
-} from "@material-ui/core";
+import { createStyles, Fab, Theme, withStyles } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import React from "react";
 import { useQuery, gql } from "@apollo/client";
@@ -67,8 +57,12 @@ const GET_MODULES = gql`
       id
       title
       level
+      createdAt
+      updatedAt
       lessons {
         id
+        createdAt
+        updatedAt
       }
     }
   }
@@ -89,7 +83,7 @@ const Modules = ({ classes }: IProps) => {
       ) : (
         data.getModules.map((module: { id: any }) => (
           <ModuleItem
-            displayActions={true}
+            displayActions={false}
             module={module}
             link={`/module/${module.id}`}
           />

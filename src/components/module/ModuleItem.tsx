@@ -18,11 +18,8 @@ import {
   Card,
   CardHeader,
   CardContent,
-  Avatar,
-  Typography,
   createStyles,
   withStyles,
-  Divider,
   Zoom,
   IconButton,
   Menu,
@@ -30,11 +27,12 @@ import {
   ListItemIcon,
   ListItemText,
   Theme,
+  List,
+  ListItem,
 } from "@material-ui/core";
-import { Create, Delete, MoreVert } from "@material-ui/icons";
+import { Book, Create, Delete, MoreVert } from "@material-ui/icons";
 
 import ModuleActionArea from "./ModuleActionArea";
-import ModuleDetails from "./ModuleDetails";
 import DeleteModule from "./DeleteModule";
 
 import { Link } from "react-router-dom";
@@ -130,15 +128,8 @@ const ModuleItem = ({
       <Card className={disableHeight ? classes.fixedHeightCard : classes.card}>
         <ModuleActionArea link={link}>
           <CardHeader
-            avatar={
-              <Avatar color="secondary" className={classes.avatar}>
-                {module.user.name[0]}
-                {module.user.name.split(" ").length > 1 &&
-                  module.user.name.split(" ")[1][0]}
-              </Avatar>
-            }
             title={module.title}
-            subheader={new Date(module.created_at).toDateString()}
+            subheader={new Date(module.createdAt).toDateString()}
             action={
               displayActions && (
                 <React.Fragment>
@@ -179,19 +170,32 @@ const ModuleItem = ({
           />
           <CardContent>
             <React.Fragment>
-              <div className={classes.chipContainer}>
-                <ModuleDetails module={module} isLink={link === null} />
-              </div>
+              <List>
+                {module.lessons.map(
+                  (
+                    lesson: {
+                      id: React.Key | null | undefined;
+                      updatedAt: Date;
+                    },
+                    i: any
+                  ) => {
+                    return (
+                      <ListItem key={lesson.id}>
+                        <ListItemIcon>
+                          <Book />
+                        </ListItemIcon>
+                        <ListItemText
+                          primary={`Lesson ${i}`}
+                          secondary={`Last Updated: ${new Date(
+                            lesson.updatedAt
+                          ).toDateString()}`}
+                        />
+                      </ListItem>
+                    );
+                  }
+                )}
+              </List>
             </React.Fragment>
-
-            {!link && (
-              <React.Fragment>
-                <Divider className={classes.divider} />
-                <Typography variant="body2" color="textSecondary" component="p">
-                  {/* {module.body} */}
-                </Typography>
-              </React.Fragment>
-            )}
           </CardContent>
         </ModuleActionArea>
         <DeleteModule
