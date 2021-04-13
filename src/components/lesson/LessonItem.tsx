@@ -1,0 +1,235 @@
+/**
+ * File: LessonItem.js
+ * Project: ca2-client
+ * Version 0.1.0
+ * File Created: Friday, 15th January 2021 4:07:13 pm
+ * Author: Eoan O'Dea (eoan@web-space.design)
+ * -----
+ * File Description:
+ * Last Modified: Saturday, 30th January 2021 2:32:04 pm
+ * Modified By: Eoan O'Dea (eoan@web-space.design>)
+ * -----
+ * Copyright 2021 WebSpace, WebSpace
+ */
+
+import React from "react";
+
+import {
+  Card,
+  CardHeader,
+  CardContent,
+  createStyles,
+  withStyles,
+  Zoom,
+  IconButton,
+  Menu,
+  MenuItem,
+  ListItemIcon,
+  ListItemText,
+  Theme,
+  List,
+  ListItem,
+  Fab,
+} from "@material-ui/core";
+import { Add, Book, Create, Delete, MoreVert } from "@material-ui/icons";
+
+import LessonActionArea from "./LessonActionArea";
+import DeleteLesson from "./DeleteLesson";
+
+import { Link } from "react-router-dom";
+
+/**
+ * Injected styles
+ *
+ * @param {int} spacing
+ * @param {palette} palette - The palette defined in theme.js
+ */
+const styles = ({ palette, spacing }: Theme) =>
+  createStyles({
+    card: {
+      margin: `${spacing(4)}px auto`,
+    },
+    fixedHeightCard: {
+      height: 200,
+    },
+    avatar: {
+      background: palette.secondary.main,
+    },
+    chipContainer: {
+      "& > *": {
+        margin: spacing(0.5),
+      },
+    },
+    divider: {
+      margin: spacing(2),
+    },
+    fab: {
+      position: "fixed",
+      bottom: spacing(2),
+      right: spacing(2),
+    },
+  });
+
+type IProps = {
+  displayActions: boolean;
+  history?: History;
+  classes: {
+    card: string;
+    fixedHeightCard: string;
+    avatar: string;
+    chipContainer: string;
+    divider: string;
+    fab: string;
+  };
+  lesson: any;
+  link?: string | null;
+  delay?: number;
+  disableHeight?: boolean;
+};
+
+/**
+ * LessonItem Component
+ *
+ * A single comment
+ *
+ * @param {bool} displayActions - if the lesson belongs to the authed user, display actions
+ * @param {History} history - the browser history object
+ * @param {Theme} classes - classes passed from Material UI Theme
+ * @param {*} lesson - The lesson to be displayed
+ * @param {*} link - The link to optionally display
+ * @param {*} delay - The delay of the animation
+ */
+const LessonItem = ({
+  displayActions,
+  history,
+  classes,
+  lesson,
+  link = null,
+  delay = 0,
+  disableHeight = true,
+}: IProps) => {
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [openDeleteDialog, setOpenDeleteDialog] = React.useState(false);
+  const open = Boolean(anchorEl);
+
+  /**
+   * Opens the more options menu
+   *
+   * @param {*} event
+   */
+  const handleOpen = (event: any) => {
+    setAnchorEl(event.currentTarget);
+  };
+  /**
+   * Closes the more options menu
+   */
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  /**
+   * Render JSX
+   */
+  return (
+    <React.Fragment>
+      <ListItem key={lesson.id}>
+        <ListItemIcon>
+          <Book />
+        </ListItemIcon>
+        <ListItemText
+          primary={`Lesson`}
+          secondary={`Last Updated: ${new Date(
+            lesson.updatedAt
+          ).toDateString()}`}
+        />
+      </ListItem>
+      {/* <Zoom in={true} style={{ transitionDelay: `${delay}ms` }}>
+        <Card
+          className={disableHeight ? classes.fixedHeightCard : classes.card}
+        > */}
+      {/* <LessonActionArea link={link}>
+        <CardHeader
+          title={"Lesson"}
+          subheader={new Date(lesson.createdAt).toDateString()}
+          action={
+            displayActions && (
+              <React.Fragment>
+                <IconButton
+                  aria-label="more"
+                  aria-controls="long-menu"
+                  aria-haspopup="true"
+                  onClick={handleOpen}
+                >
+                  <MoreVert />
+                </IconButton>
+
+                <Menu
+                  id="menu"
+                  anchorEl={anchorEl}
+                  open={open}
+                  onClose={handleClose}
+                >
+                  <MenuItem component={Link} to={`/lessons/edit/${lesson.id}`}>
+                    <ListItemIcon>
+                      <Create />
+                    </ListItemIcon>
+                    <ListItemText primary="Edit" />
+                  </MenuItem>
+                  <MenuItem onClick={() => setOpenDeleteDialog(true)}>
+                    <ListItemIcon>
+                      <Delete />
+                    </ListItemIcon>
+                    <ListItemText primary="Delete" />
+                  </MenuItem>
+                </Menu>
+              </React.Fragment>
+            )
+          }
+        />
+        <CardContent>
+          <React.Fragment>
+            {lesson.questions && lesson.questions.length > 0 ? (
+              <List>
+                {lesson.questions.map(
+                  (
+                    question: {
+                      id: React.Key | null | undefined;
+                      updatedAt: Date;
+                    },
+                    i: any
+                  ) => {
+                    return (
+                      <ListItem key={question.id}>
+                        <ListItemIcon>
+                          <Book />
+                        </ListItemIcon>
+                        <ListItemText
+                          primary={`Question ${i}`}
+                          secondary={`Last Updated: ${new Date(
+                            question.updatedAt
+                          ).toDateString()}`}
+                        />
+                      </ListItem>
+                    );
+                  }
+                )}
+              </List>
+            ) : (
+              <></>
+            )}
+          </React.Fragment>
+        </CardContent>
+      </LessonActionArea> */}
+      <DeleteLesson
+        open={openDeleteDialog}
+        lesson={lesson}
+        handleClose={setOpenDeleteDialog}
+        history={history}
+      />
+      {/* </Card>
+      </Zoom> */}
+    </React.Fragment>
+  );
+};
+
+export default withStyles(styles)(LessonItem);

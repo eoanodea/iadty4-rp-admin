@@ -29,13 +29,16 @@ import {
   Theme,
   List,
   ListItem,
+  Fab,
+  Typography,
 } from "@material-ui/core";
-import { Book, Create, Delete, MoreVert } from "@material-ui/icons";
+import { Add, Book, Create, Delete, MoreVert } from "@material-ui/icons";
 
 import ModuleActionArea from "./ModuleActionArea";
 import DeleteModule from "./DeleteModule";
 
 import { Link } from "react-router-dom";
+import LessonItem from "../lesson/LessonItem";
 
 /**
  * Injected styles
@@ -62,6 +65,11 @@ const styles = ({ palette, spacing }: Theme) =>
     divider: {
       margin: spacing(2),
     },
+    fab: {
+      position: "fixed",
+      bottom: spacing(2),
+      right: spacing(2),
+    },
   });
 
 type IProps = {
@@ -73,6 +81,7 @@ type IProps = {
     avatar: string;
     chipContainer: string;
     divider: string;
+    fab: string;
   };
   module: any;
   link?: string | null;
@@ -169,33 +178,34 @@ const ModuleItem = ({
             }
           />
           <CardContent>
-            <React.Fragment>
-              <List>
-                {module.lessons.map(
-                  (
-                    lesson: {
-                      id: React.Key | null | undefined;
-                      updatedAt: Date;
-                    },
-                    i: any
-                  ) => {
-                    return (
-                      <ListItem key={lesson.id}>
-                        <ListItemIcon>
-                          <Book />
-                        </ListItemIcon>
-                        <ListItemText
-                          primary={`Lesson ${i}`}
-                          secondary={`Last Updated: ${new Date(
-                            lesson.updatedAt
-                          ).toDateString()}`}
+            {displayActions ? (
+              <React.Fragment>
+                <List>
+                  {module.lessons.map(
+                    (
+                      lesson: {
+                        id: React.Key | null | undefined;
+                        updatedAt: Date;
+                      },
+                      i: any
+                    ) => {
+                      return (
+                        <LessonItem
+                          lesson={lesson}
+                          key={lesson.id}
+                          displayActions={false}
                         />
-                      </ListItem>
-                    );
-                  }
-                )}
-              </List>
-            </React.Fragment>
+                      );
+                    }
+                  )}
+                </List>
+              </React.Fragment>
+            ) : (
+              <Typography variant="body2">
+                {module.lessons.length} Lesson
+                {module.lessons.length > 1 ? "s" : ""}
+              </Typography>
+            )}
           </CardContent>
         </ModuleActionArea>
         <DeleteModule
@@ -204,6 +214,15 @@ const ModuleItem = ({
           handleClose={setOpenDeleteDialog}
           history={history}
         />
+        <Fab
+          className={classes.fab}
+          component={Link}
+          aria-label="Add Module"
+          color="secondary"
+          to="/lessons/new"
+        >
+          <Add />
+        </Fab>
       </Card>
     </Zoom>
   );

@@ -24,17 +24,18 @@ import { Link, withRouter } from "react-router-dom";
 import Loading from "../../components/global/Loading";
 import EmptyState from "../../components/global/EmptyState";
 import ModuleItem from "../../components/module/ModuleItem";
-import { gql, useQuery } from "@apollo/client";
+import { gql, useQuery, QueryOptions } from "@apollo/client";
 
 //  import auth from "../../helpers/auth-helper";
 
 type IProps = {
   history: any;
+  match: any;
 };
 
 const GET_MODULE = gql`
-  query getModules {
-    getModule(id: "603cd8ccfd47707c7a689696") {
+  query getModules($id: String!) {
+    getModule(id: $id) {
       id
       title
       level
@@ -53,8 +54,29 @@ const GET_MODULE = gql`
  * @param {Theme} classes - classes passed from Material UI Theme
  * @param {Match} match - Contains information about a react-router-dom Route
  */
-const Article = ({ history }: IProps) => {
-  const { loading, error, data } = useQuery(GET_MODULE);
+const Article = ({ history, match }: IProps) => {
+  const { id } = match.params;
+  console.log(id);
+
+  // const { loading, error, data } = useQuery(GET_MODULE, { id: id });
+  const { loading, error, data } = useQuery(
+    gql`
+      query getModules($id: String! = "6058c0bbb7ea85c5c0ecb492") {
+        getModule(id: $id) {
+          id
+          title
+          level
+          createdAt
+          updatedAt
+          lessons {
+            id
+            createdAt
+            updatedAt
+          }
+        }
+      }
+    `
+  );
 
   const [displayActions, setDisplayActions] = React.useState(true);
 
@@ -62,7 +84,7 @@ const Article = ({ history }: IProps) => {
   if (error) return <EmptyState message={error.message} />;
   return (
     <React.Fragment>
-      <Button component={Link} to="/" startIcon={<ArrowBack />}>
+      <Button component={Link} to="/modules" startIcon={<ArrowBack />}>
         Back
       </Button>
       <div style={{ position: "relative" }}>
