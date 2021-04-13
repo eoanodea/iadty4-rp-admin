@@ -76,7 +76,7 @@ const DeleteLesson = ({ history, open, lesson, handleClose }: IProps) => {
    * On success,redirect to the home page
    */
   const submit = () => {
-    // setLoading(true);
+    setLoading(true);
     // const jwt = auth.isAuthenticated();
     // remove(lesson.id, jwt.token).then((data) => {
     //   console.log("data!", data);

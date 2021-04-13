@@ -15,28 +15,16 @@
 import React from "react";
 
 import {
-  Card,
-  CardHeader,
-  CardContent,
   createStyles,
   withStyles,
-  Zoom,
-  IconButton,
-  Menu,
-  MenuItem,
   ListItemIcon,
   ListItemText,
   Theme,
-  List,
   ListItem,
-  Fab,
 } from "@material-ui/core";
-import { Add, Book, Create, Delete, MoreVert } from "@material-ui/icons";
+import { Book } from "@material-ui/icons";
 
-import LessonActionArea from "./LessonActionArea";
 import DeleteLesson from "./DeleteLesson";
-
-import { Link } from "react-router-dom";
 
 /**
  * Injected styles

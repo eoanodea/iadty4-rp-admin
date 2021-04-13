@@ -24,7 +24,7 @@ import { Link, withRouter } from "react-router-dom";
 import Loading from "../../components/global/Loading";
 import EmptyState from "../../components/global/EmptyState";
 import ModuleItem from "../../components/module/ModuleItem";
-import { gql, useQuery, QueryOptions } from "@apollo/client";
+import { gql, useQuery } from "@apollo/client";
 
 //  import auth from "../../helpers/auth-helper";
 
