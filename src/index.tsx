@@ -20,9 +20,10 @@ import App from "./App";
 
 import { ApolloProvider } from "@apollo/client";
 import { ApolloClient, InMemoryCache } from "@apollo/client";
+import { config } from "./config/config";
 
 const client = new ApolloClient({
-  uri: "http://localhost:3000/graphql",
+  uri: config.server_url,
   cache: new InMemoryCache(),
 });
 
