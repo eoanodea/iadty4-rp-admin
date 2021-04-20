@@ -15,7 +15,7 @@
 import { createStyles, Fab, Theme, withStyles } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import React from "react";
-import { useQuery, gql } from "@apollo/client";
+import { useQuery, gql, useMutation } from "@apollo/client";
 import Loading from "../../components/global/Loading";
 import EmptyState from "../../components/global/EmptyState";
 import ModuleItem from "../../components/module/ModuleItem";
@@ -74,8 +74,6 @@ const Modules = ({ classes }: IProps) => {
   if (loading) return <Loading />;
   if (error) return <EmptyState message={error.message} />;
 
-  console.log(data);
-
   return (
     <React.Fragment>
       {data.getModules.length < 1 ? (
@@ -94,7 +92,7 @@ const Modules = ({ classes }: IProps) => {
         component={Link}
         aria-label="Add Module"
         color="secondary"
-        to="/modules/new"
+        to="/create/module"
       >
         <Add />
       </Fab>

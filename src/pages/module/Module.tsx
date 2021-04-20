@@ -43,6 +43,8 @@ const GET_MODULE = gql`
       updatedAt
       lessons {
         id
+        createdAt
+        updatedAt
       }
     }
   }
@@ -59,24 +61,7 @@ const Article = ({ history, match }: IProps) => {
   console.log(id);
 
   // const { loading, error, data } = useQuery(GET_MODULE, { id: id });
-  const { loading, error, data } = useQuery(
-    gql`
-      query getModules($id: String! = "6058c0bbb7ea85c5c0ecb492") {
-        getModule(id: $id) {
-          id
-          title
-          level
-          createdAt
-          updatedAt
-          lessons {
-            id
-            createdAt
-            updatedAt
-          }
-        }
-      }
-    `
-  );
+  const { loading, error, data } = useQuery(GET_MODULE);
 
   const [displayActions, setDisplayActions] = React.useState(true);
 
