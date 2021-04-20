@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState } from "react";
 import {
   Button,
   Card,
@@ -9,19 +9,13 @@ import {
   withStyles,
   CardActions,
   CircularProgress,
+  Typography,
 } from "@material-ui/core";
-// import Autocomplete from "@material-ui/lab/Autocomplete";
+
 import { ArrowBack, Check } from "@material-ui/icons";
 
 import { Link } from "react-router-dom";
 
-// import { create } from "../../api/api-module";
-// import { list } from "../../api/api-categories";
-
-import Loading from "../../components/global/Loading";
-import EmptyState from "../../components/global/EmptyState";
-
-// import auth from "../../helpers/auth-helper";
 import { gql, useMutation } from "@apollo/client";
 
 type IProps = {
@@ -42,25 +36,25 @@ const styles = ({ spacing }: any) =>
     },
   });
 
-interface Module {
-  title: String;
-  type: String;
-  level: number;
-}
+// interface Module {
+//   title: String;
+//   type: String;
+//   level: number;
+// }
 
-const typeDefs = gql`
-  extend type Module {
-    title: String!
-    type: String!
-    level: Float!
-  }
+// const typeDefs = gql`
+//   extend type Module {
+//     title: String!
+//     type: String!
+//     level: Float!
+//   }
 
-  extend type ModuleValidator {
-    title: String!
-    level: Float!
-    type: String!
-  }
-`;
+//   extend type ModuleValidator {
+//     title: String!
+//     level: Float!
+//     type: String!
+//   }
+// `;
 
 const ADD_MODULE = gql`
   mutation AddModule($input: ModuleValidator!) {
@@ -77,17 +71,53 @@ const ADD_MODULE = gql`
  * @param {Theme} classes - classes passed from Material UI Theme
  */
 const CreateModule = ({ history, classes }: IProps) => {
-  const [name, setName] = useState("");
-  const [level, setLevel] = useState("");
+  const [title, setTitle] = useState("");
+  const [level, setLevel] = useState(0);
   const [type, setType] = useState("");
 
-  const [nameError, setNameError] = useState("");
+  const [titleError, setTitleError] = useState("");
   const [levelError, setLevelError] = useState("");
   const [typeError, setTypeError] = useState("");
 
-  const [addModule, { data }] = useMutation(ADD_MODULE);
+  const [serverError, setServerError] = useState("");
 
-  const submit = () => {};
+  const [addModule, { loading }] = useMutation(ADD_MODULE);
+
+  const handleValidation = () => {
+    let isValid = false;
+    if (title.length < 3) {
+      setTitleError("Title must be at least 3 characters");
+    } else {
+      isValid = true;
+      setTitleError("");
+    }
+
+    return isValid;
+  };
+
+  const submit = () => {
+    if (handleValidation()) {
+      setServerError("");
+
+      addModule({
+        variables: {
+          input: {
+            title,
+            level,
+            type,
+          },
+        },
+      })
+        .then((res: any) => {
+          console.log("result!", res);
+          history.push(`/module/${res.data.addModule.id}`);
+        })
+        .catch((e) => {
+          console.log("error", e);
+          setServerError(e.toString());
+        });
+    }
+  };
 
   /**
    * Render JSX
@@ -102,32 +132,38 @@ const CreateModule = ({ history, classes }: IProps) => {
 
         <CardContent>
           <TextField
-            name="name"
-            label="Name"
+            title="title"
+            label="Title"
             autoFocus={true}
             margin="normal"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
             onKeyDown={(e) => e.key === "Enter" && submit()}
-            error={nameError !== ""}
-            helperText={nameError}
+            error={titleError !== ""}
+            helperText={titleError}
           />
 
           <TextField
-            name="level"
+            title="level"
             label="Level"
             autoFocus={true}
             margin="normal"
             type="number"
+            InputProps={{
+              inputProps: {
+                min: 0,
+                max: 12,
+              },
+            }}
             value={level}
-            onChange={(e) => setLevel(e.target.value)}
+            onChange={(e) => setLevel(parseInt(e.target.value))}
             onKeyDown={(e) => e.key === "Enter" && submit()}
             error={levelError !== ""}
             helperText={levelError}
           />
 
           <TextField
-            name="type"
+            title="type"
             label="Lesson Type"
             autoFocus={true}
             margin="normal"
@@ -137,14 +173,18 @@ const CreateModule = ({ history, classes }: IProps) => {
             error={typeError !== ""}
             helperText={typeError}
           />
+
+          <Typography variant="caption" color="error">
+            {serverError}
+          </Typography>
         </CardContent>
         <CardActions>
           <Button
             color="secondary"
             variant="contained"
             onClick={submit}
-            // disabled={loading}
-            // endIcon={loading ? <CircularProgress size={18} /> : <Check />}
+            disabled={loading}
+            endIcon={loading ? <CircularProgress size={18} /> : <Check />}
           >
             Save
           </Button>

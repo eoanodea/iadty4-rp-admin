@@ -61,7 +61,7 @@ const Article = ({ history, match }: IProps) => {
   console.log(id);
 
   // const { loading, error, data } = useQuery(GET_MODULE, { id: id });
-  const { loading, error, data } = useQuery(GET_MODULE);
+  const { loading, error, data } = useQuery(GET_MODULE, { variables: { id } });
 
   const [displayActions, setDisplayActions] = React.useState(true);
 

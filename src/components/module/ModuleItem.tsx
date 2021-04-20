@@ -53,6 +53,7 @@ const styles = ({ palette, spacing }: Theme) =>
     },
     fixedHeightCard: {
       height: 200,
+      margin: `${spacing(4)}px auto`,
     },
     avatar: {
       background: palette.secondary.main,
@@ -199,6 +200,21 @@ const ModuleItem = ({
                     }
                   )}
                 </List>
+                <DeleteModule
+                  open={openDeleteDialog}
+                  module={module}
+                  handleClose={setOpenDeleteDialog}
+                  history={history}
+                />
+                <Fab
+                  className={classes.fab}
+                  component={Link}
+                  aria-label="Add Module"
+                  color="secondary"
+                  to="/lessons/new"
+                >
+                  <Add />
+                </Fab>
               </React.Fragment>
             ) : (
               <Typography variant="body2">
@@ -208,21 +224,6 @@ const ModuleItem = ({
             )}
           </CardContent>
         </ModuleActionArea>
-        <DeleteModule
-          open={openDeleteDialog}
-          module={module}
-          handleClose={setOpenDeleteDialog}
-          history={history}
-        />
-        <Fab
-          className={classes.fab}
-          component={Link}
-          aria-label="Add Module"
-          color="secondary"
-          to="/lessons/new"
-        >
-          <Add />
-        </Fab>
       </Card>
     </Zoom>
   );
