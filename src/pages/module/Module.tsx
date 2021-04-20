@@ -63,7 +63,7 @@ const Article = ({ history, match }: IProps) => {
   // const { loading, error, data } = useQuery(GET_MODULE, { id: id });
   const { loading, error, data } = useQuery(GET_MODULE, { variables: { id } });
 
-  const [displayActions, setDisplayActions] = React.useState(true);
+  // const [displayActions, setDisplayActions] = React.useState(true);
 
   if (loading) return <Loading />;
   if (error) return <EmptyState message={error.message} />;
@@ -76,7 +76,7 @@ const Article = ({ history, match }: IProps) => {
         <ModuleItem
           module={data.getModule}
           history={history}
-          displayActions={displayActions}
+          displayActions={false}
           disableHeight={false}
         />
       </div>

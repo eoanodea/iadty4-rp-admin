@@ -76,8 +76,8 @@ const CreateModule = ({ history, classes }: IProps) => {
   const [type, setType] = useState("");
 
   const [titleError, setTitleError] = useState("");
-  const [levelError, setLevelError] = useState("");
-  const [typeError, setTypeError] = useState("");
+  // const [levelError, setLevelError] = useState("");
+  // const [typeError, setTypeError] = useState("");
 
   const [serverError, setServerError] = useState("");
 
@@ -158,8 +158,8 @@ const CreateModule = ({ history, classes }: IProps) => {
             value={level}
             onChange={(e) => setLevel(parseInt(e.target.value))}
             onKeyDown={(e) => e.key === "Enter" && submit()}
-            error={levelError !== ""}
-            helperText={levelError}
+            // error={levelError !== ""}
+            // helperText={levelError}
           />
 
           <TextField
@@ -170,8 +170,8 @@ const CreateModule = ({ history, classes }: IProps) => {
             value={type}
             onChange={(e) => setType(e.target.value)}
             onKeyDown={(e) => e.key === "Enter" && submit()}
-            error={typeError !== ""}
-            helperText={typeError}
+            // error={typeError !== ""}
+            // helperText={typeError}
           />
 
           <Typography variant="caption" color="error">
