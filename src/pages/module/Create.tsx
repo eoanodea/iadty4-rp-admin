@@ -59,7 +59,11 @@ const styles = ({ spacing }: any) =>
 const ADD_MODULE = gql`
   mutation AddModule($input: ModuleValidator!) {
     addModule(input: $input) {
+      __typename
       id
+      title
+      level
+      type
     }
   }
 `;
@@ -70,7 +74,7 @@ const ADD_MODULE = gql`
  * @param {History} history - the browser history object
  * @param {Theme} classes - classes passed from Material UI Theme
  */
-const CreateModule = ({ history, classes }: IProps) => {
+const Create = ({ history, classes }: IProps) => {
   const [title, setTitle] = useState("");
   const [level, setLevel] = useState(0);
   const [type, setType] = useState("");
@@ -81,7 +85,77 @@ const CreateModule = ({ history, classes }: IProps) => {
 
   const [serverError, setServerError] = useState("");
 
-  const [addModule, { loading }] = useMutation(ADD_MODULE);
+  const [addModule, { loading }] = useMutation(ADD_MODULE, {
+    update(cache, { data: { addModule } }) {
+      cache.modify({
+        fields: {
+          modules(existingModules = []) {
+            const newModuleRef = cache.writeFragment({
+              data: addModule,
+              fragment: gql`
+                fragment NewModule on Module {
+                  __typename
+                  id
+                  title
+                  level
+                  type
+                }
+              `,
+            });
+            return [...existingModules, newModuleRef];
+          },
+        },
+      });
+    },
+  });
+
+  // const [addModule, { loading }] = useMutation(ADD_MODULE, {
+  //   update(cache, { data: { addModule } }) {
+  //     cache.modify({
+  //       fields: {
+  //         // id: cache.identify(addModule),
+  //         modules(existingModules = []) {
+  //           const newModuleRef = cache.writeFragment({
+  //             data: addModule,
+  //             fragment: gql`
+  //               fragment AddModule on Module {
+  //                 id
+  //                 title
+  //                 level
+  //                 type
+  //               }
+  //             `,
+  //           });
+  //           // return existingModules.push(newModuleRef);
+  //           return [...existingModules, newModuleRef];
+  //         },
+  //       },
+  //     });
+  //   },
+  // });
+
+  // const [updateModule, { loading: mutationLoading }] = useMutation(UPDATE, {
+  //   update(cache, { data: { updateModule } }) {
+  //     cache.modify({
+  //       fields: {
+  //         modules(existingModules = []) {
+  //           const newModuleRef = cache.writeFragment({
+  //             data: updateModule,
+  //             fragment: gql`
+  //               fragment UpdateModule on Module {
+  //                 id
+  //                 title
+  //                 level
+  //                 type
+  //               }
+  //             `,
+  //           });
+  //           return [...existingModules, newModuleRef];
+  //         },
+  //       },
+  //     });
+  //   },
+  // });
 
   const handleValidation = () => {
     let isValid = false;
@@ -110,7 +184,8 @@ const CreateModule = ({ history, classes }: IProps) => {
       })
         .then((res: any) => {
           console.log("result!", res);
-          history.push(`/module/${res.data.addModule.id}`);
+          // history.push(`/module/${res.data.addModule.id}`);
+          history.push(`/modules/true`);
         })
         .catch((e) => {
           console.log("error", e);
@@ -146,7 +221,6 @@ const CreateModule = ({ history, classes }: IProps) => {
           <TextField
             title="level"
             label="Level"
-            autoFocus={true}
             margin="normal"
             type="number"
             InputProps={{
@@ -165,7 +239,6 @@ const CreateModule = ({ history, classes }: IProps) => {
           <TextField
             title="type"
             label="Lesson Type"
-            autoFocus={true}
             margin="normal"
             value={type}
             onChange={(e) => setType(e.target.value)}
@@ -194,4 +267,4 @@ const CreateModule = ({ history, classes }: IProps) => {
   );
 };
 
-export default withStyles(styles)(CreateModule);
+export default withStyles(styles)(Create);

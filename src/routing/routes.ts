@@ -1,20 +1,10 @@
-/**
- * File: routes.js
- * Project: cv-viewer
- * Version 0.1.0
- * File Created: Tuesday, 26th January 2021 1:05:02 pm
- * Author: Eoan O'Dea (eoan@web-space.design)
- * -----
- * File Description:
- * Last Modified: Tuesday, 26th January 2021 1:52:33 pm
- * Modified By: Eoan O'Dea (eoan@web-space.design>)
- * -----
- * Copyright 2021 WebSpace, WebSpace
- */
+import {
+  Create as CreateModule,
+  Read as ReadModule,
+  Update as UpdateModule,
+  List as ListModule,
+} from "./../pages/module";
 
-import CreateModule from "../pages/module/CreateModule";
-import Module from "../pages/module/Module";
-import Modules from "../pages/module/Modules";
 import Notes from "../pages/Notes";
 
 export type IRouteType = {
@@ -25,22 +15,32 @@ export type IRouteType = {
 };
 
 const routes: IRouteType[] = [
+  /**
+   * Modules
+   */
   {
-    name: "Modules",
-    link: "/modules",
-    component: Modules,
+    name: "Create Module",
+    link: "/create/module",
+    component: CreateModule,
     authed: false,
   },
   {
     name: "Module",
     link: "/module/:id",
-    component: Module,
+    component: ReadModule,
+    authed: false,
+  },
+
+  {
+    name: "Update Module",
+    link: "/update/module/:id",
+    component: UpdateModule,
     authed: false,
   },
   {
-    name: "Create Module",
-    link: "/create/module",
-    component: CreateModule,
+    name: "Modules",
+    link: "/modules/:newFetch?",
+    component: ListModule,
     authed: false,
   },
   {

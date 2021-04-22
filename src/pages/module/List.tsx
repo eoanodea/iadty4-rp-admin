@@ -49,6 +49,8 @@ type IProps = {
     actions: string;
     fab: string;
   };
+  match: any;
+  history: any;
 };
 
 const GET_MODULES = gql`
@@ -68,8 +70,17 @@ const GET_MODULES = gql`
   }
 `;
 
-const Modules = ({ classes }: IProps) => {
-  const { loading, error, data } = useQuery(GET_MODULES);
+const List = ({ classes, match, history }: IProps) => {
+  const { loading, error, data, refetch } = useQuery(GET_MODULES);
+
+  let { newFetch } = match.params;
+
+  if (newFetch) {
+    refetch();
+    history.push(`/modules`);
+
+    // newFetch = false;
+  }
 
   if (loading) return <Loading />;
   if (error) return <EmptyState message={error.message} />;
@@ -81,6 +92,7 @@ const Modules = ({ classes }: IProps) => {
       ) : (
         data.getModules.map((module: { id: any }) => (
           <ModuleItem
+            key={module.id}
             displayActions={false}
             module={module}
             link={`/module/${module.id}`}
@@ -100,4 +112,4 @@ const Modules = ({ classes }: IProps) => {
   );
 };
 
-export default withStyles(styles)(Modules);
+export default withStyles(styles)(List);

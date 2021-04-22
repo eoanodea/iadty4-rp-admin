@@ -56,9 +56,8 @@ const GET_MODULE = gql`
  * @param {Theme} classes - classes passed from Material UI Theme
  * @param {Match} match - Contains information about a react-router-dom Route
  */
-const Article = ({ history, match }: IProps) => {
+const Read = ({ history, match }: IProps) => {
   const { id } = match.params;
-  console.log(id);
 
   // const { loading, error, data } = useQuery(GET_MODULE, { id: id });
   const { loading, error, data } = useQuery(GET_MODULE, { variables: { id } });
@@ -66,7 +65,10 @@ const Article = ({ history, match }: IProps) => {
   // const [displayActions, setDisplayActions] = React.useState(true);
 
   if (loading) return <Loading />;
-  if (error) return <EmptyState message={error.message} />;
+  if (error || !data.getModule)
+    return (
+      <EmptyState message={error ? error.message : "Could not load Module"} />
+    );
   return (
     <React.Fragment>
       <Button component={Link} to="/modules" startIcon={<ArrowBack />}>
@@ -76,7 +78,7 @@ const Article = ({ history, match }: IProps) => {
         <ModuleItem
           module={data.getModule}
           history={history}
-          displayActions={false}
+          displayActions={true}
           disableHeight={false}
         />
       </div>
@@ -84,4 +86,4 @@ const Article = ({ history, match }: IProps) => {
   );
 };
 
-export default withRouter(Article);
+export default withRouter(Read);

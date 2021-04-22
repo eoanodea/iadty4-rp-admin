@@ -29,8 +29,8 @@ import {
 } from "@material-ui/core";
 
 import { Close, Delete } from "@material-ui/icons";
-
-// import { remove } from "../../api/api-module";
+import { DELETE } from "../../gql/module";
+import { useMutation } from "@apollo/client";
 
 // import auth from "../../helpers/auth-helper";
 
@@ -67,7 +67,8 @@ type IProps = {
  */
 const DeleteModule = ({ history, open, module, handleClose }: IProps) => {
   const [moduleError, setModuleError] = React.useState("");
-  const [loading, setLoading] = React.useState(false);
+
+  const [deleteModule, { loading }] = useMutation(DELETE);
 
   /**
    * Check validation and then run the
@@ -76,17 +77,17 @@ const DeleteModule = ({ history, open, module, handleClose }: IProps) => {
    * On success,redirect to the home page
    */
   const submit = () => {
-    // setLoading(true);
-    // const jwt = auth.isAuthenticated();
-    // remove(module.id, jwt.token).then((data) => {
-    //   console.log("data!", data);
-    //   if (data !== 204) {
-    //     setLoading(false);
-    //     handleClose(false);
-    //     return setModuleError("Could not delete module");
-    //   }
-    //   history.push("/");
-    // });
+    const { id } = module;
+
+    deleteModule({ variables: { id } })
+      .then((res) => {
+        if (res.data.deleteModule === true)
+          return history.push("/modules/true");
+        setModuleError("Could not delete Module");
+      })
+      .catch((err) => {
+        setModuleError(err.toString());
+      });
   };
   /**
    * Render JSX

@@ -28,11 +28,10 @@ import {
   ListItemText,
   Theme,
   List,
-  ListItem,
   Fab,
   Typography,
 } from "@material-ui/core";
-import { Add, Book, Create, Delete, MoreVert } from "@material-ui/icons";
+import { Add, Create, Delete, MoreVert } from "@material-ui/icons";
 
 import ModuleActionArea from "./ModuleActionArea";
 import DeleteModule from "./DeleteModule";
@@ -160,7 +159,7 @@ const ModuleItem = ({
                   >
                     <MenuItem
                       component={Link}
-                      to={`/modules/edit/${module.id}`}
+                      to={`/update/module/${module.id}`}
                     >
                       <ListItemIcon>
                         <Create />
