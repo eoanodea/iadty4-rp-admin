@@ -1,17 +1,3 @@
-/**
- * File: EditModule.js
- * Project: ca2-client
- * Version 0.1.0
- * File Created: Friday, 22nd January 2021 5:17:34 pm
- * Author: Eoan O'Dea (eoan@web-space.design)
- * -----
- * File Description: Delete an module
- * Last Modified: Tuesday, 26th January 2021 7:03:45 pm
- * Modified By: Eoan O'Dea (eoan@web-space.design>)
- * -----
- * Copyright 2021 WebSpace, WebSpace
- */
-
 import React from "react";
 
 import {
@@ -31,8 +17,6 @@ import {
 import { Close, Delete } from "@material-ui/icons";
 import { DELETE } from "../../gql/module";
 import { useMutation } from "@apollo/client";
-
-// import auth from "../../helpers/auth-helper";
 
 /**
  * Injected styles

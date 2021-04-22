@@ -80,8 +80,6 @@ const Create = ({ history, classes }: IProps) => {
   const [type, setType] = useState("");
 
   const [titleError, setTitleError] = useState("");
-  // const [levelError, setLevelError] = useState("");
-  // const [typeError, setTypeError] = useState("");
 
   const [serverError, setServerError] = useState("");
 
@@ -108,54 +106,6 @@ const Create = ({ history, classes }: IProps) => {
       });
     },
   });
-
-  // const [addModule, { loading }] = useMutation(ADD_MODULE, {
-  //   update(cache, { data: { addModule } }) {
-  //     cache.modify({
-  //       fields: {
-  //         // id: cache.identify(addModule),
-  //         modules(existingModules = []) {
-  //           const newModuleRef = cache.writeFragment({
-  //             data: addModule,
-  //             fragment: gql`
-  //               fragment AddModule on Module {
-  //                 id
-  //                 title
-  //                 level
-  //                 type
-  //               }
-  //             `,
-  //           });
-  //           // return existingModules.push(newModuleRef);
-  //           return [...existingModules, newModuleRef];
-  //         },
-  //       },
-  //     });
-  //   },
-  // });
-
-  // const [updateModule, { loading: mutationLoading }] = useMutation(UPDATE, {
-  //   update(cache, { data: { updateModule } }) {
-  //     cache.modify({
-  //       fields: {
-  //         modules(existingModules = []) {
-  //           const newModuleRef = cache.writeFragment({
-  //             data: updateModule,
-  //             fragment: gql`
-  //               fragment UpdateModule on Module {
-  //                 id
-  //                 title
-  //                 level
-  //                 type
-  //               }
-  //             `,
-  //           });
-  //           return [...existingModules, newModuleRef];
-  //         },
-  //       },
-  //     });
-  //   },
-  // });
 
   const handleValidation = () => {
     let isValid = false;
