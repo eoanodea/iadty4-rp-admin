@@ -16,6 +16,8 @@ import {
   List,
   Fab,
   Typography,
+  Snackbar,
+  CircularProgress,
 } from "@material-ui/core";
 import { Add, Create, Delete, MoreVert } from "@material-ui/icons";
 
@@ -24,6 +26,8 @@ import DeleteModule from "./DeleteModule";
 
 import { Link } from "react-router-dom";
 import LessonItem from "../lesson/LessonItem";
+import { useMutation } from "@apollo/client";
+import { CREATE } from "../../gql/lesson";
 
 /**
  * Injected styles
@@ -73,6 +77,7 @@ type IProps = {
   link?: string | null;
   delay?: number;
   disableHeight?: boolean;
+  refetch?: () => void;
 };
 
 /**
@@ -95,9 +100,14 @@ const ModuleItem = ({
   link = null,
   delay = 0,
   disableHeight = true,
+  refetch = () => {},
 }: IProps) => {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [openDeleteDialog, setOpenDeleteDialog] = React.useState(false);
+  const [lessonMessage, setLessonMessage] = React.useState("");
+
+  const [addLesson, { loading }] = useMutation(CREATE);
+
   const open = Boolean(anchorEl);
 
   /**
@@ -113,6 +123,25 @@ const ModuleItem = ({
    */
   const handleClose = () => {
     setAnchorEl(null);
+  };
+
+  const createLesson = () => {
+    addLesson({
+      variables: {
+        module: module.id,
+        input: {
+          level: module.level,
+        },
+      },
+    })
+      .then(() => {
+        refetch();
+        setLessonMessage("Lesson Added");
+      })
+      .catch((err) => {
+        console.log("error!", err);
+        setLessonMessage("Error adding Lesson: " + err.toString());
+      });
   };
 
   /**
@@ -168,17 +197,15 @@ const ModuleItem = ({
               <React.Fragment>
                 <List>
                   {module.lessons.map(
-                    (
-                      lesson: {
-                        id: React.Key | null | undefined;
-                        updatedAt: Date;
-                      },
-                      i: any
-                    ) => {
+                    (lesson: {
+                      id: React.Key | null | undefined;
+                      updatedAt: Date;
+                    }) => {
                       return (
                         <LessonItem
                           lesson={lesson}
                           key={lesson.id}
+                          link={`/lesson/${lesson.id}`}
                           displayActions={false}
                         />
                       );
@@ -193,13 +220,21 @@ const ModuleItem = ({
                 />
                 <Fab
                   className={classes.fab}
-                  component={Link}
-                  aria-label="Add Module"
+                  // component={Link}
+                  disabled={loading}
+                  aria-label="Add Lesson"
                   color="secondary"
-                  to="/lessons/new"
+                  onClick={() => createLesson()}
+                  // to="/create/lesson"
                 >
-                  <Add />
+                  {loading ? <CircularProgress size={18} /> : <Add />}
                 </Fab>
+                <Snackbar
+                  open={lessonMessage !== ""}
+                  autoHideDuration={6000}
+                  onClose={() => setLessonMessage("")}
+                  message={lessonMessage}
+                ></Snackbar>
               </React.Fragment>
             ) : (
               <Typography variant="body2">

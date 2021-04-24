@@ -1,5 +1,5 @@
 /**
- * File: LessonItem.js
+ * File: QuestionItem.js
  * Project: ca2-client
  * Version 0.1.0
  * File Created: Friday, 15th January 2021 4:07:13 pm
@@ -37,9 +37,9 @@ import {
 import { Add, Create, Delete, MoreVert, Book } from "@material-ui/icons";
 import { Link } from "react-router-dom";
 
-import LessonActionArea from "./LessonActionArea";
+import QuestionActionArea from "./QuestionActionArea";
 
-import DeleteLesson from "./DeleteLesson";
+import DeleteQuestion from "./DeleteQuestion";
 
 /**
  * Injected styles
@@ -84,29 +84,29 @@ type IProps = {
     divider: string;
     fab: string;
   };
-  lesson: any;
+  question: any;
   link?: string | null;
   delay?: number;
   disableHeight?: boolean;
 };
 
 /**
- * LessonItem Component
+ * QuestionItem Component
  *
  * A single comment
  *
- * @param {bool} displayActions - if the lesson belongs to the authed user, display actions
+ * @param {bool} displayActions - if the question belongs to the authed user, display actions
  * @param {History} history - the browser history object
  * @param {Theme} classes - classes passed from Material UI Theme
- * @param {*} lesson - The lesson to be displayed
+ * @param {*} question - The question to be displayed
  * @param {*} link - The link to optionally display
  * @param {*} delay - The delay of the animation
  */
-const LessonItem = ({
+const QuestionItem = ({
   displayActions,
   history,
   classes,
-  lesson,
+  question,
   link = null,
   delay = 0,
   disableHeight = true,
@@ -139,10 +139,10 @@ const LessonItem = ({
         <Card
           className={disableHeight ? classes.fixedHeightCard : classes.card}
         >
-          <LessonActionArea link={link}>
+          <QuestionActionArea link={link}>
             <CardHeader
-              title={"Lesson"}
-              subheader={new Date(lesson.createdAt).toDateString()}
+              title={"Question"}
+              subheader={new Date(question.createdAt).toDateString()}
               action={
                 displayActions && (
                   <React.Fragment>
@@ -163,7 +163,7 @@ const LessonItem = ({
                     >
                       <MenuItem
                         component={Link}
-                        to={`/update/lesson/${lesson.id}`}
+                        to={`/update/question/${question.id}`}
                       >
                         <ListItemIcon>
                           <Create />
@@ -185,15 +185,15 @@ const LessonItem = ({
               {displayActions ? (
                 <React.Fragment>
                   <List>
-                    {lesson.questions.map(
+                    {question.questions.map(
                       (question: {
                         id: React.Key | null | undefined;
                         updatedAt: Date;
                       }) => {
                         return (
-                          // <LessonItem
-                          //   lesson={lesson}
-                          //   key={lesson.id}
+                          // <QuestionItem
+                          //   question={question}
+                          //   key={question.id}
                           //   displayActions={false}
                           // />
                           <h1 key={question.id}>Question</h1>
@@ -201,9 +201,9 @@ const LessonItem = ({
                       }
                     )}
                   </List>
-                  <DeleteLesson
+                  <DeleteQuestion
                     open={openDeleteDialog}
-                    lesson={lesson}
+                    question={question}
                     handleClose={setOpenDeleteDialog}
                     history={history}
                   />
@@ -211,9 +211,9 @@ const LessonItem = ({
                     className={classes.fab}
                     component={Link}
                     // disabled={loading}
-                    aria-label="Add Lesson"
+                    aria-label="Add Question"
                     color="secondary"
-                    // onClick={() => createLesson()}
+                    // onClick={() => createQuestion()}
                     to="/create/question"
                   >
                     {/* {loading ? <CircularProgress size={18} /> : <Add />} */}
@@ -222,33 +222,33 @@ const LessonItem = ({
                 </React.Fragment>
               ) : (
                 <Typography variant="body2">
-                  {lesson.lessons.length} Lesson
-                  {lesson.lessons.length > 1 ? "s" : ""}
+                  {question.questions.length} Question
+                  {question.questions.length > 1 ? "s" : ""}
                 </Typography>
               )}
             </CardContent>
-          </LessonActionArea>
+          </QuestionActionArea>
         </Card>
       </Zoom>
     );
 
   return (
     <React.Fragment>
-      <ListItem button={true} component={Link} to={`/lesson/${lesson.id}`}>
+      <ListItem button={true} component={Link} to={`/question/${question.id}`}>
         <ListItemIcon>
           <Book />
         </ListItemIcon>
         <ListItemText
-          primary={`Lesson`}
+          primary={`Question`}
           secondary={`Last Updated: ${new Date(
-            lesson.updatedAt
+            question.updatedAt
           ).toDateString()}`}
         />
       </ListItem>
 
-      <DeleteLesson
+      <DeleteQuestion
         open={openDeleteDialog}
-        lesson={lesson}
+        question={question}
         handleClose={setOpenDeleteDialog}
         history={history}
       />
@@ -256,4 +256,4 @@ const LessonItem = ({
   );
 };
 
-export default withStyles(styles)(LessonItem);
+export default withStyles(styles)(QuestionItem);

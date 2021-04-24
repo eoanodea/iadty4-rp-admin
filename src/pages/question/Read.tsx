@@ -23,9 +23,9 @@ import { Link, withRouter } from "react-router-dom";
 
 import Loading from "../../components/global/Loading";
 import EmptyState from "../../components/global/EmptyState";
-import ModuleItem from "../../components/module/ModuleItem";
-import { useQuery } from "@apollo/client";
-import { READ } from "../../gql/module";
+import QuestionItem from "../../components/question/QuestionItem";
+import { gql, useQuery } from "@apollo/client";
+import { READ } from "../../gql/question";
 
 //  import auth from "../../helpers/auth-helper";
 
@@ -41,35 +41,33 @@ type IProps = {
  * @param {Match} match - Contains information about a react-router-dom Route
  */
 const Read = ({ history, match }: IProps) => {
-  const { id, newFetch } = match.params;
+  const { id } = match.params;
 
-  const { loading, error, data, refetch } = useQuery(READ, {
-    variables: { id },
-  });
+  // const { loading, error, data } = useQuery(GET_QUESTION, { id: id });
+  const { loading, error, data } = useQuery(READ, { variables: { id } });
+
+  // const [displayActions, setDisplayActions] = React.useState(true);
 
   if (loading) return <Loading />;
-  if (error || !data.getModule)
+  if (error || !data.getQuestion)
     return (
-      <EmptyState message={error ? error.message : "Could not load Module"} />
+      <EmptyState message={error ? error.message : "Could not load Question"} />
     );
-
-  if (newFetch) {
-    refetch();
-    history.push(`/module/${data.getModule.id}`);
-  }
-
   return (
     <React.Fragment>
-      <Button component={Link} to="/modules" startIcon={<ArrowBack />}>
+      <Button
+        component={Link}
+        to={`/module/${data.getQuestion.module.id}`}
+        startIcon={<ArrowBack />}
+      >
         Back
       </Button>
       <div style={{ position: "relative" }}>
-        <ModuleItem
-          module={data.getModule}
+        <QuestionItem
+          question={data.getQuestion}
           history={history}
           displayActions={true}
           disableHeight={false}
-          refetch={refetch}
         />
       </div>
     </React.Fragment>

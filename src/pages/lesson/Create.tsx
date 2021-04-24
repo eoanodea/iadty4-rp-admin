@@ -36,29 +36,29 @@ const styles = ({ spacing }: any) =>
     },
   });
 
-// interface Module {
+// interface Lesson {
 //   title: String;
 //   type: String;
 //   level: number;
 // }
 
 // const typeDefs = gql`
-//   extend type Module {
+//   extend type Lesson {
 //     title: String!
 //     type: String!
 //     level: Float!
 //   }
 
-//   extend type ModuleValidator {
+//   extend type LessonValidator {
 //     title: String!
 //     level: Float!
 //     type: String!
 //   }
 // `;
 
-const ADD_MODULE = gql`
-  mutation AddModule($input: ModuleValidator!) {
-    addModule(input: $input) {
+const ADD_LESSON = gql`
+  mutation AddLesson($input: LessonValidator!) {
+    addLesson(input: $input) {
       __typename
       id
       title
@@ -69,7 +69,7 @@ const ADD_MODULE = gql`
 `;
 
 /**
- * CreateModule Component
+ * CreateLesson Component
  *
  * @param {History} history - the browser history object
  * @param {Theme} classes - classes passed from Material UI Theme
@@ -83,15 +83,15 @@ const Create = ({ history, classes }: IProps) => {
 
   const [serverError, setServerError] = useState("");
 
-  const [addModule, { loading }] = useMutation(ADD_MODULE, {
-    update(cache, { data: { addModule } }) {
+  const [addLesson, { loading }] = useMutation(ADD_LESSON, {
+    update(cache, { data: { addLesson } }) {
       cache.modify({
         fields: {
-          modules(existingModules = []) {
-            const newModuleRef = cache.writeFragment({
-              data: addModule,
+          lessons(existingLessons = []) {
+            const newLessonRef = cache.writeFragment({
+              data: addLesson,
               fragment: gql`
-                fragment NewModule on Module {
+                fragment NewLesson on Lesson {
                   __typename
                   id
                   title
@@ -100,7 +100,7 @@ const Create = ({ history, classes }: IProps) => {
                 }
               `,
             });
-            return [...existingModules, newModuleRef];
+            return [...existingLessons, newLessonRef];
           },
         },
       });
@@ -123,7 +123,7 @@ const Create = ({ history, classes }: IProps) => {
     if (handleValidation()) {
       setServerError("");
 
-      addModule({
+      addLesson({
         variables: {
           input: {
             title,
@@ -133,8 +133,8 @@ const Create = ({ history, classes }: IProps) => {
         },
       })
         .then((res: any) => {
-          // history.push(`/module/${res.data.addModule.id}`);
-          history.push(`/modules/true`);
+          // history.push(`/lesson/${res.data.addLesson.id}`);
+          history.push(`/lessons/true`);
         })
         .catch((e) => {
           setServerError(e.toString());
@@ -151,7 +151,7 @@ const Create = ({ history, classes }: IProps) => {
         Back
       </Button>
       <Card elevation={3} className={classes.wrapper}>
-        <CardHeader title="Create Module" />
+        <CardHeader title="Create Lesson" />
 
         <CardContent>
           <TextField

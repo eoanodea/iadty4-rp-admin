@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Button,
   Card,
@@ -16,7 +16,10 @@ import { ArrowBack, Check } from "@material-ui/icons";
 
 import { Link } from "react-router-dom";
 
-import { gql, useMutation } from "@apollo/client";
+import { useMutation, useQuery } from "@apollo/client";
+import { READ, UPDATE } from "../../gql/question";
+import Loading from "../../components/global/Loading";
+import EmptyState from "../../components/global/EmptyState";
 
 type IProps = {
   history: any;
@@ -36,45 +39,13 @@ const styles = ({ spacing }: any) =>
     },
   });
 
-// interface Module {
-//   title: String;
-//   type: String;
-//   level: number;
-// }
-
-// const typeDefs = gql`
-//   extend type Module {
-//     title: String!
-//     type: String!
-//     level: Float!
-//   }
-
-//   extend type ModuleValidator {
-//     title: String!
-//     level: Float!
-//     type: String!
-//   }
-// `;
-
-const ADD_MODULE = gql`
-  mutation AddModule($input: ModuleValidator!) {
-    addModule(input: $input) {
-      __typename
-      id
-      title
-      level
-      type
-    }
-  }
-`;
-
 /**
- * CreateModule Component
+ * EditQuestion Component
  *
  * @param {History} history - the browser history object
  * @param {Theme} classes - classes passed from Material UI Theme
  */
-const Create = ({ history, classes }: IProps) => {
+const Update = ({ history, classes, match }: IProps) => {
   const [title, setTitle] = useState("");
   const [level, setLevel] = useState(0);
   const [type, setType] = useState("");
@@ -83,29 +54,10 @@ const Create = ({ history, classes }: IProps) => {
 
   const [serverError, setServerError] = useState("");
 
-  const [addModule, { loading }] = useMutation(ADD_MODULE, {
-    update(cache, { data: { addModule } }) {
-      cache.modify({
-        fields: {
-          modules(existingModules = []) {
-            const newModuleRef = cache.writeFragment({
-              data: addModule,
-              fragment: gql`
-                fragment NewModule on Module {
-                  __typename
-                  id
-                  title
-                  level
-                  type
-                }
-              `,
-            });
-            return [...existingModules, newModuleRef];
-          },
-        },
-      });
-    },
-  });
+  const { id } = match.params;
+
+  const { loading, error, data } = useQuery(READ, { variables: { id } });
+  const [updateQuestion, { loading: mutationLoading }] = useMutation(UPDATE);
 
   const handleValidation = () => {
     let isValid = false;
@@ -123,8 +75,9 @@ const Create = ({ history, classes }: IProps) => {
     if (handleValidation()) {
       setServerError("");
 
-      addModule({
+      updateQuestion({
         variables: {
+          id,
           input: {
             title,
             level,
@@ -133,25 +86,35 @@ const Create = ({ history, classes }: IProps) => {
         },
       })
         .then((res: any) => {
-          // history.push(`/module/${res.data.addModule.id}`);
-          history.push(`/modules/true`);
+          history.push(`/question/${res.data.updateQuestion.id}`);
         })
         .catch((e) => {
+          console.log("error", e);
           setServerError(e.toString());
         });
     }
   };
 
+  useEffect(() => {
+    if (data && data.getQuestion) {
+      setTitle(data.getQuestion.title);
+      setLevel(data.getQuestion.level);
+      setType(data.getQuestion.type);
+    }
+  }, [data]);
+
   /**
    * Render JSX
    */
+  if (loading) return <Loading />;
+  if (error) return <EmptyState message={error.message} />;
   return (
     <React.Fragment>
       <Button component={Link} to="/" startIcon={<ArrowBack />}>
         Back
       </Button>
       <Card elevation={3} className={classes.wrapper}>
-        <CardHeader title="Create Module" />
+        <CardHeader title="Edit Question" />
 
         <CardContent>
           <TextField
@@ -180,19 +143,15 @@ const Create = ({ history, classes }: IProps) => {
             value={level}
             onChange={(e) => setLevel(parseInt(e.target.value))}
             onKeyDown={(e) => e.key === "Enter" && submit()}
-            // error={levelError !== ""}
-            // helperText={levelError}
           />
 
           <TextField
             title="type"
-            label="Lesson Type"
+            label="Question Type"
             margin="normal"
             value={type}
             onChange={(e) => setType(e.target.value)}
             onKeyDown={(e) => e.key === "Enter" && submit()}
-            // error={typeError !== ""}
-            // helperText={typeError}
           />
 
           <Typography variant="caption" color="error">
@@ -204,8 +163,14 @@ const Create = ({ history, classes }: IProps) => {
             color="secondary"
             variant="contained"
             onClick={submit}
-            disabled={loading}
-            endIcon={loading ? <CircularProgress size={18} /> : <Check />}
+            disabled={loading || mutationLoading}
+            endIcon={
+              loading || mutationLoading ? (
+                <CircularProgress size={18} />
+              ) : (
+                <Check />
+              )
+            }
           >
             Save
           </Button>
@@ -215,4 +180,4 @@ const Create = ({ history, classes }: IProps) => {
   );
 };
 
-export default withStyles(styles)(Create);
+export default withStyles(styles)(Update);

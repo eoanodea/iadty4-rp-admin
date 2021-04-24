@@ -5,6 +5,20 @@ import {
   List as ListModule,
 } from "./../pages/module";
 
+import {
+  Create as CreateLesson,
+  Read as ReadLesson,
+  Update as UpdateLesson,
+  List as ListLesson,
+} from "./../pages/lesson";
+
+import {
+  Create as CreateQuestion,
+  Read as ReadQuestion,
+  Update as UpdateQuestion,
+  List as ListQuestion,
+} from "./../pages/question";
+
 import Notes from "../pages/Notes";
 
 export type IRouteType = {
@@ -26,7 +40,7 @@ const routes: IRouteType[] = [
   },
   {
     name: "Module",
-    link: "/module/:id",
+    link: "/module/:id/:newFetch?",
     component: ReadModule,
     authed: false,
   },
@@ -41,6 +55,62 @@ const routes: IRouteType[] = [
     name: "Modules",
     link: "/modules/:newFetch?",
     component: ListModule,
+    authed: false,
+  },
+  /**
+   * Lessons
+   */
+  {
+    name: "Create Lesson",
+    link: "/create/lesson",
+    component: CreateLesson,
+    authed: false,
+  },
+  {
+    name: "Lesson",
+    link: "/lesson/:id",
+    component: ReadLesson,
+    authed: false,
+  },
+
+  {
+    name: "Update Lesson",
+    link: "/update/lesson/:id",
+    component: UpdateLesson,
+    authed: false,
+  },
+  {
+    name: "Lessons",
+    link: "/lessons/:newFetch?",
+    component: ListLesson,
+    authed: false,
+  },
+  /**
+   * Questions
+   */
+  {
+    name: "Create Question",
+    link: "/create/question",
+    component: CreateQuestion,
+    authed: false,
+  },
+  {
+    name: "Question",
+    link: "/question/:id",
+    component: ReadQuestion,
+    authed: false,
+  },
+
+  {
+    name: "Update Question",
+    link: "/update/question/:id",
+    component: UpdateQuestion,
+    authed: false,
+  },
+  {
+    name: "Questions",
+    link: "/questions/:newFetch?",
+    component: ListQuestion,
     authed: false,
   },
   {

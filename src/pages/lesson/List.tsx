@@ -1,5 +1,5 @@
 /*
- * File: Modules.tsx
+ * File: Lessons.tsx
  * Project: cv-viewer
  * Version 0.1.0
  * File Created: Tuesday, 26th January 2021 1:09:55 pm
@@ -18,9 +18,8 @@ import React from "react";
 import { useQuery, gql } from "@apollo/client";
 import Loading from "../../components/global/Loading";
 import EmptyState from "../../components/global/EmptyState";
-import ModuleItem from "../../components/module/ModuleItem";
+import LessonItem from "../../components/lesson/LessonItem";
 import { Add } from "@material-ui/icons";
-import { LIST } from "../../gql/module";
 
 const styles = ({ spacing }: Theme) =>
   createStyles({
@@ -54,14 +53,33 @@ type IProps = {
   history: any;
 };
 
+const GET_LESSONS = gql`
+  query getLessons {
+    getLessons {
+      id
+      title
+      level
+      createdAt
+      updatedAt
+      lessons {
+        id
+        createdAt
+        updatedAt
+      }
+    }
+  }
+`;
+
 const List = ({ classes, match, history }: IProps) => {
-  const { loading, error, data, refetch } = useQuery(LIST);
+  const { loading, error, data, refetch } = useQuery(GET_LESSONS);
 
   let { newFetch } = match.params;
 
   if (newFetch) {
     refetch();
-    history.push(`/modules`);
+    history.push(`/lessons`);
+
+    // newFetch = false;
   }
 
   if (loading) return <Loading />;
@@ -69,24 +87,24 @@ const List = ({ classes, match, history }: IProps) => {
 
   return (
     <React.Fragment>
-      {data.getModules.length < 1 ? (
-        <EmptyState message="No Modules Found" />
+      {data.getLessons.length < 1 ? (
+        <EmptyState message="No Lessons Found" />
       ) : (
-        data.getModules.map((module: { id: any }) => (
-          <ModuleItem
-            key={module.id}
+        data.getLessons.map((lesson: { id: any }) => (
+          <LessonItem
+            key={lesson.id}
             displayActions={false}
-            module={module}
-            link={`/module/${module.id}`}
+            lesson={lesson}
+            link={`/lesson/${lesson.id}`}
           />
         ))
       )}
       <Fab
         className={classes.fab}
         component={Link}
-        aria-label="Add Module"
+        aria-label="Add Lesson"
         color="secondary"
-        to="/create/module"
+        to="/create/lesson"
       >
         <Add />
       </Fab>

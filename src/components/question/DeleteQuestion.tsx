@@ -15,7 +15,7 @@ import {
 } from "@material-ui/core";
 
 import { Close, Delete } from "@material-ui/icons";
-import { DELETE } from "../../gql/lesson";
+import { DELETE } from "../../gql/question";
 import { useMutation } from "@apollo/client";
 
 /**
@@ -37,40 +37,40 @@ const styles = ({ spacing }: Theme) =>
 type IProps = {
   history: any;
   open: boolean;
-  lesson: any;
+  question: any;
   handleClose: (open: boolean) => void;
 };
 
 /**
- * DeleteLesson Component
+ * DeleteQuestion Component
  *
  * @param {History} history - the browser history object
  * @param {bool} open - whether the dialog should be open or not
- * @param {*} lesson - The lesson to be deleted
+ * @param {*} question - The question to be deleted
  * @param {*} handleClose - The function to run to close the dialog
  */
-const DeleteLesson = ({ history, open, lesson, handleClose }: IProps) => {
-  const [lessonError, setLessonError] = React.useState("");
+const DeleteQuestion = ({ history, open, question, handleClose }: IProps) => {
+  const [questionError, setQuestionError] = React.useState("");
 
-  const [deleteLesson, { loading }] = useMutation(DELETE);
+  const [deleteQuestion, { loading }] = useMutation(DELETE);
 
   /**
    * Check validation and then run the
-   * lesson update network request
+   * question update network request
    *
    * On success,redirect to the home page
    */
   const submit = () => {
-    const { id } = lesson;
+    const { id } = question;
 
-    deleteLesson({ variables: { id } })
+    deleteQuestion({ variables: { id } })
       .then((res) => {
-        if (res.data.deleteLesson === true)
-          return history.push(`/module/${lesson.module.id}/true`);
-        setLessonError("Could not delete Lesson");
+        if (res.data.deleteQuestion === true)
+          return history.push(`/module/${question.module.id}/true`);
+        setQuestionError("Could not delete Question");
       })
       .catch((err) => {
-        setLessonError(err.toString());
+        setQuestionError(err.toString());
       });
   };
   /**
@@ -81,12 +81,12 @@ const DeleteLesson = ({ history, open, lesson, handleClose }: IProps) => {
       <Dialog
         open={open}
         onClose={() => handleClose(false)}
-        aria-labelledby="edit-lesson-dialog"
+        aria-labelledby="edit-question-dialog"
       >
         <DialogTitle>Confirmation</DialogTitle>
         <DialogContent>
           <DialogContentText>
-            Are you sure you want to delete this lesson?
+            Are you sure you want to delete this question?
           </DialogContentText>
         </DialogContent>
         <DialogActions>
@@ -110,13 +110,13 @@ const DeleteLesson = ({ history, open, lesson, handleClose }: IProps) => {
         </DialogActions>
       </Dialog>
       <Snackbar
-        open={lessonError !== ""}
+        open={questionError !== ""}
         autoHideDuration={6000}
-        onClose={() => setLessonError("")}
-        message={lessonError}
+        onClose={() => setQuestionError("")}
+        message={questionError}
       ></Snackbar>
     </React.Fragment>
   );
 };
 
-export default withStyles(styles)(DeleteLesson);
+export default withStyles(styles)(DeleteQuestion);
