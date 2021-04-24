@@ -1,22 +1,11 @@
 import React, { useState } from "react";
-import {
-  Button,
-  Card,
-  TextField,
-  CardHeader,
-  CardContent,
-  createStyles,
-  withStyles,
-  CardActions,
-  CircularProgress,
-  Typography,
-} from "@material-ui/core";
+import { Button, createStyles, withStyles } from "@material-ui/core";
 
-import { ArrowBack, Check } from "@material-ui/icons";
+import { ArrowBack } from "@material-ui/icons";
 
 import { Link } from "react-router-dom";
 
-import { gql, useMutation } from "@apollo/client";
+import { useMutation } from "@apollo/client";
 import { CREATE } from "../../gql/question";
 import CreateQuestion from "./../../components/question/CreateQuestion";
 
@@ -44,24 +33,6 @@ const styles = ({ spacing }: any) =>
  * @param {Theme} classes - classes passed from Material UI Theme
  */
 const Create = ({ history, classes }: IProps) => {
-  const [text, setText] = useState("");
-  const [options, setOptions] = useState([]);
-  const [image, setImage] = useState();
-  const [questionType, setQuestionType] = useState("");
-  const [points, setPoints] = useState(0);
-  const [answer, setAnswer] = useState("");
-  const [answerArr, setAnswerArr] = useState([]);
-  const [answerHint, setAnswerHint] = useState("");
-
-  const [textError, setTextError] = useState("");
-  const [optionsError, setOptionsError] = useState("");
-  const [imageError, setImageError] = useState("");
-  const [questionTypeError, setQuestionTypeError] = useState("");
-  const [pointsError, setPointsError] = useState("");
-  const [answerError, setAnswerError] = useState("");
-  const [answerArrError, setAnswerArrError] = useState("");
-  const [answerHintError, setAnswerHintError] = useState("");
-
   const [serverError, setServerError] = useState("");
 
   const [addQuestion, { loading }] = useMutation(CREATE);

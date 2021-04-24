@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 
 import QuestionText from "./QuestionText";
 import QuestionImage from "./QuestionImage";
@@ -84,7 +84,7 @@ function getStepContent(step: number) {
 }
 
 const CreateQuestion = () => {
-  const [step, setStep] = useState(0);
+  //   const [step, setStep] = useState(0);
   const classes = useStyles();
   const [activeStep, setActiveStep] = React.useState(0);
   const [completed, setCompleted] = React.useState(new Set<number>());

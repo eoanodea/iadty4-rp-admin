@@ -15,7 +15,7 @@
 import { createStyles, Fab, Theme, withStyles } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import React from "react";
-import { useQuery, gql } from "@apollo/client";
+import { useQuery } from "@apollo/client";
 import Loading from "../../components/global/Loading";
 import EmptyState from "../../components/global/EmptyState";
 import ModuleItem from "../../components/module/ModuleItem";

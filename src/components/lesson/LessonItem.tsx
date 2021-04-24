@@ -31,8 +31,6 @@ import {
   List,
   Fab,
   Typography,
-  Snackbar,
-  CircularProgress,
 } from "@material-ui/core";
 import { Add, Create, Delete, MoreVert, Book } from "@material-ui/icons";
 import { Link } from "react-router-dom";
