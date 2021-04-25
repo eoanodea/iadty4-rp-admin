@@ -31,7 +31,6 @@ import React, {
 } from "react";
 import { Link } from "react-router-dom";
 import { findIndex, Position } from "../../motion/findIndex";
-import move from "array-move";
 import FixedSizeList from "../../motion/FixedSizeList";
 import { moveArray } from "../../motion/utils";
 import { useFixedList } from "../../motion/fixed";
