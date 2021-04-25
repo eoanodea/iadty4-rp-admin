@@ -9,6 +9,7 @@ export const LIST = gql`
       id
       title
       level
+      createdAt
       lessons {
         id
       }
@@ -22,7 +23,7 @@ export const LIST = gql`
  * @param {id: String}
  */
 export const READ = gql`
-  query getModules($id: String!) {
+  query getModule($id: String!) {
     getModule(id: $id) {
       id
       title

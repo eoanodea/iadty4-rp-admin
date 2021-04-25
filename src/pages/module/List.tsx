@@ -72,7 +72,7 @@ const List = ({ classes, match, history }: IProps) => {
       {data.getModules.length < 1 ? (
         <EmptyState message="No Modules Found" />
       ) : (
-        data.getModules.map((module: { id: any }) => (
+        data.getModules.map((module: { id: string }) => (
           <ModuleItem
             key={module.id}
             displayActions={false}
