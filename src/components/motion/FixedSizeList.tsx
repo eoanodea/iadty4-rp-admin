@@ -4,22 +4,22 @@ import { motion } from "framer-motion";
 import { useFixedList, useFixedListItem, FixedListItemProps } from "./fixed";
 import { getDragStateZIndex, moveArray } from "./utils";
 
-import { ITextArr } from "../question/CreateQuestion/QuestionText";
+import { IItem, IListItem } from "../question/CreateQuestion/QuestionText";
 
 type FixedSizeItemProps = {
   index: number;
   height: number;
-  color: string;
+  item: IListItem;
   itemProps: FixedListItemProps;
-  children: JSX.Element;
+  listItem: (item: IListItem) => JSX.Element;
 };
 
 function FixedSizeItem({
   index,
   height,
-  color,
+  item,
   itemProps,
-  children,
+  listItem,
 }: FixedSizeItemProps) {
   const [dragState, eventHandlers] = useFixedListItem(index, itemProps);
 
@@ -37,7 +37,6 @@ function FixedSizeItem({
         initial={false}
         drag="y"
         style={{
-          background: color,
           height,
           borderRadius: 5,
         }}
@@ -51,24 +50,17 @@ function FixedSizeItem({
         }}
         {...eventHandlers}
       >
-        {children}
+        {listItem(item)}
       </motion.div>
     </li>
   );
 }
 interface IProps {
-  items: ITextArr[];
-  setItems: (items: ITextArr[]) => void;
-  children: JSX.Element;
-  // onPositionUpdate: (startIndex: number, endIndex: number) => void;
+  items: IItem[];
+  setItems: (items: IItem[]) => void;
+  listItem: (item: IListItem) => JSX.Element;
 }
-export default function FixedSizeList({ items, setItems, children }: IProps) {
-  //   {
-  //   items,
-  //   setItems,
-  // }: // onPositionUpdate,
-  // IProps
-  // const [items, setItems] = useItems();
+export default function FixedSizeList({ items, setItems, listItem }: IProps) {
   const onPositionUpdate = useCallback(
     (startIndex: number, endIndex: number) => {
       setItems(moveArray(items, startIndex, endIndex));
@@ -83,20 +75,17 @@ export default function FixedSizeList({ items, setItems, children }: IProps) {
   });
 
   return (
-    <ul>
+    <React.Fragment>
       {items.map((item, i) => (
         <FixedSizeItem
-          // key={`${item}-${i}`}
           key={item.id}
-          height={60}
-          color={item.title}
-          // children={children}
           index={i}
+          height={60}
+          item={{ i, ...item }}
+          listItem={listItem}
           itemProps={props}
-        >
-          {children}
-        </FixedSizeItem>
+        ></FixedSizeItem>
       ))}
-    </ul>
+    </React.Fragment>
   );
 }

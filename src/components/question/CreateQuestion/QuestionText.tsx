@@ -1,12 +1,7 @@
-import { removeDirectivesFromDocument } from "@apollo/client/utilities";
 import {
-  Accordion,
-  Button,
   createStyles,
   Divider,
-  FormControl,
   FormHelperText,
-  Grid,
   Grow,
   IconButton,
   InputBase,
@@ -20,20 +15,8 @@ import {
   Theme,
 } from "@material-ui/core";
 import { Add, Close, Delete, Edit, Link as LinkIcon } from "@material-ui/icons";
-import { motion, useMotionValue } from "framer-motion";
-import React, {
-  createRef,
-  FormEvent,
-  useCallback,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
-import { Link } from "react-router-dom";
-import { findIndex, Position } from "../../motion/findIndex";
+import React, { createRef, FormEvent, useState } from "react";
 import FixedSizeList from "../../motion/FixedSizeList";
-import { moveArray } from "../../motion/utils";
-import { useFixedList } from "../../motion/fixed";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -57,10 +40,13 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-export interface ITextArr {
+export interface IItem {
   id: number;
-  title: string;
-  height: number;
+  text: string;
+}
+
+export interface IListItem extends IItem {
+  i: number;
 }
 
 const QuestionText = () => {
@@ -71,14 +57,7 @@ const QuestionText = () => {
 
   const [editIndex, setEditIndex] = useState(-1);
 
-  const [textArr, setTextArr] = useState<string[]>([]);
-
-  const [items, setItems] = useState<ITextArr[]>(() => [
-    { id: 1, title: "#A30006", height: 60 },
-    { id: 2, title: "#2A6E78", height: 70 },
-    { id: 3, title: "#6E1E62", height: 80 },
-    { id: 4, title: "#DE4126", height: 90 },
-  ]);
+  const [items, setItems] = useState<IItem[]>(() => []);
 
   const inputRef = createRef<HTMLInputElement>();
 
@@ -88,28 +67,58 @@ const QuestionText = () => {
       return setActiveTextError("Text must be at least two characters");
 
     if (editIndex !== -1) {
-      setTextArr((old) => {
-        old[editIndex] = activeText;
+      const itemI = items.findIndex((item) => item.id === editIndex);
+
+      setItems((old) => {
+        old[itemI].text = activeText;
         return [...old];
       });
       setEditIndex(-1);
-    } else setTextArr((old) => [...old, activeText]);
+    } else {
+      const newItem = {
+        id: items.length + 1,
+        text: activeText,
+      };
+      setItems((old) => [...old, newItem]);
+    }
 
     setActiveText("");
     setActiveTextError("");
   };
 
-  const editItem = (index: number) => {
-    setEditIndex(index);
-    setActiveText(textArr[index]);
+  const editItem = (id: number) => {
+    const itemI = items.findIndex((item) => item.id === id);
+    setEditIndex(id);
+
+    setActiveText(items[itemI].text);
     if (inputRef && inputRef.current) inputRef.current.focus();
   };
 
-  const removeItem = (index: number) => {
-    setTextArr((old) => {
-      old.splice(index, 1);
+  const removeItem = (id: number) => {
+    const itemI = items.findIndex((item) => item.id === id);
+
+    setItems((old) => {
+      old.splice(itemI, 1);
       return [...old];
     });
+  };
+
+  const Item = ({ id, text }: IListItem) => {
+    return (
+      <ListItem>
+        <ListItemText>{text}</ListItemText>
+        <ListItemIcon>
+          <IconButton onClick={() => editItem(id)}>
+            <Edit />
+          </IconButton>
+        </ListItemIcon>
+        <ListItemSecondaryAction onClick={() => removeItem(id)}>
+          <IconButton edge="end" aria-label="comments">
+            <Delete />
+          </IconButton>
+        </ListItemSecondaryAction>
+      </ListItem>
+    );
   };
 
   return (
@@ -156,159 +165,10 @@ const QuestionText = () => {
       </Paper>
       <FormHelperText error>{activeTextError}</FormHelperText>
 
-      {/* <List> */}
-      {/* <div style={{ margin: "100px 0" }}> */}
-      <FixedSizeList
-        items={items}
-        setItems={setItems}
-        // onPositionUpdate={onPositionUpdate}
-      >
-        <h1>Hello!!</h1>
-      </FixedSizeList>
-      {/* <ul>
-        {colors.map((text, i) => {
-          return (
-            <Item
-              key={i}
-              i={i}
-              setPosition={setPosition}
-              moveItem={moveItem}
-              text={text}
-              edit={editItem}
-              remove={removeItem}
-            />
-          );
-        })}
-      </ul> */}
-      {/* </div> */}
-      {/* </List> */}
+      <List>
+        <FixedSizeList items={items} setItems={setItems} listItem={Item} />
+      </List>
     </React.Fragment>
-  );
-};
-
-interface IItem {
-  i: number;
-  text: string;
-  edit: (i: number) => void;
-  remove: (i: number) => void;
-  setPosition: (i: number, offset: Position) => Position;
-  moveItem: (i: number, dragOffset: number) => void;
-}
-
-// Spring configs
-const onTop = { zIndex: 1 };
-const flat = {
-  zIndex: 0,
-  transition: { delay: 0.3 },
-};
-
-const initialColors = ["#FF008C", "#D309E1", "#9C1AFF", "#7700FF"];
-const heights = {
-  "#FF008C": 60,
-  "#D309E1": 80,
-  "#9C1AFF": 40,
-  "#7700FF": 100,
-};
-
-const Item = ({ i, text, edit, remove, setPosition, moveItem }: IItem) => {
-  const [isDragging, setDragging] = useState(false);
-
-  // We'll use a `ref` to access the DOM element that the `motion.li` produces.
-  // This will allow us to measure its height and position, which will be useful to
-  // decide when a dragging element should switch places with its siblings.
-  const ref = useRef<any>();
-
-  // By manually creating a reference to `dragOriginY` we can manipulate this value
-  // if the user is dragging this DOM element while the drag gesture is active to
-  // compensate for any movement as the items are re-positioned.
-  const dragOriginY: any = useMotionValue(0);
-
-  // Update the measured position of the item so we can calculate when we should rearrange.
-  // useEffect(() => {
-  //   // if (ref && ref.current) {
-  //   if (isDragging) {
-  //     setPosition(i, {
-  //       height: ref.current.offsetHeight,
-  //       top: ref.current.offsetTop,
-  //     });
-  //   }
-  //   // }
-  // }, [isDragging, dragOriginY, i, setPosition]);
-
-  // const MotionListItem = motion.custom(ListItem)
-
-  return (
-    <motion.li
-      //@ts-ignore
-      style={{ background: text, height: heights[text] }}
-      // style={{ background: "red", height: 40 }}
-      ref={ref}
-      initial={false}
-      // If we're dragging, we want to set the zIndex of that item to be on top of the other items.
-      animate={isDragging ? onTop : flat}
-      // style={{ background: color, height: heights[color] }}
-      whileHover={{ scale: 1.03 }}
-      whileTap={{ scale: 1.12 }}
-      drag="y"
-      //@ts-ignore
-      dragOriginY={dragOriginY}
-      dragConstraints={{ top: 0, bottom: 0 }}
-      dragElastic={1}
-      onDragStart={() => setDragging(true)}
-      onDragEnd={() => setDragging(false)}
-      onDrag={(e, { point }) => moveItem(i, point.y)}
-      positionTransition={({
-        delta,
-      }: {
-        delta: {
-          x: number;
-          y: number;
-          width: number;
-          height: number;
-        };
-      }) => {
-        if (isDragging) {
-          // If we're dragging, we want to "undo" the items movement within the list
-          // by manipulating its dragOriginY. This will keep the item under the cursor,
-          // even though it's jumping around the DOM.
-          dragOriginY.set(dragOriginY.get() + delta.y);
-        }
-
-        // If `positionTransition` is a function and returns `false`, it's telling
-        // Motion not to animate from its old position into its new one. If we're
-        // dragging, we don't want any animation to occur.
-        return !isDragging;
-      }}
-    />
-
-    //   {/* <ListItem>
-    //     <ListItemText>{text}</ListItemText>
-    //     <ListItemIcon>
-    //       <IconButton onClick={() => edit(i)}>
-    //         <Edit />
-    //       </IconButton>
-    //     </ListItemIcon>
-    //     <ListItemSecondaryAction onClick={() => remove(i)}>
-    //       <IconButton edge="end" aria-label="comments">
-    //         <Delete />
-    //       </IconButton>
-    //     </ListItemSecondaryAction>
-    //   </ListItem>
-
-    // // <ListItem>
-    // // <ListItemText>{text}</ListItemText>
-    // // <ListItemIcon>
-    // //   <IconButton onClick={() => edit(i)}>
-    // //     <Edit />
-    // //   </IconButton>
-    // // </ListItemIcon>
-    // // <ListItemSecondaryAction onClick={() => remove(i)}>
-    // //   <IconButton edge="end" aria-label="comments">
-    // //     <Delete />
-    // //   </IconButton>
-    // // </ListItemSecondaryAction>
-    // // </ListItem> */}
-    // // </motion.li>
   );
 };
 
