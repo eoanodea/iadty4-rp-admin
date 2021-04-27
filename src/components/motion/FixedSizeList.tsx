@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import { useFixedList, useFixedListItem, FixedListItemProps } from "./fixed";
 import { getDragStateZIndex, moveArray } from "./utils";
 
-import { IItem, IListItem } from "../question/CreateQuestion/QuestionText";
+import { IItem, IListItem } from "../../types/question";
 
 type FixedSizeItemProps = {
   index: number;
@@ -24,7 +24,7 @@ function FixedSizeItem({
   const [dragState, eventHandlers] = useFixedListItem(index, itemProps);
 
   return (
-    <li
+    <div
       style={{
         padding: 0,
         height,
@@ -52,7 +52,7 @@ function FixedSizeItem({
       >
         {listItem(item)}
       </motion.div>
-    </li>
+    </div>
   );
 }
 interface IProps {

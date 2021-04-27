@@ -15,16 +15,20 @@ import {
   Theme,
 } from "@material-ui/core";
 import { Add, Close, Delete, Edit, Link as LinkIcon } from "@material-ui/icons";
-import React, { createRef, FormEvent, useState } from "react";
-import FixedSizeList from "../../motion/FixedSizeList";
+import React, { createRef, FormEvent, useEffect, useState } from "react";
+import { useQuestions } from "..";
+import { IItem, IListItem } from "../../../../types/question";
+import FixedSizeList from "../../../motion/FixedSizeList";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
       padding: "2px 4px",
       display: "flex",
+      justifyContent: "center",
+      margin: "auto",
       alignItems: "center",
-      width: 400,
+      width: "80%",
     },
     input: {
       marginLeft: theme.spacing(1),
@@ -40,17 +44,10 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-export interface IItem {
-  id: number;
-  text: string;
-}
-
-export interface IListItem extends IItem {
-  i: number;
-}
-
 const QuestionText = () => {
   const classes = useStyles();
+
+  const [questions, setQuestions] = useQuestions();
 
   const [activeText, setActiveText] = useState("");
   const [activeTextError, setActiveTextError] = useState("");
@@ -60,6 +57,18 @@ const QuestionText = () => {
   const [items, setItems] = useState<IItem[]>(() => []);
 
   const inputRef = createRef<HTMLInputElement>();
+
+  useEffect(() => {
+    if (questions.length > 0 && questions[0].text.length > 0) {
+      const newItems = questions[0].text
+        .sort((a, b) => a.order - b.order)
+        .map((item, i) => {
+          return { id: i, text: item.text };
+        });
+
+      setItems(newItems);
+    }
+  }, [questions]);
 
   const submit = (e: FormEvent) => {
     e.preventDefault();

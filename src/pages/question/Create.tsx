@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 
 import { useMutation } from "@apollo/client";
 import { CREATE } from "../../gql/question";
-import CreateQuestion from "./../../components/question/CreateQuestion";
+import CreateQuestion from "../../components/question/createQuestion";
 
 type IProps = {
   history: any;
