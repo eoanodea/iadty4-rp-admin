@@ -13,6 +13,7 @@ import {
   makeStyles,
   Paper,
   Theme,
+  Typography,
 } from "@material-ui/core";
 import { Add, Close, Delete, Edit, Link as LinkIcon } from "@material-ui/icons";
 import React, { createRef, FormEvent, useEffect, useState } from "react";
@@ -23,6 +24,10 @@ import FixedSizeList from "../../../motion/FixedSizeList";
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
+      padding: "2px 4px",
+      margin: theme.spacing(3),
+    },
+    inputContainer: {
       padding: "2px 4px",
       display: "flex",
       justifyContent: "center",
@@ -59,7 +64,7 @@ const QuestionText = () => {
   const inputRef = createRef<HTMLInputElement>();
 
   useEffect(() => {
-    if (questions.length > 0 && questions[0].text.length > 0) {
+    if (questions[0].text.length > 0 && items.length === 0) {
       const newItems = questions[0].text
         .sort((a, b) => a.order - b.order)
         .map((item, i) => {
@@ -68,7 +73,14 @@ const QuestionText = () => {
 
       setItems(newItems);
     }
-  }, [questions]);
+    if (items.length > 0 && items.length !== questions[0].text.length) {
+      let newQuestions = questions;
+      newQuestions[0].text = items.map((item, i) => {
+        return { order: i, text: item.text };
+      });
+      setQuestions(newQuestions);
+    }
+  }, [questions, items, setQuestions]);
 
   const submit = (e: FormEvent) => {
     e.preventDefault();
@@ -115,7 +127,9 @@ const QuestionText = () => {
   const Item = ({ id, text }: IListItem) => {
     return (
       <ListItem>
-        <ListItemText>{text}</ListItemText>
+        <Grow in={true}>
+          <ListItemText>{text}</ListItemText>
+        </Grow>
         <ListItemIcon>
           <IconButton onClick={() => editItem(id)}>
             <Edit />
@@ -131,8 +145,10 @@ const QuestionText = () => {
   };
 
   return (
-    <React.Fragment>
-      <Paper className={classes.root}>
+    <div className={classes.root}>
+      <Typography variant="h1">Add Question Text</Typography>
+
+      <Paper className={classes.inputContainer}>
         <InputBase
           className={classes.input}
           placeholder="Add a new text item"
@@ -177,7 +193,7 @@ const QuestionText = () => {
       <List>
         <FixedSizeList items={items} setItems={setItems} listItem={Item} />
       </List>
-    </React.Fragment>
+    </div>
   );
 };
 

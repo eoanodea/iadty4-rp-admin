@@ -16,7 +16,7 @@ export interface QuestionTextValidator {
   text: string;
 
   // The ID of the Note this text is associated with, if not provided the text will default to be not a link
-  note: string;
+  note?: string;
 }
 
 export interface QuestionValidator {

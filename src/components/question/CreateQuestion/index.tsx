@@ -8,7 +8,19 @@ const QuestionContext = createContext<
 >([[], (_) => null]);
 
 const CreateQuestion = () => {
-  const [questions, setQuestions] = React.useState<QuestionValidator[]>([]);
+  const [questions, setQuestions] = React.useState<QuestionValidator[]>([
+    {
+      requiresPiano: false,
+      text: [],
+      image: "",
+      options: [],
+      type: "",
+      points: 0,
+      answer: "",
+      answerArr: [],
+      answerHint: "",
+    },
+  ]);
 
   return (
     <QuestionContext.Provider value={[questions, setQuestions]}>

@@ -24,10 +24,37 @@ let theme = createMuiTheme({
     },
   },
   typography: {
-    fontFamily: ["Roboto", "sans-serif"].join(","),
+    fontFamily: ["quicksand", "sans-serif"].join(","),
+
     h1: {
       fontWeight: 800,
-      fontSize: "3.4rem",
+      fontSize: "3.052rem",
+      margin: "3rem 0 1.38rem",
+      color: "#4e4e4e",
+    },
+    h2: {
+      fontWeight: 700,
+      fontSize: "2.441rem",
+      margin: "3rem 0 1.38rem",
+      color: "#4e4e4e",
+    },
+    h3: {
+      fontWeight: 700,
+      fontSize: "1.953rem",
+      margin: "3rem 0 1.38rem",
+      color: "#4e4e4e",
+    },
+    h4: {
+      fontWeight: 700,
+      fontSize: "1.563rem",
+      margin: "3rem 0 1.38rem",
+      color: "#4e4e4e",
+    },
+    h5: {
+      fontWeight: 700,
+      fontSize: "1.25rem",
+      margin: "3rem 0 1.38rem",
+      color: "#4e4e4e",
     },
   },
   overrides: {
