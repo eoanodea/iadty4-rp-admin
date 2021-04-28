@@ -20,6 +20,7 @@ import Loading from "../../components/global/Loading";
 import EmptyState from "../../components/global/EmptyState";
 import LessonItem from "../../components/lesson/LessonItem";
 import { Add } from "@material-ui/icons";
+import { LIST } from "../../gql/lesson";
 
 const styles = ({ spacing }: Theme) =>
   createStyles({
@@ -71,7 +72,7 @@ const GET_LESSONS = gql`
 `;
 
 const List = ({ classes, match, history }: IProps) => {
-  const { loading, error, data, refetch } = useQuery(GET_LESSONS);
+  const { loading, error, data, refetch } = useQuery(LIST);
 
   let { newFetch } = match.params;
 

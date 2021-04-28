@@ -3,14 +3,14 @@ import {
   createStyles,
   FormHelperText,
   makeStyles,
-  Paper,
   Fade,
   Theme,
   Typography,
 } from "@material-ui/core";
-import { CloudUpload, PhotoCamera } from "@material-ui/icons";
-import React, { useState } from "react";
-import { useQuestions } from "..";
+import { Clear, PhotoCamera } from "@material-ui/icons";
+import React, { useEffect, useState } from "react";
+import { useQuestion } from "..";
+import PreviewDocument from "../../../../helpers/PreviewImage";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -21,7 +21,7 @@ const useStyles = makeStyles((theme: Theme) =>
     label: {
       display: "flex",
       flexDirection: "column",
-      margin: theme.spacing(4),
+      margin: `${theme.spacing(4)}px auto`,
     },
     input: {
       display: "none",
@@ -34,9 +34,16 @@ const useStyles = makeStyles((theme: Theme) =>
 
 const QuestionImage = () => {
   const classes = useStyles();
-  const [questions, setQuestions] = useQuestions();
-  const [upload, setUpload] = useState<ArrayBuffer | null>(null);
+  const [question, setQuestion] = useQuestion();
+  const [uploaded, setUploaded] = useState<boolean>(false);
   const [error, setError] = useState("");
+
+  useEffect(() => {
+    if (question.image !== "") {
+      return setUploaded(true);
+    }
+    setUploaded(false);
+  }, [question, uploaded]);
 
   const onFileUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
     if (!event.target.files) {
@@ -48,59 +55,84 @@ const QuestionImage = () => {
       return setError("Upload cannot be greater than 6 MegaBytes");
     setError("");
 
-    // const name = event.target.name;
     try {
       const img = await getBase64Image(file);
+      if (typeof img === "string") {
+        let newQuestion = question;
+        newQuestion.image = img;
 
-      setUpload(img as ArrayBuffer);
+        setQuestion(newQuestion);
+        return setUploaded(true);
+      }
+      setError("Could not upload image");
     } catch (err) {
       setError(("Could not upload file: " + err) as string);
     }
   };
 
   const getBase64Image = (file: File) => {
-    return new Promise<string | ArrayBuffer | null>(async (resolve, reject) => {
+    return new Promise<string | null>(async (resolve, reject) => {
       const reader = new FileReader();
-      reader.onload = () => resolve(reader.result);
+      reader.onload = () => resolve(reader.result as string);
       reader.onerror = (error) => reject(error);
       reader.readAsDataURL(file);
     });
   };
 
   const clearUpload = () => {
-    setUpload(null);
+    let newQuestion = question;
+    newQuestion.image = "";
+    setUploaded(false);
+    setQuestion(newQuestion);
   };
 
   return (
     <div className={classes.root}>
       <Typography variant="h1">Add an Image</Typography>
-
-      <input
-        accept=".jpg, .png, .jpeg"
-        className={classes.input}
-        id="photo-upload"
-        type="file"
-        name={"photo-upload"}
-        onChange={(e) => onFileUpload(e)}
-      />
-      <Fade in={true}>
-        <label htmlFor="photo-upload" className={classes.label}>
+      {uploaded ? (
+        <React.Fragment>
+          <PreviewDocument photo={question.image} />
+          <br />
           <Button
             variant="contained"
             color="secondary"
-            component="span"
-            endIcon={<PhotoCamera />}
+            onClick={() => clearUpload()}
+            endIcon={<Clear />}
+            className={classes.label}
           >
-            Upload
+            Clear
           </Button>
-          <FormHelperText
-            error={error !== ""}
-            className={classes.uploadHelpText}
-          >
-            {error ? error : "Maximum Size: 6 MB"}
-          </FormHelperText>
-        </label>
-      </Fade>
+        </React.Fragment>
+      ) : (
+        <React.Fragment>
+          <input
+            accept=".jpg, .png, .jpeg"
+            className={classes.input}
+            id="photo-upload"
+            type="file"
+            name={"photo-upload"}
+            onChange={(e) => onFileUpload(e)}
+          />
+          <Fade in={true}>
+            <label htmlFor="photo-upload" className={classes.label}>
+              <Button
+                variant="contained"
+                color="secondary"
+                component="span"
+                endIcon={<PhotoCamera />}
+              >
+                Upload
+              </Button>
+              <FormHelperText
+                error={error !== ""}
+                className={classes.uploadHelpText}
+              >
+                {error ? error : "Maximum Size: 6 MB"}
+              </FormHelperText>
+            </label>
+          </Fade>
+        </React.Fragment>
+      )}
     </div>
   );
 };

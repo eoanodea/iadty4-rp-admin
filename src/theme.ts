@@ -53,7 +53,6 @@ let theme = createMuiTheme({
     h5: {
       fontWeight: 700,
       fontSize: "1.25rem",
-      margin: "3rem 0 1.38rem",
       color: "#4e4e4e",
     },
   },

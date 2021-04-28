@@ -16,6 +16,12 @@ export const LIST = gql`
   }
 `;
 
+export const LIST_QUESTION_TYPE = gql`
+  query getQuestionTypes {
+    getQuestionTypes
+  }
+`;
+
 /**
  * Fetch a question by ID
  *

@@ -41,7 +41,6 @@ const styles = ({ palette, spacing }: Theme) =>
       margin: `${spacing(4)}px auto`,
     },
     fixedHeightCard: {
-      height: 200,
       margin: `${spacing(4)}px auto`,
     },
     avatar: {

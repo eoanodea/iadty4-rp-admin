@@ -17,7 +17,7 @@ import {
 } from "@material-ui/core";
 import { Add, Close, Delete, Edit, Link as LinkIcon } from "@material-ui/icons";
 import React, { createRef, FormEvent, useEffect, useState } from "react";
-import { useQuestions } from "..";
+import { useQuestion } from "..";
 import { IItem, IListItem } from "../../../../types/question";
 import FixedSizeList from "../../../motion/FixedSizeList";
 
@@ -52,7 +52,7 @@ const useStyles = makeStyles((theme: Theme) =>
 const QuestionText = () => {
   const classes = useStyles();
 
-  const [questions, setQuestions] = useQuestions();
+  const [question, setQuestion] = useQuestion();
 
   const [activeText, setActiveText] = useState("");
   const [activeTextError, setActiveTextError] = useState("");
@@ -64,8 +64,8 @@ const QuestionText = () => {
   const inputRef = createRef<HTMLInputElement>();
 
   useEffect(() => {
-    if (questions[0].text.length > 0 && items.length === 0) {
-      const newItems = questions[0].text
+    if (question.text.length > 0 && items.length === 0) {
+      const newItems = question.text
         .sort((a, b) => a.order - b.order)
         .map((item, i) => {
           return { id: i, text: item.text };
@@ -73,14 +73,14 @@ const QuestionText = () => {
 
       setItems(newItems);
     }
-    if (items.length > 0 && items.length !== questions[0].text.length) {
-      let newQuestions = questions;
-      newQuestions[0].text = items.map((item, i) => {
+    if (items.length > 0 && items.length !== question.text.length) {
+      let newQuestion = question;
+      newQuestion.text = items.map((item, i) => {
         return { order: i, text: item.text };
       });
-      setQuestions(newQuestions);
+      setQuestion(newQuestion);
     }
-  }, [questions, items, setQuestions]);
+  }, [question, items, setQuestion]);
 
   const submit = (e: FormEvent) => {
     e.preventDefault();

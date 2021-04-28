@@ -8,7 +8,7 @@ export interface IListItem extends IItem {
 }
 
 // Validator for QuestionText
-export interface QuestionTextValidator {
+interface QuestionTextValidator {
   // The order of where the question text will appear (starting at 0)
   order: number;
 
@@ -29,4 +29,5 @@ export interface QuestionValidator {
   answer: string;
   answerArr: string[];
   answerHint: string;
+  questionTypeOptions: string[];
 }

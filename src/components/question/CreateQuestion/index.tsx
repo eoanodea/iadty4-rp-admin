@@ -1,33 +1,45 @@
-import React, { createContext, useContext } from "react";
+import { useQuery } from "@apollo/client";
+import React, { createContext, useContext, useEffect } from "react";
+import { LIST_QUESTION_TYPE } from "../../../gql/question";
 
 import { QuestionValidator } from "../../../types/question";
 import QuestionStepper from "./QuestionStepper";
 
-const QuestionContext = createContext<
-  [QuestionValidator[], (setQuestions: QuestionValidator[]) => void]
->([[], (_) => null]);
+const initialQuestion = {
+  requiresPiano: false,
+  text: [],
+  image: "",
+  options: [],
+  type: "",
+  points: 0,
+  answer: "",
+  answerArr: [],
+  answerHint: "",
+  questionTypeOptions: [],
+};
+export const QuestionContext = createContext<
+  [QuestionValidator, (setQuestion: QuestionValidator) => void]
+>([initialQuestion, (_) => null]);
 
 const CreateQuestion = () => {
-  const [questions, setQuestions] = React.useState<QuestionValidator[]>([
-    {
-      requiresPiano: false,
-      text: [],
-      image: "",
-      options: [],
-      type: "",
-      points: 0,
-      answer: "",
-      answerArr: [],
-      answerHint: "",
-    },
-  ]);
+  const [question, setQuestion] = React.useState(initialQuestion);
+  const { loading, error, data } = useQuery(LIST_QUESTION_TYPE);
+
+  useEffect(() => {
+    if (!loading && !error && data) {
+      setQuestion((question) => {
+        question.questionTypeOptions = data.getQuestionTypes;
+        return { ...question };
+      });
+    }
+  }, [data, error, loading]);
 
   return (
-    <QuestionContext.Provider value={[questions, setQuestions]}>
+    <QuestionContext.Provider value={[question, setQuestion as any]}>
       <QuestionStepper />
     </QuestionContext.Provider>
   );
 };
 
-export const useQuestions = () => useContext(QuestionContext);
+export const useQuestion = () => useContext(QuestionContext);
 export default CreateQuestion;

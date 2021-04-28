@@ -18,7 +18,8 @@ import QuestionType from "./steps/QuestionType";
 import QuestionAnswer from "./steps/QuestionAnswer";
 import QuestionDetails from "./steps/QuestionDetails";
 import QuestionOptions from "./steps/QuestionOptions";
-import { useQuestions } from ".";
+import { useQuestion } from ".";
+import Loading from "../../global/Loading";
 
 const steps = [
   {
@@ -93,22 +94,35 @@ function getSteps() {
   return steps.map((step) => step.title);
 }
 
-function getStepContent(step: number) {
-  return steps[step].component;
-}
+// function getStepContent(step: number) {
+//   return steps[step].component;
+// }
 
 const QuestionStepper = () => {
   const classes = useStyles();
+
+  const [question, setQuestion] = useQuestion();
   const [activeStep, setActiveStep] = React.useState(0);
   const [completed, setCompleted] = React.useState(new Set<number>());
   const [skipped, setSkipped] = React.useState(new Set<number>());
+  const questionSteps = steps;
+  // .filter((item) => {
+  //   if (question.type !== "MULTIPLE_CHOICE" && item.name === "options") {
+  //     return false;
+  //   }
+  //   return true;
+  // });
 
   const totalSteps = () => {
     return getSteps().length;
   };
 
+  const getStepContent = (step: number) => {
+    return questionSteps[step].component;
+  };
+
   const isStepOptional = (step: number) => {
-    return steps[step].required !== true;
+    return questionSteps[step].required !== true;
   };
 
   const handleSkip = () => {
@@ -193,7 +207,7 @@ const QuestionStepper = () => {
   return (
     <div className={classes.root}>
       <Stepper alternativeLabel nonLinear activeStep={activeStep}>
-        {steps.map((step, index) => {
+        {questionSteps.map((step, index) => {
           const stepProps: { completed?: boolean } = {};
           const buttonProps: { optional?: React.ReactNode } = {};
           if (isStepOptional(index)) {
