@@ -4,8 +4,6 @@ import {
   makeStyles,
   Theme,
   Typography,
-  TextField,
-  Slider,
   Button,
   CircularProgress,
 } from "@material-ui/core";
@@ -30,7 +28,7 @@ type IProps = {
 
 const QuestionReview = ({ handleReset, history }: IProps) => {
   const classes = useStyles();
-  const [question, setQuestion] = useQuestion();
+  const [question] = useQuestion();
   const [serverError, setServerError] = useState("");
 
   const [loading, setLoading] = useState(false);
@@ -60,8 +58,6 @@ const QuestionReview = ({ handleReset, history }: IProps) => {
       .then((res: any) => {
         setLoading(false);
         history.push(`/lesson/${res.data.addQuestion.lesson.id}/true`);
-        // history.push(`/lesson/${res.data.addLesson.id}`);
-        // history.push(`/lessons/true`);
       })
       .catch((e) => {
         setLoading(false);
