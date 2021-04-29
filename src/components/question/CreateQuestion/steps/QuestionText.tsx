@@ -16,7 +16,13 @@ import {
   Typography,
 } from "@material-ui/core";
 import { Add, Close, Delete, Edit, Link as LinkIcon } from "@material-ui/icons";
-import React, { createRef, FormEvent, useEffect, useState } from "react";
+import React, {
+  createRef,
+  FormEvent,
+  useCallback,
+  useEffect,
+  useState,
+} from "react";
 import { useQuestion } from "..";
 import { IItem, IListItem } from "../../../../types/question";
 import FixedSizeList from "../../../motion/FixedSizeList";
@@ -63,6 +69,14 @@ const QuestionText = () => {
 
   const inputRef = createRef<HTMLInputElement>();
 
+  const syncQuestions = useCallback(() => {
+    let newQuestion = question;
+    newQuestion.text = items.map((item, i) => {
+      return { order: i, text: item.text };
+    });
+    return setQuestion(newQuestion);
+  }, [items, question, setQuestion]);
+
   useEffect(() => {
     if (question.text.length > 0 && items.length === 0) {
       const newItems = question.text
@@ -71,16 +85,13 @@ const QuestionText = () => {
           return { id: i, text: item.text };
         });
 
-      setItems(newItems);
+      return setItems(newItems);
     }
+
     if (items.length > 0 && items.length !== question.text.length) {
-      let newQuestion = question;
-      newQuestion.text = items.map((item, i) => {
-        return { order: i, text: item.text };
-      });
-      setQuestion(newQuestion);
+      return syncQuestions();
     }
-  }, [question, items, setQuestion]);
+  }, [question, items, syncQuestions]);
 
   const submit = (e: FormEvent) => {
     e.preventDefault();
@@ -117,11 +128,11 @@ const QuestionText = () => {
 
   const removeItem = (id: number) => {
     const itemI = items.findIndex((item) => item.id === id);
+    const newItems = items;
 
-    setItems((old) => {
-      old.splice(itemI, 1);
-      return [...old];
-    });
+    newItems.splice(itemI, 1);
+    setItems([...newItems]);
+    syncQuestions();
   };
 
   const Item = ({ id, text }: IListItem) => {
@@ -189,7 +200,6 @@ const QuestionText = () => {
         </IconButton>
       </Paper>
       <FormHelperText error>{activeTextError}</FormHelperText>
-
       <List>
         <FixedSizeList items={items} setItems={setItems} listItem={Item} />
       </List>

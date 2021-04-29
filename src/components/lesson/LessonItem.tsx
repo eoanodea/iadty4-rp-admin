@@ -194,7 +194,9 @@ const LessonItem = ({
                           //   key={lesson.id}
                           //   displayActions={false}
                           // />
-                          <h1 key={question.id}>Question</h1>
+                          <Typography key={question.id}>
+                            {question.id}
+                          </Typography>
                         );
                       }
                     )}
@@ -212,7 +214,7 @@ const LessonItem = ({
                     aria-label="Add Lesson"
                     color="secondary"
                     // onClick={() => createLesson()}
-                    to="/create/question"
+                    to={`/create/question/${lesson.id}`}
                   >
                     {/* {loading ? <CircularProgress size={18} /> : <Add />} */}
                     <Add />

@@ -17,6 +17,7 @@ import { ArrowBack, Check } from "@material-ui/icons";
 import { Link } from "react-router-dom";
 
 import { gql, useMutation } from "@apollo/client";
+import { CREATE } from "../../gql/lesson";
 
 type IProps = {
   history: any;
@@ -56,17 +57,17 @@ const styles = ({ spacing }: any) =>
 //   }
 // `;
 
-const ADD_LESSON = gql`
-  mutation AddLesson($input: LessonValidator!) {
-    addLesson(input: $input) {
-      __typename
-      id
-      title
-      level
-      type
-    }
-  }
-`;
+// const ADD_LESSON = gql`
+//   mutation AddLesson($input: LessonValidator!) {
+//     addLesson(input: $input) {
+//       __typename
+//       id
+//       title
+//       level
+//       type
+//     }
+//   }
+// `;
 
 /**
  * CreateLesson Component
@@ -83,7 +84,7 @@ const Create = ({ history, classes }: IProps) => {
 
   const [serverError, setServerError] = useState("");
 
-  const [addLesson, { loading }] = useMutation(ADD_LESSON, {
+  const [addLesson, { loading }] = useMutation(CREATE, {
     update(cache, { data: { addLesson } }) {
       cache.modify({
         fields: {

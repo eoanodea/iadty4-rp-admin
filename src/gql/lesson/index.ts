@@ -38,6 +38,7 @@ export const READ = gql`
       }
       questions {
         id
+        image
         text {
           text
         }

@@ -12,6 +12,8 @@ import {
   Typography,
 } from "@material-ui/core";
 
+import { Error as ErrorIcon } from "@material-ui/icons";
+
 import QuestionText from "./steps/QuestionText";
 import QuestionImage from "./steps/QuestionImage";
 import QuestionType from "./steps/QuestionType";
@@ -20,6 +22,7 @@ import QuestionDetails from "./steps/QuestionDetails";
 import QuestionOptions from "./steps/QuestionOptions";
 import { useQuestion } from ".";
 import Loading from "../../global/Loading";
+import QuestionReview from "./steps/QuestionReview";
 
 const steps = [
   {
@@ -44,7 +47,7 @@ const steps = [
     title: "Add Options",
     name: "options",
     component: <QuestionOptions />,
-    required: false,
+    required: true,
   },
   {
     title: "Select Answer",
@@ -98,12 +101,17 @@ function getSteps() {
 //   return steps[step].component;
 // }
 
-const QuestionStepper = () => {
+type IProps = {
+  history: any;
+};
+
+const QuestionStepper = ({ history }: IProps) => {
   const classes = useStyles();
 
   const [question, setQuestion] = useQuestion();
   const [activeStep, setActiveStep] = React.useState(0);
   const [completed, setCompleted] = React.useState(new Set<number>());
+  const [errors, setErrors] = React.useState(new Set<number>());
   const [skipped, setSkipped] = React.useState(new Set<number>());
   const questionSteps = steps;
   // .filter((item) => {
@@ -177,6 +185,46 @@ const QuestionStepper = () => {
 
   const handleComplete = () => {
     const newCompleted = new Set(completed);
+    const newErrors = new Set(errors);
+    setErrors(new Set());
+    if (steps[activeStep].required) {
+      if (typeof steps[activeStep].name !== "string") {
+        //name is array
+        console.log("name is array");
+        const names = steps[activeStep].name as string[];
+
+        if (
+          names.every((name) => {
+            return question[name as string].length < 1;
+          })
+        ) {
+          newErrors.add(activeStep);
+          return setErrors(newErrors);
+        }
+        // names.forEach((name) => {
+        // if()
+        // if (question[name as string].length > 1) {
+        //   newErrors.add(activeStep);
+        //   return setErrors(newErrors);
+        // }
+      } else {
+        //name is string
+        console.log("name is string");
+        const name = steps[activeStep].name;
+        console.log(
+          question[name as string],
+          question[name as string].length,
+          question[name as string] > 1
+        );
+        if (question[name as string].length < 1) {
+          console.log("thats gotta be an error");
+          newErrors.add(activeStep);
+          return setErrors(newErrors);
+        }
+      }
+    }
+    // const step = steps[activeStep].required;
+
     newCompleted.add(activeStep);
     setCompleted(newCompleted);
 
@@ -192,8 +240,8 @@ const QuestionStepper = () => {
 
   const handleReset = () => {
     setActiveStep(0);
-    setCompleted(new Set<number>());
-    setSkipped(new Set<number>());
+    // setCompleted(new Set<number>());
+    // setSkipped(new Set<number>());
   };
 
   const isStepSkipped = (step: number) => {
@@ -202,6 +250,10 @@ const QuestionStepper = () => {
 
   function isStepComplete(step: number) {
     return completed.has(step);
+  }
+
+  function isStepError(step: number) {
+    return errors.has(step);
   }
 
   return (
@@ -220,26 +272,39 @@ const QuestionStepper = () => {
           }
           return (
             <Step key={step.title} {...stepProps}>
-              <StepButton
-                onClick={handleStep(index)}
-                completed={isStepComplete(index)}
-                {...buttonProps}
-              >
-                {step.title}
-              </StepButton>
+              {isStepError(index) ? (
+                <StepButton
+                  onClick={handleStep(index)}
+                  completed={isStepComplete(index)}
+                  icon={<ErrorIcon />}
+                  style={{ color: "red" }}
+                  {...buttonProps}
+                >
+                  {step.title}
+                </StepButton>
+              ) : (
+                <StepButton
+                  onClick={handleStep(index)}
+                  completed={isStepComplete(index)}
+                  {...buttonProps}
+                >
+                  {step.title}
+                </StepButton>
+              )}
             </Step>
           );
         })}
       </Stepper>
       <div>
         {allStepsCompleted() ? (
-          <div>
-            <Typography className={classes.instructions}>
-              All steps completed - you&apos;re finished
-            </Typography>
-            <Button onClick={handleReset}>Reset</Button>
-          </div>
+          <QuestionReview history={history} handleReset={handleReset} />
         ) : (
+          // <div>
+          //   <Typography className={classes.instructions}>
+          //     All steps completed - you&apos;re finished
+          //   </Typography>
+          //   <Button onClick={handleReset}>Reset</Button>
+          // </div>
           <React.Fragment>
             <div className={classes.contentWrapper}>
               {getStepContent(activeStep)}
@@ -252,14 +317,7 @@ const QuestionStepper = () => {
               >
                 Back
               </Button>
-              <Button
-                variant="contained"
-                color="primary"
-                onClick={handleNext}
-                className={classes.button}
-              >
-                Next
-              </Button>
+
               {isStepOptional(activeStep) && !completed.has(activeStep) && (
                 <Button
                   variant="contained"
@@ -272,18 +330,21 @@ const QuestionStepper = () => {
               )}
               {activeStep !== steps.length &&
                 (completed.has(activeStep) ? (
-                  <Typography variant="caption" className={classes.completed}>
-                    Step {activeStep + 1} already completed
-                  </Typography>
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    onClick={handleNext}
+                    className={classes.button}
+                  >
+                    Next
+                  </Button>
                 ) : (
                   <Button
                     variant="contained"
                     color="primary"
                     onClick={handleComplete}
                   >
-                    {completedSteps() === totalSteps() - 1
-                      ? "Finish"
-                      : "Complete Step"}
+                    {completedSteps() === totalSteps() - 1 ? "Finish" : "Next"}
                   </Button>
                 ))}
             </Card>

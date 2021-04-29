@@ -68,7 +68,7 @@ const routes: IRouteType[] = [
   },
   {
     name: "Lesson",
-    link: "/lesson/:id",
+    link: "/lesson/:id/:newFetch?",
     component: ReadLesson,
     authed: false,
   },
@@ -90,7 +90,7 @@ const routes: IRouteType[] = [
    */
   {
     name: "Create Question",
-    link: "/create/question",
+    link: "/create/question/:id",
     component: CreateQuestion,
     authed: false,
   },

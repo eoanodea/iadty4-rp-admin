@@ -32,7 +32,7 @@ const styles = ({ spacing }: any) =>
  * @param {History} history - the browser history object
  * @param {Theme} classes - classes passed from Material UI Theme
  */
-const Create = ({ history, classes }: IProps) => {
+const Create = ({ history, classes, match }: IProps) => {
   const [serverError, setServerError] = useState("");
 
   const [addQuestion, { loading }] = useMutation(CREATE);
@@ -81,7 +81,7 @@ const Create = ({ history, classes }: IProps) => {
         Back
       </Button>
 
-      <CreateQuestion />
+      <CreateQuestion history={history} match={match} />
     </React.Fragment>
   );
 };

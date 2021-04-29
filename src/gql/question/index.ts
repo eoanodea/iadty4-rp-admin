@@ -50,9 +50,12 @@ export const READ = gql`
  * @param {input: QuestionValidator}
  */
 export const CREATE = gql`
-  mutation addQuestion($input: QuestionValidator!) {
-    addQuestion(input: $input) {
+  mutation addQuestion($lessonId: String!, $input: QuestionValidator!) {
+    addQuestion(lessonId: $lessonId, input: $input) {
       id
+      lesson {
+        id
+      }
     }
   }
 `;

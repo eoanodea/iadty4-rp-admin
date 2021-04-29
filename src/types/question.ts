@@ -20,6 +20,8 @@ interface QuestionTextValidator {
 }
 
 export interface QuestionValidator {
+  [key: string]: any;
+  lessonId: string;
   requiresPiano: boolean;
   text: QuestionTextValidator[];
   image: string;

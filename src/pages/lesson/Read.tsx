@@ -42,7 +42,16 @@ const Read = ({ history, match }: IProps) => {
   const { id } = match.params;
 
   // const { loading, error, data } = useQuery(GET_LESSON, { id: id });
-  const { loading, error, data } = useQuery(READ, { variables: { id } });
+  const { loading, error, data, refetch } = useQuery(READ, {
+    variables: { id },
+  });
+
+  let { newFetch } = match.params;
+
+  if (newFetch) {
+    refetch();
+    history.push(`/lesson/${data.getLesson.id}`);
+  }
 
   // const [displayActions, setDisplayActions] = React.useState(true);
 

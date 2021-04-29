@@ -15,8 +15,14 @@ import {
   Theme,
   Typography,
 } from "@material-ui/core";
-import { Add, Close, Delete, Edit, Link as LinkIcon } from "@material-ui/icons";
-import React, { createRef, FormEvent, useEffect, useState } from "react";
+import { Add, Close, Delete, Edit } from "@material-ui/icons";
+import React, {
+  createRef,
+  FormEvent,
+  useCallback,
+  useEffect,
+  useState,
+} from "react";
 import { useQuestion } from "..";
 import { IItem, IListItem } from "../../../../types/question";
 import FixedSizeList from "../../../motion/FixedSizeList";
@@ -63,22 +69,26 @@ const QuestionOptions = () => {
 
   const inputRef = createRef<HTMLInputElement>();
 
+  const syncQuestions = useCallback(() => {
+    let newQuestion = question;
+    newQuestion.options = items.map((item) => {
+      return item.text;
+    });
+    setQuestion(newQuestion);
+  }, [items, question, setQuestion]);
+
   useEffect(() => {
     if (question.options.length > 0 && items.length === 0) {
       const newItems = question.options.map((item, i) => {
         return { id: i, text: item };
       });
 
-      setItems(newItems);
+      return setItems(newItems);
     }
-    if (items.length > 0) {
-      let newQuestion = question;
-      newQuestion.options = items.map((item) => {
-        return item.text;
-      });
-      setQuestion(newQuestion);
+    if (items.length > 0 && items.length !== question.options.length) {
+      syncQuestions();
     }
-  }, [question, items, setQuestion]);
+  }, [question, items, syncQuestions]);
 
   const submit = (e: FormEvent) => {
     e.preventDefault();
@@ -115,11 +125,13 @@ const QuestionOptions = () => {
 
   const removeItem = (id: number) => {
     const itemI = items.findIndex((item) => item.id === id);
+    const newItems = items;
+    console.log("removing one", newItems[itemI]);
 
-    setItems((old) => {
-      old.splice(itemI, 1);
-      return [...old];
-    });
+    newItems.splice(itemI, 1);
+    console.log("done", newItems[itemI]);
+
+    setItems([...newItems]);
   };
 
   const Item = ({ id, text }: IListItem) => {
