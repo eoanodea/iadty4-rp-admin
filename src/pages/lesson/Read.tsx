@@ -50,7 +50,7 @@ const Read = ({ history, match }: IProps) => {
 
   if (newFetch) {
     refetch();
-    history.push(`/lesson/${data.getLesson.id}`);
+    history.push(`/lesson/${id}`);
   }
 
   // const [displayActions, setDisplayActions] = React.useState(true);

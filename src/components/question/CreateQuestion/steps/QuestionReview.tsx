@@ -35,6 +35,13 @@ const QuestionReview = ({ handleReset, history }: IProps) => {
   const [addQuestion] = useMutation(CREATE);
   const [updateQuestion] = useMutation(UPDATE);
 
+  const capitalize = (str: string) => {
+    return str
+      .split(" ")
+      .map((item) => item.charAt(0).toUpperCase() + item.slice(1))
+      .join(" ");
+  };
+
   const save = () => {
     setServerError("");
     setLoading(true);
@@ -43,7 +50,7 @@ const QuestionReview = ({ handleReset, history }: IProps) => {
       text: question.text,
       image: question.image,
       options: question.options,
-      type: question.type,
+      type: capitalize(question.type.replace("_", " ").toLocaleLowerCase()),
       points: question.points,
       answer: question.answer,
       answerArr: question.answerArr,
@@ -87,7 +94,7 @@ const QuestionReview = ({ handleReset, history }: IProps) => {
     <div className={classes.root}>
       <Typography variant="h1">All Steps Complete</Typography>
 
-      <Button onClick={handleReset}>Reset</Button>
+      <Button onClick={handleReset}>Go back</Button>
       <Button
         variant="contained"
         onClick={save}

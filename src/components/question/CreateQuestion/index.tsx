@@ -1,11 +1,6 @@
 import { useQuery } from "@apollo/client";
-import React, {
-  createContext,
-  useCallback,
-  useContext,
-  useEffect,
-} from "react";
-import { LIST_QUESTION_TYPE, READ } from "../../../gql/question";
+import React, { createContext, useContext, useEffect } from "react";
+import { LIST_QUESTION_TYPE } from "../../../gql/question";
 
 import { QuestionValidator } from "../../../types/question";
 import QuestionStepper from "./QuestionStepper";
@@ -33,56 +28,37 @@ type IProps = {
   update?: QuestionValidator | null;
 };
 
-// const FetchExistingQuestion = (id: string) => {
-
-//   if (loading) return "Loading";
-//   if (data && data.getQuestion) return { success: true, data };
-//   if (error) return { success: false, error: error.message };
-// };
-
 const CreateQuestion = ({ history, match, update = null }: IProps) => {
   const [question, setQuestion] = React.useState(initialQuestion);
   const { loading, error, data } = useQuery(LIST_QUESTION_TYPE);
 
-  // const fetchExistingQuestion = useCallback(() => {
-  //   const {loading: questionLoading, error: questionError, data: questionData} = useQuery(READ)
-
-  // }, [])
-
   useEffect(() => {
     if (!loading && !error && data) {
-      setQuestion((question) => {
-        question.questionTypeOptions = data.getQuestionTypes;
-        if (!update) question.lessonId = match.params.id;
-        return { ...question };
-      });
-    }
-
-    if (update) {
-      console.log("here is data!", update);
-      const newQuestion: any = {
+      console.log("dataaaa!", data);
+      let newQuestion: any = {
         ...question,
-        id: update.id,
-        requiresPiano: update.requiresPiano || false,
-        text: update.text,
-        image: update.image,
-        options: update.options,
-        type: update.type,
-        points: update.points,
-        answer: update.answer,
-        answerArr: update.answerArr,
-        answerHint: update.answerHint,
+        questionTypeOptions: data.getQuestionTypes,
+        lessonId: update ? update.lesson.id : match.params.id,
       };
-      console.log("here", newQuestion);
+      if (update) {
+        newQuestion = {
+          ...newQuestion,
+          id: update.id,
+          requiresPiano: update.requiresPiano || false,
+          text: update.text,
+          image: update.image,
+          options: update.options,
+          type: update.type,
+          points: update.points,
+          answer: update.answer,
+          answerArr: update.answerArr,
+          answerHint: update.answerHint,
+        };
+      }
+
       setQuestion(newQuestion);
-      // console.log("new question!", newQuestion);
-      // setQuestion((question) => {
-      //   return { question, ...update };
-      // });
-      // const questionData = FetchExistingQuestion(match.params.id);
-      // console.log("here is data!!", questionData);
     }
-  }, [data, error, loading, match.params.id, update]);
+  }, [question, data, error, loading, match.params.id, update]);
 
   return (
     <QuestionContext.Provider value={[question, setQuestion as any]}>

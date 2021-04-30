@@ -21,7 +21,6 @@ import QuestionAnswer from "./steps/QuestionAnswer";
 import QuestionDetails from "./steps/QuestionDetails";
 import QuestionOptions from "./steps/QuestionOptions";
 import { useQuestion } from ".";
-import Loading from "../../global/Loading";
 import QuestionReview from "./steps/QuestionReview";
 
 const steps = [
@@ -97,10 +96,6 @@ function getSteps() {
   return steps.map((step) => step.title);
 }
 
-// function getStepContent(step: number) {
-//   return steps[step].component;
-// }
-
 type IProps = {
   history: any;
 };
@@ -108,18 +103,12 @@ type IProps = {
 const QuestionStepper = ({ history }: IProps) => {
   const classes = useStyles();
 
-  const [question, setQuestion] = useQuestion();
+  const [question] = useQuestion();
   const [activeStep, setActiveStep] = React.useState(0);
   const [completed, setCompleted] = React.useState(new Set<number>());
   const [errors, setErrors] = React.useState(new Set<number>());
   const [skipped, setSkipped] = React.useState(new Set<number>());
   const questionSteps = steps;
-  // .filter((item) => {
-  //   if (question.type !== "MULTIPLE_CHOICE" && item.name === "options") {
-  //     return false;
-  //   }
-  //   return true;
-  // });
 
   const totalSteps = () => {
     return getSteps().length;
@@ -190,7 +179,7 @@ const QuestionStepper = ({ history }: IProps) => {
     if (steps[activeStep].required) {
       if (typeof steps[activeStep].name !== "string") {
         //name is array
-        console.log("name is array");
+
         const names = steps[activeStep].name as string[];
 
         if (
@@ -201,21 +190,9 @@ const QuestionStepper = ({ history }: IProps) => {
           newErrors.add(activeStep);
           return setErrors(newErrors);
         }
-        // names.forEach((name) => {
-        // if()
-        // if (question[name as string].length > 1) {
-        //   newErrors.add(activeStep);
-        //   return setErrors(newErrors);
-        // }
       } else {
-        //name is string
-        console.log("name is string");
         const name = steps[activeStep].name;
-        console.log(
-          question[name as string],
-          question[name as string].length,
-          question[name as string] > 1
-        );
+
         if (question[name as string].length < 1) {
           console.log("thats gotta be an error");
           newErrors.add(activeStep);
@@ -223,7 +200,6 @@ const QuestionStepper = ({ history }: IProps) => {
         }
       }
     }
-    // const step = steps[activeStep].required;
 
     newCompleted.add(activeStep);
     setCompleted(newCompleted);
@@ -240,8 +216,8 @@ const QuestionStepper = ({ history }: IProps) => {
 
   const handleReset = () => {
     setActiveStep(0);
-    // setCompleted(new Set<number>());
-    // setSkipped(new Set<number>());
+    setCompleted(new Set<number>());
+    setSkipped(new Set<number>());
   };
 
   const isStepSkipped = (step: number) => {
@@ -299,12 +275,6 @@ const QuestionStepper = ({ history }: IProps) => {
         {allStepsCompleted() ? (
           <QuestionReview history={history} handleReset={handleReset} />
         ) : (
-          // <div>
-          //   <Typography className={classes.instructions}>
-          //     All steps completed - you&apos;re finished
-          //   </Typography>
-          //   <Button onClick={handleReset}>Reset</Button>
-          // </div>
           <React.Fragment>
             <div className={classes.contentWrapper}>
               {getStepContent(activeStep)}
