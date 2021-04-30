@@ -38,6 +38,7 @@ import { Link } from "react-router-dom";
 import LessonActionArea from "./LessonActionArea";
 
 import DeleteLesson from "./DeleteLesson";
+import QuestionItem from "../question/QuestionItem";
 
 /**
  * Injected styles
@@ -194,9 +195,11 @@ const LessonItem = ({
                           //   key={lesson.id}
                           //   displayActions={false}
                           // />
-                          <Typography key={question.id}>
-                            {question.id}
-                          </Typography>
+                          <QuestionItem
+                            key={question.id}
+                            question={question}
+                            displayActions={false}
+                          />
                         );
                       }
                     )}

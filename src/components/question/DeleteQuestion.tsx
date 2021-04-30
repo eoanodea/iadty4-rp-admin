@@ -66,7 +66,7 @@ const DeleteQuestion = ({ history, open, question, handleClose }: IProps) => {
     deleteQuestion({ variables: { id } })
       .then((res) => {
         if (res.data.deleteQuestion === true)
-          return history.push(`/module/${question.module.id}/true`);
+          return history.push(`/lesson/${question.lesson.id}/true`);
         setQuestionError("Could not delete Question");
       })
       .catch((err) => {

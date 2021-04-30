@@ -24,7 +24,7 @@ import { Link, withRouter } from "react-router-dom";
 import Loading from "../../components/global/Loading";
 import EmptyState from "../../components/global/EmptyState";
 import QuestionItem from "../../components/question/QuestionItem";
-import { gql, useQuery } from "@apollo/client";
+import { useQuery } from "@apollo/client";
 import { READ } from "../../gql/question";
 
 //  import auth from "../../helpers/auth-helper";
@@ -57,7 +57,7 @@ const Read = ({ history, match }: IProps) => {
     <React.Fragment>
       <Button
         component={Link}
-        to={`/module/${data.getQuestion.module.id}`}
+        to={`/lesson/${data.getQuestion.lesson.id}`}
         startIcon={<ArrowBack />}
       >
         Back

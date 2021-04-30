@@ -28,17 +28,24 @@ export const LIST_QUESTION_TYPE = gql`
  * @param {id: String}
  */
 export const READ = gql`
-  query getQuestions($id: String!) {
+  query getQuestion($id: String!) {
     getQuestion(id: $id) {
       id
-      title
-      level
+      image
       type
       createdAt
-      lessons {
+      options
+      points
+      answer
+      answerArr
+      answerHint
+      text {
         id
-        createdAt
-        updatedAt
+        text
+        order
+      }
+      lesson {
+        id
       }
     }
   }

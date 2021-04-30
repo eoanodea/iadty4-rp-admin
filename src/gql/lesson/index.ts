@@ -34,14 +34,16 @@ export const READ = gql`
       updatedAt
       module {
         id
-        title
       }
       questions {
         id
-        image
         text {
+          id
           text
         }
+        type
+        answer
+        answerArr
       }
     }
   }

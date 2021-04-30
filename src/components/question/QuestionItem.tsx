@@ -32,7 +32,7 @@ import {
   Fab,
   Typography,
 } from "@material-ui/core";
-import { Add, Create, Delete, MoreVert, Book } from "@material-ui/icons";
+import { Add, Create, Delete, MoreVert, Help } from "@material-ui/icons";
 import { Link } from "react-router-dom";
 
 import QuestionActionArea from "./QuestionActionArea";
@@ -139,8 +139,12 @@ const QuestionItem = ({
         >
           <QuestionActionArea link={link}>
             <CardHeader
-              title={"Question"}
-              subheader={new Date(question.createdAt).toDateString()}
+              title={question.text.map((item: any) => item.text + " ")}
+              subheader={
+                question.type === "MULTIPLE_CHOICE"
+                  ? question.answerArr.map((item: string) => item)
+                  : question.answer
+              }
               action={
                 displayActions && (
                   <React.Fragment>
@@ -183,7 +187,7 @@ const QuestionItem = ({
               {displayActions ? (
                 <React.Fragment>
                   <List>
-                    {question.questions.map(
+                    {/* {question.questions.map(
                       (question: {
                         id: React.Key | null | undefined;
                         updatedAt: Date;
@@ -197,7 +201,7 @@ const QuestionItem = ({
                           <h1 key={question.id}>Question</h1>
                         );
                       }
-                    )}
+                    )} */}
                   </List>
                   <DeleteQuestion
                     open={openDeleteDialog}
@@ -234,22 +238,24 @@ const QuestionItem = ({
     <React.Fragment>
       <ListItem button={true} component={Link} to={`/question/${question.id}`}>
         <ListItemIcon>
-          <Book />
+          <Help />
         </ListItemIcon>
         <ListItemText
-          primary={`Question`}
-          secondary={`Last Updated: ${new Date(
-            question.updatedAt
-          ).toDateString()}`}
+          primary={question.text.map((item: any) => item.text + " ")}
+          secondary={
+            question.type === "MULTIPLE_CHOICE"
+              ? question.answerArr.map((item: string) => item)
+              : question.answer
+          }
         />
       </ListItem>
 
-      <DeleteQuestion
+      {/* <DeleteQuestion
         open={openDeleteDialog}
         question={question}
         handleClose={setOpenDeleteDialog}
         history={history}
-      />
+      /> */}
     </React.Fragment>
   );
 };
