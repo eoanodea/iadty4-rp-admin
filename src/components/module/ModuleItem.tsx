@@ -25,9 +25,9 @@ import ModuleActionArea from "./ModuleActionArea";
 import DeleteModule from "./DeleteModule";
 
 import { Link } from "react-router-dom";
-import LessonItem from "../lesson/LessonItem";
+import LessonItem from "./../lesson/LessonItem";
 import { useMutation } from "@apollo/client";
-import { CREATE } from "../../gql/lesson";
+import { CREATE } from "./../../gql/lesson";
 
 /**
  * Injected styles

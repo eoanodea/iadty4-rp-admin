@@ -16,12 +16,12 @@ import React, { useEffect } from "react";
 import { Route, Switch, useHistory } from "react-router-dom";
 import { Grid } from "@material-ui/core";
 
-import Home from "../pages/Home";
-import Header from "../components/layout/Header";
-import EmptyState from "../components/global/EmptyState";
+import Home from "./../pages/Home";
+import Header from "./../components/layout/Header";
+import EmptyState from "./../components/global/EmptyState";
 
 import routes, { IRouteType } from "./routes";
-import auth from "../helpers/auth-helper";
+import auth from "./../helpers/auth-helper";
 
 const MainRouter = () => {
   /**

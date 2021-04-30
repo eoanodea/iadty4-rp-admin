@@ -23,7 +23,7 @@ import {
 } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import React from "react";
-import auth from "../helpers/auth-helper";
+import auth from "./../helpers/auth-helper";
 
 const styles = () =>
   createStyles({

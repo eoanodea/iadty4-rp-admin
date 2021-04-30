@@ -15,8 +15,8 @@
 import { createStyles, withStyles } from "@material-ui/core";
 import React from "react";
 import { useQuery, gql } from "@apollo/client";
-import Loading from "../components/global/Loading";
-import EmptyState from "../components/global/EmptyState";
+import Loading from "./../components/global/Loading";
+import EmptyState from "./../components/global/EmptyState";
 
 const styles = () =>
   createStyles({

@@ -17,9 +17,9 @@ import { ArrowBack, Check } from "@material-ui/icons";
 import { Link } from "react-router-dom";
 
 import { useMutation, useQuery } from "@apollo/client";
-import { READ, UPDATE } from "../../gql/module";
-import Loading from "../../components/global/Loading";
-import EmptyState from "../../components/global/EmptyState";
+import { READ, UPDATE } from "./../../gql/module";
+import Loading from "./../../components/global/Loading";
+import EmptyState from "./../../components/global/EmptyState";
 
 type IProps = {
   history: any;

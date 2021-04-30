@@ -19,13 +19,13 @@ import { ArrowBack } from "@material-ui/icons";
 
 import { Link, withRouter } from "react-router-dom";
 
-import Loading from "../../components/global/Loading";
-import EmptyState from "../../components/global/EmptyState";
-import LessonItem from "../../components/lesson/LessonItem";
+import Loading from "./../../components/global/Loading";
+import EmptyState from "./../../components/global/EmptyState";
+import LessonItem from "./../../components/lesson/LessonItem";
 import { useQuery } from "@apollo/client";
-import { READ } from "../../gql/lesson";
+import { READ } from "./../../gql/lesson";
 
-//  import auth from "../../helpers/auth-helper";
+//  import auth from "./../../helpers/auth-helper";
 
 type IProps = {
   history: any;

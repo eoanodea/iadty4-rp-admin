@@ -8,8 +8,8 @@ import {
   Theme,
 } from "@material-ui/core";
 
-import Loading from "../components/global/Loading";
-import EmptyState from "../components/global/EmptyState";
+import Loading from "./../components/global/Loading";
+import EmptyState from "./../components/global/EmptyState";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({

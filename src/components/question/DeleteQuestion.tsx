@@ -15,7 +15,7 @@ import {
 } from "@material-ui/core";
 
 import { Close, Delete } from "@material-ui/icons";
-import { DELETE } from "../../gql/question";
+import { DELETE } from "./../../gql/question";
 import { useMutation } from "@apollo/client";
 
 /**

@@ -7,7 +7,7 @@ import {
 } from "@material-ui/core";
 import { Check } from "@material-ui/icons";
 import { useState } from "react";
-import { CREATE } from "../../gql/note";
+import { CREATE } from "./../../gql/note";
 
 type IProps = {
   newNote: (title: string, id: string) => void;

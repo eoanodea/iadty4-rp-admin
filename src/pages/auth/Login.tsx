@@ -17,8 +17,8 @@ import { ArrowBack, Check } from "@material-ui/icons";
 import { Link } from "react-router-dom";
 
 import { useMutation } from "@apollo/client";
-import { LOGIN } from "../../gql/auth";
-import auth from "../../helpers/auth-helper";
+import { LOGIN } from "./../../gql/auth";
+import auth from "./../../helpers/auth-helper";
 
 type IProps = {
   history: any;

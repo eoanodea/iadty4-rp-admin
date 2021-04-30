@@ -1,8 +1,8 @@
 import { useQuery } from "@apollo/client";
 import React, { createContext, useContext, useEffect } from "react";
-import { LIST_QUESTION_TYPE } from "../../../gql/question";
+import { LIST_QUESTION_TYPE } from "./../../../gql/question";
 
-import { QuestionValidator } from "../../../types/question";
+import { QuestionValidator } from "./../../../types/question";
 import QuestionStepper from "./QuestionStepper";
 
 const initialQuestion = {

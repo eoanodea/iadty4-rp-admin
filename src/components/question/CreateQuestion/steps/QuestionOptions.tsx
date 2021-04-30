@@ -23,8 +23,8 @@ import React, {
   useState,
 } from "react";
 import { useQuestion } from "..";
-import { IItem, IListItem } from "../../../../types/question";
-import FixedSizeList from "../../../motion/FixedSizeList";
+import { IItem, IListItem } from "./../../../../types/question";
+import FixedSizeList from "./../../../motion/FixedSizeList";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({

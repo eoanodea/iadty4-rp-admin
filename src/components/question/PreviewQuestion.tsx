@@ -8,8 +8,8 @@ import {
   Chip,
 } from "@material-ui/core";
 import React from "react";
-import PreviewDocument from "../../helpers/PreviewImage";
-import { QuestionValidator } from "../../types/question";
+import PreviewDocument from "./../../helpers/PreviewImage";
+import { QuestionValidator } from "./../../types/question";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({

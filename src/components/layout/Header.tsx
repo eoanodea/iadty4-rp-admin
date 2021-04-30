@@ -31,10 +31,10 @@ import {
 } from "@material-ui/core";
 import { AccountCircle, Home } from "@material-ui/icons";
 import { Link } from "react-router-dom";
-import { config } from "../../config/config";
+import { config } from "./../../config/config";
 
 import ReactGA from "react-ga";
-import auth from "../../helpers/auth-helper";
+import auth from "./../../helpers/auth-helper";
 
 type IProps = {
   isAuthed: boolean;

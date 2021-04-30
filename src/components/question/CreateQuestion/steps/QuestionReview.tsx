@@ -10,8 +10,8 @@ import {
 import { Check } from "@material-ui/icons";
 import React, { useState } from "react";
 import { useQuestion } from "..";
-import { CREATE, UPDATE } from "../../../../gql/question";
-import PreviewQuestion from "../../PreviewQuestion";
+import { CREATE, UPDATE } from "./../../../../gql/question";
+import PreviewQuestion from "./../../PreviewQuestion";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({

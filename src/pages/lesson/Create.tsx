@@ -17,7 +17,7 @@ import { ArrowBack, Check } from "@material-ui/icons";
 import { Link } from "react-router-dom";
 
 import { gql, useMutation } from "@apollo/client";
-import { CREATE } from "../../gql/lesson";
+import { CREATE } from "./../../gql/lesson";
 
 type IProps = {
   history: any;

@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import { useFixedList, useFixedListItem, FixedListItemProps } from "./fixed";
 import { getDragStateZIndex, moveArray } from "./utils";
 
-import { IItem, IListItem } from "../../types/question";
+import { IItem, IListItem } from "./../../types/question";
 
 type FixedSizeItemProps = {
   index: number;

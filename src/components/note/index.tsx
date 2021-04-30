@@ -15,10 +15,10 @@ import {
   Typography,
 } from "@material-ui/core";
 import React, { useState } from "react";
-import { LIST } from "../../gql/note";
+import { LIST } from "./../../gql/note";
 import { useQuery } from "@apollo/client";
-import EmptyState from "../global/EmptyState";
-import Loading from "../global/Loading";
+import EmptyState from "./../global/EmptyState";
+import Loading from "./../global/Loading";
 import CreateNote from "./CreateNote";
 
 const useStyles = makeStyles(() =>

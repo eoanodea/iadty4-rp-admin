@@ -19,15 +19,15 @@ import { ArrowBack } from "@material-ui/icons";
 
 import { Link, withRouter } from "react-router-dom";
 
-//  import { show } from "../../api/api-article";
+//  import { show } from "./../../api/api-article";
 
-import Loading from "../../components/global/Loading";
-import EmptyState from "../../components/global/EmptyState";
-import ModuleItem from "../../components/module/ModuleItem";
+import Loading from "./../../components/global/Loading";
+import EmptyState from "./../../components/global/EmptyState";
+import ModuleItem from "./../../components/module/ModuleItem";
 import { useQuery } from "@apollo/client";
-import { READ } from "../../gql/module";
+import { READ } from "./../../gql/module";
 
-//  import auth from "../../helpers/auth-helper";
+//  import auth from "./../../helpers/auth-helper";
 
 type IProps = {
   history: any;

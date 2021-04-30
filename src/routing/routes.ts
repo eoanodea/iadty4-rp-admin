@@ -19,7 +19,7 @@ import {
   List as ListQuestion,
 } from "./../pages/question";
 
-import Login from "../pages/auth/Login";
+import Login from "./../pages/auth/Login";
 
 export type IRouteType = {
   name: string;

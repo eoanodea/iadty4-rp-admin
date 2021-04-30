@@ -31,9 +31,9 @@ import React, {
   useState,
 } from "react";
 import { useQuestion } from "..";
-import { IItem, IListItem } from "../../../../types/question";
-import FixedSizeList from "../../../motion/FixedSizeList";
-import NoteDialog from "../../../note";
+import { IItem, IListItem } from "./../../../../types/question";
+import FixedSizeList from "./../../../motion/FixedSizeList";
+import NoteDialog from "./../../../note";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({

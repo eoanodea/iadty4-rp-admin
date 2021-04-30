@@ -16,11 +16,11 @@ import { createStyles, Fab, Theme, withStyles } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import React from "react";
 import { useQuery } from "@apollo/client";
-import Loading from "../../components/global/Loading";
-import EmptyState from "../../components/global/EmptyState";
-import LessonItem from "../../components/lesson/LessonItem";
+import Loading from "./../../components/global/Loading";
+import EmptyState from "./../../components/global/EmptyState";
+import LessonItem from "./../../components/lesson/LessonItem";
 import { Add } from "@material-ui/icons";
-import { LIST } from "../../gql/lesson";
+import { LIST } from "./../../gql/lesson";
 
 const styles = ({ spacing }: Theme) =>
   createStyles({

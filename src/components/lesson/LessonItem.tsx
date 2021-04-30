@@ -38,7 +38,7 @@ import { Link } from "react-router-dom";
 import LessonActionArea from "./LessonActionArea";
 
 import DeleteLesson from "./DeleteLesson";
-import QuestionItem from "../question/QuestionItem";
+import QuestionItem from "./../question/QuestionItem";
 
 /**
  * Injected styles

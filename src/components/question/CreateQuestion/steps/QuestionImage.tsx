@@ -10,7 +10,7 @@ import {
 import { Clear, PhotoCamera } from "@material-ui/icons";
 import React, { useEffect, useState } from "react";
 import { useQuestion } from "..";
-import PreviewDocument from "../../../../helpers/PreviewImage";
+import PreviewDocument from "./../../../../helpers/PreviewImage";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
