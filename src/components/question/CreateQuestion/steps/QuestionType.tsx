@@ -47,6 +47,7 @@ const QuestionType = () => {
         <RadioGroup
           aria-label="question-type"
           name="question-type"
+          defaultValue={question.type}
           value={question.type}
           onChange={handleChange}
         >

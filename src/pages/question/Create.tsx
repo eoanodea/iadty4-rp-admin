@@ -36,7 +36,11 @@ const Create = ({ history, classes, match }: IProps) => {
    */
   return (
     <React.Fragment>
-      <Button component={Link} to="/" startIcon={<ArrowBack />}>
+      <Button
+        component={Link}
+        to={`/lesson/${match.params.id}`}
+        startIcon={<ArrowBack />}
+      >
         Back
       </Button>
 

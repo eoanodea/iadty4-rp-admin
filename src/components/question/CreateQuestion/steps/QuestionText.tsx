@@ -79,18 +79,19 @@ const QuestionText = () => {
 
   useEffect(() => {
     if (question.text.length > 0 && items.length === 0) {
+      console.log("question text", question.text);
       const newItems = question.text
-        .sort((a, b) => a.order - b.order)
+        // .sort((a, b) => a.order - b.order)
         .map((item, i) => {
           return { id: i, text: item.text };
         });
 
       return setItems(newItems);
     }
-
-    if (items.length > 0 && items.length !== question.text.length) {
-      return syncQuestions();
-    }
+    syncQuestions();
+    // if (items.length > 0 && items.length !== question.text.length) {
+    //   return syncQuestions();
+    // }
   }, [question, items, syncQuestions]);
 
   const submit = (e: FormEvent) => {

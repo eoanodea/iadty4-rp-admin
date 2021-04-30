@@ -10,7 +10,7 @@ import {
 import { Check } from "@material-ui/icons";
 import React, { useState } from "react";
 import { useQuestion } from "..";
-import { CREATE } from "../../../../gql/question";
+import { CREATE, UPDATE } from "../../../../gql/question";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -33,6 +33,7 @@ const QuestionReview = ({ handleReset, history }: IProps) => {
 
   const [loading, setLoading] = useState(false);
   const [addQuestion] = useMutation(CREATE);
+  const [updateQuestion] = useMutation(UPDATE);
 
   const save = () => {
     setServerError("");
@@ -49,20 +50,37 @@ const QuestionReview = ({ handleReset, history }: IProps) => {
       answerHint: question.answerHint,
     };
 
-    addQuestion({
-      variables: {
-        lessonId: question.lessonId,
-        input: newQuestion,
-      },
-    })
-      .then((res: any) => {
-        setLoading(false);
-        history.push(`/lesson/${res.data.addQuestion.lesson.id}/true`);
+    if (question.id) {
+      updateQuestion({
+        variables: {
+          id: question.id,
+          input: newQuestion,
+        },
       })
-      .catch((e) => {
-        setLoading(false);
-        setServerError(e.toString());
-      });
+        .then((res: any) => {
+          setLoading(false);
+          history.push(`/lesson/${res.data.updateQuestion.lesson.id}/true`);
+        })
+        .catch((e) => {
+          setLoading(false);
+          setServerError(e.toString());
+        });
+    } else {
+      addQuestion({
+        variables: {
+          lessonId: question.lessonId,
+          input: newQuestion,
+        },
+      })
+        .then((res: any) => {
+          setLoading(false);
+          history.push(`/lesson/${res.data.addQuestion.lesson.id}/true`);
+        })
+        .catch((e) => {
+          setLoading(false);
+          setServerError(e.toString());
+        });
+    }
   };
 
   return (

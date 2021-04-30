@@ -77,9 +77,9 @@ export const UPDATE = gql`
   mutation updateQuestion($id: String!, $input: QuestionValidator!) {
     updateQuestion(id: $id, input: $input) {
       id
-      title
-      level
-      type
+      lesson {
+        id
+      }
     }
   }
 `;

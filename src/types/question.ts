@@ -9,6 +9,8 @@ export interface IListItem extends IItem {
 
 // Validator for QuestionText
 interface QuestionTextValidator {
+  id?: string;
+  __typename?: string;
   // The order of where the question text will appear (starting at 0)
   order: number;
 
@@ -21,6 +23,8 @@ interface QuestionTextValidator {
 
 export interface QuestionValidator {
   [key: string]: any;
+  __typename?: string;
+  id?: string;
   lessonId: string;
   requiresPiano: boolean;
   text: QuestionTextValidator[];
