@@ -5,7 +5,7 @@ import { ArrowBack } from "@material-ui/icons";
 
 import { Link } from "react-router-dom";
 
-import CreateQuestion from "./../../components/question/createQuestion";
+import CreateQuestion from "./../../components/question/createQuestion/CreateQuestion";
 import EmptyState from "./../../components/global/EmptyState";
 import Loading from "./../../components/global/Loading";
 import { useQuery } from "@apollo/client";

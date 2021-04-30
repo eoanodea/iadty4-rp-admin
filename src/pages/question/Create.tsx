@@ -4,7 +4,7 @@ import { Button, createStyles, withStyles } from "@material-ui/core";
 import { ArrowBack } from "@material-ui/icons";
 
 import { Link } from "react-router-dom";
-import CreateQuestion from "./../../components/question/createQuestion";
+import CreateQuestion from "./../../components/question/createQuestion/CreateQuestion";
 
 type IProps = {
   history: any;
