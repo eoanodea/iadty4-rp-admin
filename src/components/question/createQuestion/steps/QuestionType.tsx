@@ -11,7 +11,7 @@ import {
 } from "@material-ui/core";
 
 import React from "react";
-import { useQuestion } from "..";
+import { useQuestion } from "./../CreateQuestion";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({

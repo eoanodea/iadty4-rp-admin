@@ -12,7 +12,7 @@ import {
 } from "@material-ui/icons";
 import { Autocomplete } from "@material-ui/lab";
 import React from "react";
-import { useQuestion } from "..";
+import { useQuestion } from "./../CreateQuestion";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({

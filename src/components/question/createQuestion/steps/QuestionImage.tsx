@@ -9,7 +9,7 @@ import {
 } from "@material-ui/core";
 import { Clear, PhotoCamera } from "@material-ui/icons";
 import React, { useEffect, useState } from "react";
-import { useQuestion } from "..";
+import { useQuestion } from "./../CreateQuestion";
 import PreviewDocument from "./../../../../helpers/PreviewImage";
 
 const useStyles = makeStyles((theme: Theme) =>

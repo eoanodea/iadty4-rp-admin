@@ -6,7 +6,7 @@ import {
   TextField,
   Slider,
 } from "@material-ui/core";
-import { useQuestion } from "..";
+import { useQuestion } from "./../CreateQuestion";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({

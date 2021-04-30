@@ -20,7 +20,7 @@ import QuestionType from "./steps/QuestionType";
 import QuestionAnswer from "./steps/QuestionAnswer";
 import QuestionDetails from "./steps/QuestionDetails";
 import QuestionOptions from "./steps/QuestionOptions";
-import { useQuestion } from ".";
+import { useQuestion } from "./CreateQuestion";
 import QuestionReview from "./steps/QuestionReview";
 
 const steps = [

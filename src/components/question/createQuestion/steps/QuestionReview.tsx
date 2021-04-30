@@ -9,7 +9,7 @@ import {
 } from "@material-ui/core";
 import { Check } from "@material-ui/icons";
 import React, { useState } from "react";
-import { useQuestion } from "..";
+import { useQuestion } from "./../CreateQuestion";
 import { CREATE, UPDATE } from "./../../../../gql/question";
 import PreviewQuestion from "./../../PreviewQuestion";
 

@@ -30,7 +30,7 @@ import React, {
   useEffect,
   useState,
 } from "react";
-import { useQuestion } from "..";
+import { useQuestion } from "./../CreateQuestion";
 import { IItem, IListItem } from "./../../../../types/question";
 import FixedSizeList from "./../../../motion/FixedSizeList";
 import NoteDialog from "./../../../note";
