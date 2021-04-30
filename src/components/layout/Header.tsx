@@ -29,8 +29,8 @@ import {
   Snackbar,
   Toolbar,
 } from "@material-ui/core";
-import { AccountCircle, GitHub, Home, Mail } from "@material-ui/icons";
-import { Link, withRouter } from "react-router-dom";
+import { AccountCircle, Home } from "@material-ui/icons";
+import { Link } from "react-router-dom";
 import { config } from "../../config/config";
 
 import ReactGA from "react-ga";
