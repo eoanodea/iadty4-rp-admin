@@ -4,7 +4,9 @@
 
 ### Description
 
-An admin dashboard used to manage all content within the (Easy Piano Flutter Application)[https://github.com/eoanodea/iadty4-rp-frontend]
+An admin dashboard used to manage all content within the [Easy Piano Flutter Application](https://github.com/eoanodea/iadty4-rp-frontend)
+
+It comminicates with the [Easy Piano server](https://github.com/eoanodea/iadty4-rp-backend)
 
 ### Demo
 
