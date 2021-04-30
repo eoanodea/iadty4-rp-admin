@@ -15,7 +15,14 @@ import {
   Theme,
   Typography,
 } from "@material-ui/core";
-import { Add, Close, Delete, Edit, Link as LinkIcon } from "@material-ui/icons";
+import {
+  Add,
+  Close,
+  Delete,
+  DragIndicator,
+  Edit,
+  Link as LinkIcon,
+} from "@material-ui/icons";
 import React, {
   createRef,
   FormEvent,
@@ -52,6 +59,9 @@ const useStyles = makeStyles((theme: Theme) =>
       height: 28,
       margin: 4,
     },
+    listItem: {
+      cursor: "move",
+    },
   })
 );
 
@@ -79,19 +89,13 @@ const QuestionText = () => {
 
   useEffect(() => {
     if (question.text.length > 0 && items.length === 0) {
-      console.log("question text", question.text);
-      const newItems = question.text
-        // .sort((a, b) => a.order - b.order)
-        .map((item, i) => {
-          return { id: i, text: item.text };
-        });
+      const newItems = question.text.map((item, i) => {
+        return { id: i, text: item.text };
+      });
 
       return setItems(newItems);
     }
     syncQuestions();
-    // if (items.length > 0 && items.length !== question.text.length) {
-    //   return syncQuestions();
-    // }
   }, [question, items, syncQuestions]);
 
   const submit = (e: FormEvent) => {
@@ -138,7 +142,10 @@ const QuestionText = () => {
 
   const Item = ({ id, text }: IListItem) => {
     return (
-      <ListItem>
+      <ListItem className={classes.listItem}>
+        <ListItemIcon>
+          <DragIndicator />
+        </ListItemIcon>
         <Grow in={true}>
           <ListItemText>{text}</ListItemText>
         </Grow>

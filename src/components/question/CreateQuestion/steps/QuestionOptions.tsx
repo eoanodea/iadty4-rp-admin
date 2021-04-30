@@ -14,7 +14,7 @@ import {
   Theme,
   Typography,
 } from "@material-ui/core";
-import { Add, Close, Delete, Edit } from "@material-ui/icons";
+import { Add, Close, Delete, DragIndicator, Edit } from "@material-ui/icons";
 import React, {
   createRef,
   FormEvent,
@@ -50,6 +50,9 @@ const useStyles = makeStyles((theme: Theme) =>
     divider: {
       height: 28,
       margin: 4,
+    },
+    listItem: {
+      cursor: "move",
     },
   })
 );
@@ -135,7 +138,10 @@ const QuestionOptions = () => {
 
   const Item = ({ id, text }: IListItem) => {
     return (
-      <ListItem>
+      <ListItem className={classes.listItem}>
+        <ListItemIcon>
+          <DragIndicator />
+        </ListItemIcon>
         <Grow in={true}>
           <ListItemText>{text}</ListItemText>
         </Grow>

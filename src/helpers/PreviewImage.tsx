@@ -1,8 +1,6 @@
 import React, { useEffect } from "react";
 
 import {
-  Card,
-  CardHeader,
   CardMedia,
   createStyles,
   Fade,
@@ -17,17 +15,16 @@ const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     preview: {
       height: 200,
-      maxWidth: "80%",
+      minWidth: 200,
       margin: `${theme.spacing(2)}px auto`,
       backgroundSize: "contain",
     },
-    card: {},
     cardText: {
       textAlign: "center",
     },
   })
 );
-// });
+
 interface IProps {
   photo: string;
 }
@@ -53,16 +50,9 @@ const PreviewDocument = ({ photo }: IProps) => {
   if (!preview) return <EmptyState message="Could not preview image" />;
 
   return (
-    <Card className={classes.card}>
-      <Fade in={true}>
-        <CardMedia image={preview} className={classes.preview} />
-      </Fade>
-
-      <CardHeader
-        // title={photo && photo.name ? photo.name : ""}
-        className={classes.cardText}
-      />
-    </Card>
+    <Fade in={true}>
+      <CardMedia image={preview} className={classes.preview} />
+    </Fade>
   );
 };
 

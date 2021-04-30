@@ -15,7 +15,7 @@
 import { createStyles, Fab, Theme, withStyles } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import React from "react";
-import { useQuery, gql } from "@apollo/client";
+import { useQuery } from "@apollo/client";
 import Loading from "../../components/global/Loading";
 import EmptyState from "../../components/global/EmptyState";
 import LessonItem from "../../components/lesson/LessonItem";
@@ -54,23 +54,6 @@ type IProps = {
   history: any;
 };
 
-const GET_LESSONS = gql`
-  query getLessons {
-    getLessons {
-      id
-      title
-      level
-      createdAt
-      updatedAt
-      lessons {
-        id
-        createdAt
-        updatedAt
-      }
-    }
-  }
-`;
-
 const List = ({ classes, match, history }: IProps) => {
   const { loading, error, data, refetch } = useQuery(LIST);
 
@@ -79,8 +62,6 @@ const List = ({ classes, match, history }: IProps) => {
   if (newFetch) {
     refetch();
     history.push(`/lessons`);
-
-    // newFetch = false;
   }
 
   if (loading) return <Loading />;

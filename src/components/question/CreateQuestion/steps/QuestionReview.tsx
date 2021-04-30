@@ -11,12 +11,17 @@ import { Check } from "@material-ui/icons";
 import React, { useState } from "react";
 import { useQuestion } from "..";
 import { CREATE, UPDATE } from "../../../../gql/question";
+import PreviewQuestion from "../../PreviewQuestion";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
       padding: "2px 4px",
       margin: theme.spacing(3),
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "center",
+      justifyContent: "space-between",
     },
   })
 );
@@ -93,6 +98,10 @@ const QuestionReview = ({ handleReset, history }: IProps) => {
   return (
     <div className={classes.root}>
       <Typography variant="h1">All Steps Complete</Typography>
+      <br />
+      <Typography>This is your new question will look like:</Typography>
+
+      <PreviewQuestion question={question} />
 
       <Button onClick={handleReset}>Go back</Button>
       <Button
@@ -106,7 +115,7 @@ const QuestionReview = ({ handleReset, history }: IProps) => {
       </Button>
 
       <br />
-      <br />
+
       <Typography variant="caption" color="error">
         {serverError}
       </Typography>

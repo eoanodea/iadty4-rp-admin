@@ -33,8 +33,7 @@ const CreateQuestion = ({ history, match, update = null }: IProps) => {
   const { loading, error, data } = useQuery(LIST_QUESTION_TYPE);
 
   useEffect(() => {
-    if (!loading && !error && data) {
-      console.log("dataaaa!", data);
+    if (!loading && !error && data && question.questionTypeOptions.length < 1) {
       let newQuestion: any = {
         ...question,
         questionTypeOptions: data.getQuestionTypes,

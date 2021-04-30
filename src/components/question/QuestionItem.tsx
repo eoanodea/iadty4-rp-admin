@@ -38,6 +38,7 @@ import { Link } from "react-router-dom";
 import QuestionActionArea from "./QuestionActionArea";
 
 import DeleteQuestion from "./DeleteQuestion";
+import PreviewQuestion from "./PreviewQuestion";
 
 /**
  * Injected styles
@@ -134,103 +135,62 @@ const QuestionItem = ({
   if (displayActions)
     return (
       <Zoom in={true} style={{ transitionDelay: `${delay}ms` }}>
-        <Card
-          className={disableHeight ? classes.fixedHeightCard : classes.card}
-        >
-          <QuestionActionArea link={link}>
-            <CardHeader
-              title={question.text.map((item: any) => item.text + " ")}
-              subheader={
-                question.type === "MULTIPLE_CHOICE"
-                  ? question.answerArr.map((item: string) => item)
-                  : question.answer
-              }
-              action={
-                displayActions && (
-                  <React.Fragment>
-                    <IconButton
-                      aria-label="more"
-                      aria-controls="long-menu"
-                      aria-haspopup="true"
-                      onClick={handleOpen}
-                    >
-                      <MoreVert />
-                    </IconButton>
-
-                    <Menu
-                      id="menu"
-                      anchorEl={anchorEl}
-                      open={open}
-                      onClose={handleClose}
-                    >
-                      <MenuItem
-                        component={Link}
-                        to={`/update/question/${question.id}`}
-                      >
-                        <ListItemIcon>
-                          <Create />
-                        </ListItemIcon>
-                        <ListItemText primary="Edit" />
-                      </MenuItem>
-                      <MenuItem onClick={() => setOpenDeleteDialog(true)}>
-                        <ListItemIcon>
-                          <Delete />
-                        </ListItemIcon>
-                        <ListItemText primary="Delete" />
-                      </MenuItem>
-                    </Menu>
-                  </React.Fragment>
-                )
-              }
-            />
-            <CardContent>
-              {displayActions ? (
+        <QuestionActionArea link={link}>
+          <CardHeader
+            title={question.text.map((item: any) => item.text + " ")}
+            subheader={
+              question.type === "MULTIPLE_CHOICE"
+                ? "Answer: " + question.answerArr.map((item: string) => item)
+                : "Answer: " + question.answer
+            }
+            action={
+              displayActions && (
                 <React.Fragment>
-                  <List>
-                    {/* {question.questions.map(
-                      (question: {
-                        id: React.Key | null | undefined;
-                        updatedAt: Date;
-                      }) => {
-                        return (
-                          // <QuestionItem
-                          //   question={question}
-                          //   key={question.id}
-                          //   displayActions={false}
-                          // />
-                          <h1 key={question.id}>Question</h1>
-                        );
-                      }
-                    )} */}
-                  </List>
-                  <DeleteQuestion
-                    open={openDeleteDialog}
-                    question={question}
-                    handleClose={setOpenDeleteDialog}
-                    history={history}
-                  />
-                  <Fab
-                    className={classes.fab}
-                    component={Link}
-                    // disabled={loading}
-                    aria-label="Add Question"
-                    color="secondary"
-                    // onClick={() => createQuestion()}
-                    to="/create/question"
+                  <IconButton
+                    aria-label="more"
+                    aria-controls="long-menu"
+                    aria-haspopup="true"
+                    onClick={handleOpen}
                   >
-                    {/* {loading ? <CircularProgress size={18} /> : <Add />} */}
-                    <Add />
-                  </Fab>
+                    <MoreVert />
+                  </IconButton>
+
+                  <Menu
+                    id="menu"
+                    anchorEl={anchorEl}
+                    open={open}
+                    onClose={handleClose}
+                  >
+                    <MenuItem
+                      component={Link}
+                      to={`/update/question/${question.id}`}
+                    >
+                      <ListItemIcon>
+                        <Create />
+                      </ListItemIcon>
+                      <ListItemText primary="Edit" />
+                    </MenuItem>
+                    <MenuItem onClick={() => setOpenDeleteDialog(true)}>
+                      <ListItemIcon>
+                        <Delete />
+                      </ListItemIcon>
+                      <ListItemText primary="Delete" />
+                    </MenuItem>
+                  </Menu>
                 </React.Fragment>
-              ) : (
-                <Typography variant="body2">
-                  {question.questions.length} Question
-                  {question.questions.length > 1 ? "s" : ""}
-                </Typography>
-              )}
-            </CardContent>
-          </QuestionActionArea>
-        </Card>
+              )
+            }
+          />
+          <CardContent>
+            <PreviewQuestion question={question} />
+            <DeleteQuestion
+              open={openDeleteDialog}
+              question={question}
+              handleClose={setOpenDeleteDialog}
+              history={history}
+            />
+          </CardContent>
+        </QuestionActionArea>
       </Zoom>
     );
 
@@ -249,13 +209,6 @@ const QuestionItem = ({
           }
         />
       </ListItem>
-
-      {/* <DeleteQuestion
-        open={openDeleteDialog}
-        question={question}
-        handleClose={setOpenDeleteDialog}
-        history={history}
-      /> */}
     </React.Fragment>
   );
 };
