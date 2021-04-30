@@ -12,8 +12,8 @@
  * Copyright 2021 WebSpace, WebSpace
  */
 
-import React from "react";
-import { Route, Switch } from "react-router-dom";
+import React, { useEffect } from "react";
+import { Route, Switch, useHistory } from "react-router-dom";
 import { Grid } from "@material-ui/core";
 
 import Home from "../pages/Home";
@@ -21,11 +21,40 @@ import Header from "../components/layout/Header";
 import EmptyState from "../components/global/EmptyState";
 
 import routes, { IRouteType } from "./routes";
+import auth from "../helpers/auth-helper";
 
 const MainRouter = () => {
+  /**
+   * If set to true, displays routes that only authenticated users should see
+   * If not, displays login / register
+   */
+  const [isAuthed, setIsAuthed] = React.useState(false);
+  const history = useHistory();
+  /**
+   * Check if the user is authenticaed
+   */
+  useEffect(() => {
+    const setAuth = (bool: boolean) => setIsAuthed(bool);
+
+    const jwt = auth.isAuthenticated();
+    setAuth(jwt ? true : false);
+
+    /**
+     * Listen for changes in the URL bar,
+     * and check if the user is authenticated
+     *
+     * Can only be done when the component
+     * is exported through withRouter
+     */
+    history.listen(() => {
+      const jwt = auth.isAuthenticated();
+      setAuth(jwt ? true : false);
+    });
+  }, [history]);
+
   return (
     <React.Fragment>
-      <Header />
+      <Header isAuthed={isAuthed} setIsAuthed={setIsAuthed} history={history} />
       <Grid
         container
         justify="center"
@@ -35,9 +64,11 @@ const MainRouter = () => {
           <Switch>
             <Route exact path="/" component={Home} />
 
-            {routes.map(({ link, component }: IRouteType, i) => (
-              <Route path={link} component={component} key={i} />
-            ))}
+            {routes
+              .filter((item) => item.authed === isAuthed)
+              .map(({ link, component }: IRouteType, i) => (
+                <Route path={link} component={component} key={i} />
+              ))}
 
             <Route
               render={() => (

@@ -23,6 +23,7 @@ import {
 } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import React from "react";
+import auth from "../helpers/auth-helper";
 
 const styles = () =>
   createStyles({
@@ -54,18 +55,30 @@ const Home = ({ classes }: IProps) => {
       <CardContent>
         <Typography variant="h1">Welcome</Typography>
         <br />
-        <Typography variant="body1">ReactJS Boilerplate</Typography>
+        <Typography variant="body1">Music Theory Admin Dashboard</Typography>
       </CardContent>
       <CardActions className={classes.actions}>
-        <Button
-          variant="contained"
-          color="primary"
-          component={Link}
-          aria-label="Button"
-          to="/modules"
-        >
-          Modules
-        </Button>
+        {auth.isAuthenticated() ? (
+          <Button
+            variant="contained"
+            color="primary"
+            component={Link}
+            aria-label="Button"
+            to="/modules"
+          >
+            Modules
+          </Button>
+        ) : (
+          <Button
+            variant="contained"
+            color="primary"
+            component={Link}
+            aria-label="Button"
+            to="/login"
+          >
+            Login
+          </Button>
+        )}
       </CardActions>
     </Card>
   );
