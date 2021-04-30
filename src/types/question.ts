@@ -1,6 +1,7 @@
 export interface IItem {
   id: number;
   text: string;
+  note?: string;
 }
 
 export interface IListItem extends IItem {

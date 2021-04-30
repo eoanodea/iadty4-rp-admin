@@ -21,18 +21,14 @@ import {
   ListItemText,
   Theme,
   ListItem,
-  Card,
   CardHeader,
   CardContent,
   Zoom,
   IconButton,
   Menu,
   MenuItem,
-  List,
-  Fab,
-  Typography,
 } from "@material-ui/core";
-import { Add, Create, Delete, MoreVert, Help } from "@material-ui/icons";
+import { Create, Delete, MoreVert, Help } from "@material-ui/icons";
 import { Link } from "react-router-dom";
 
 import QuestionActionArea from "./QuestionActionArea";
@@ -84,6 +80,7 @@ type IProps = {
     fab: string;
   };
   question: any;
+  lessonId?: string | null;
   link?: string | null;
   delay?: number;
   disableHeight?: boolean;
@@ -108,6 +105,7 @@ const QuestionItem = ({
   question,
   link = null,
   delay = 0,
+  lessonId = null,
   disableHeight = true,
 }: IProps) => {
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -163,7 +161,9 @@ const QuestionItem = ({
                   >
                     <MenuItem
                       component={Link}
-                      to={`/update/question/${question.id}`}
+                      to={`/update/question/${
+                        lessonId ? lessonId : question.lesson.id
+                      }/${question.id}`}
                     >
                       <ListItemIcon>
                         <Create />
@@ -204,8 +204,8 @@ const QuestionItem = ({
           primary={question.text.map((item: any) => item.text + " ")}
           secondary={
             question.type === "MULTIPLE_CHOICE"
-              ? question.answerArr.map((item: string) => item)
-              : question.answer
+              ? "Answer: " + question.answerArr.map((item: string) => item)
+              : "Answer: " + question.answer
           }
         />
       </ListItem>

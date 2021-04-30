@@ -33,6 +33,7 @@ import React, {
 import { useQuestion } from "..";
 import { IItem, IListItem } from "../../../../types/question";
 import FixedSizeList from "../../../motion/FixedSizeList";
+import NoteDialog from "../../../note";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -82,7 +83,7 @@ const QuestionText = () => {
   const syncQuestions = useCallback(() => {
     let newQuestion = question;
     newQuestion.text = items.map((item, i) => {
-      return { order: i, text: item.text };
+      return { order: i, text: item.text, note: item.note };
     });
     return setQuestion(newQuestion);
   }, [items, question, setQuestion]);
@@ -100,8 +101,8 @@ const QuestionText = () => {
 
   const submit = (e: FormEvent) => {
     e.preventDefault();
-    if (activeText.length < 2)
-      return setActiveTextError("Text must be at least two characters");
+    if (activeText.length < 1)
+      return setActiveTextError("Text must be at least one character");
 
     if (editIndex !== -1) {
       const itemI = items.findIndex((item) => item.id === editIndex);
@@ -140,7 +141,16 @@ const QuestionText = () => {
     syncQuestions();
   };
 
-  const Item = ({ id, text }: IListItem) => {
+  const addNote = (i: number, id: string) => {
+    const itemI = items.findIndex((item) => item.id === i);
+
+    let newItems = items;
+    newItems[itemI].note = id;
+    setItems([...newItems]);
+    syncQuestions();
+  };
+
+  const Item = ({ id, text, note = "" }: IListItem) => {
     return (
       <ListItem className={classes.listItem}>
         <ListItemIcon>
@@ -154,11 +164,14 @@ const QuestionText = () => {
             <Edit />
           </IconButton>
         </ListItemIcon>
-        <ListItemSecondaryAction onClick={() => removeItem(id)}>
-          <IconButton edge="end" aria-label="comments">
+        <ListItemSecondaryAction>
+          <IconButton aria-label="comments" onClick={() => removeItem(id)}>
             <Delete />
           </IconButton>
         </ListItemSecondaryAction>
+        <NoteDialog i={id} hasNote={note !== ""} onSelect={addNote} />
+
+        <ListItemIcon></ListItemIcon>
       </ListItem>
     );
   };
@@ -200,7 +213,7 @@ const QuestionText = () => {
         </IconButton>
         <Divider className={classes.divider} orientation="vertical" />
         <IconButton
-          color="primary"
+          // color="primary"
           className={classes.iconButton}
           aria-label="Add a link to text"
         >

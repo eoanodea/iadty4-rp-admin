@@ -50,7 +50,7 @@ const Update = ({ history, classes, match }: IProps) => {
     <React.Fragment>
       <Button
         component={Link}
-        to={`/lesson/${match.params.id}`}
+        to={`/question/${match.params.id}`}
         startIcon={<ArrowBack />}
       >
         Back

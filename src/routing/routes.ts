@@ -103,7 +103,7 @@ const routes: IRouteType[] = [
 
   {
     name: "Update Question",
-    link: "/update/question/:id",
+    link: "/update/question/:lessonId/:id",
     component: UpdateQuestion,
     authed: false,
   },

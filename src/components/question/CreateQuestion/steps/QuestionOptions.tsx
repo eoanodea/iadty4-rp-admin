@@ -94,8 +94,8 @@ const QuestionOptions = () => {
 
   const submit = (e: FormEvent) => {
     e.preventDefault();
-    if (activeText.length < 2)
-      return setActiveTextError("Text must be at least two characters");
+    if (activeText.length < 1)
+      return setActiveTextError("Text must be at least one character");
 
     if (editIndex !== -1) {
       const itemI = items.findIndex((item) => item.id === editIndex);

@@ -12,16 +12,7 @@
  * Copyright 2021 WebSpace, WebSpace
  */
 
-import {
-  Button,
-  Card,
-  CardActions,
-  CardContent,
-  createStyles,
-  Typography,
-  withStyles,
-} from "@material-ui/core";
-import { Link } from "react-router-dom";
+import { createStyles, withStyles } from "@material-ui/core";
 import React from "react";
 import { useQuery, gql } from "@apollo/client";
 import Loading from "../components/global/Loading";
@@ -44,13 +35,6 @@ const styles = () =>
     },
   });
 
-type IProps = {
-  classes: {
-    root: any;
-    actions: string;
-  };
-};
-
 const GET_NOTES = gql`
   query getNotes {
     getNotes {
@@ -62,7 +46,7 @@ const GET_NOTES = gql`
   }
 `;
 
-const Notes = ({ classes }: IProps) => {
+const Notes = () => {
   const { loading, error, data } = useQuery(GET_NOTES);
 
   if (loading) return <Loading />;

@@ -16,7 +16,8 @@ import { ArrowBack, Check } from "@material-ui/icons";
 
 import { Link } from "react-router-dom";
 
-import { gql, useMutation } from "@apollo/client";
+import { useMutation } from "@apollo/client";
+import { CREATE } from "../../gql/module";
 
 type IProps = {
   history: any;
@@ -36,38 +37,6 @@ const styles = ({ spacing }: any) =>
     },
   });
 
-// interface Module {
-//   title: String;
-//   type: String;
-//   level: number;
-// }
-
-// const typeDefs = gql`
-//   extend type Module {
-//     title: String!
-//     type: String!
-//     level: Float!
-//   }
-
-//   extend type ModuleValidator {
-//     title: String!
-//     level: Float!
-//     type: String!
-//   }
-// `;
-
-const ADD_MODULE = gql`
-  mutation AddModule($input: ModuleValidator!) {
-    addModule(input: $input) {
-      __typename
-      id
-      title
-      level
-      type
-    }
-  }
-`;
-
 /**
  * CreateModule Component
  *
@@ -77,35 +46,13 @@ const ADD_MODULE = gql`
 const Create = ({ history, classes }: IProps) => {
   const [title, setTitle] = useState("");
   const [level, setLevel] = useState(0);
-  const [type, setType] = useState("");
+  const [type, setType] = useState("THEORY");
 
   const [titleError, setTitleError] = useState("");
 
   const [serverError, setServerError] = useState("");
 
-  const [addModule, { loading }] = useMutation(ADD_MODULE, {
-    update(cache, { data: { addModule } }) {
-      cache.modify({
-        fields: {
-          modules(existingModules = []) {
-            const newModuleRef = cache.writeFragment({
-              data: addModule,
-              fragment: gql`
-                fragment NewModule on Module {
-                  __typename
-                  id
-                  title
-                  level
-                  type
-                }
-              `,
-            });
-            return [...existingModules, newModuleRef];
-          },
-        },
-      });
-    },
-  });
+  const [addModule, { loading }] = useMutation(CREATE);
 
   const handleValidation = () => {
     let isValid = false;
@@ -133,7 +80,6 @@ const Create = ({ history, classes }: IProps) => {
         },
       })
         .then((res: any) => {
-          // history.push(`/module/${res.data.addModule.id}`);
           history.push(`/modules/true`);
         })
         .catch((e) => {

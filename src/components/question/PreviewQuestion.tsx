@@ -46,7 +46,14 @@ const PreviewQuestion = ({ question }: IProps) => {
       <Typography variant="h3">
         {question.text.map((item) => {
           if (item.note) {
-            return <span color="red">{item.text} </span>;
+            return (
+              <React.Fragment>
+                <span style={{ color: "#ff9100", textDecoration: "underline" }}>
+                  {item.text}
+                </span>
+                <span> </span>
+              </React.Fragment>
+            );
           }
           return item.text + " ";
         })}

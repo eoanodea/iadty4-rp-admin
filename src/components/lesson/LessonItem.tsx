@@ -196,6 +196,7 @@ const LessonItem = ({
                           //   displayActions={false}
                           // />
                           <QuestionItem
+                            lessonId={lesson.id}
                             key={question.id}
                             question={question}
                             displayActions={false}

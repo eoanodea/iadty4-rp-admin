@@ -43,6 +43,9 @@ export const READ = gql`
         id
         text
         order
+        note {
+          id
+        }
       }
       lesson {
         id
