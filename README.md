@@ -1,3 +1,5 @@
+[![CI](https://github.com/eoanodea/iadty4-rp-admin/actions/workflows/main.yml/badge.svg)](https://github.com/eoanodea/iadty4-rp-admin/actions/workflows/main.yml)
+
 # BSc (Hons) in Creative Computing - Year 4
 
 ## Advanced JavaScript - CA#3 in conjunction with the Research Project
