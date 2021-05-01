@@ -69,15 +69,26 @@ const Home = ({ classes }: IProps) => {
             Modules
           </Button>
         ) : (
-          <Button
-            variant="contained"
-            color="primary"
-            component={Link}
-            aria-label="Button"
-            to="/login"
-          >
-            Login
-          </Button>
+          <React.Fragment>
+            <Button
+              variant="contained"
+              color="primary"
+              component={Link}
+              aria-label="Button"
+              to="/login"
+            >
+              Login
+            </Button>
+            <Button
+              variant="contained"
+              color="primary"
+              component={Link}
+              aria-label="Button"
+              to="/register"
+            >
+              Register
+            </Button>
+          </React.Fragment>
         )}
       </CardActions>
     </Card>

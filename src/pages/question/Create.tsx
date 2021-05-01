@@ -29,7 +29,7 @@ const styles = ({ spacing }: any) =>
  * @param {History} history - the browser history object
  * @param {Theme} classes - classes passed from Material UI Theme
  */
-const Create = ({ history, classes, match }: IProps) => {
+const Create = ({ history, match }: IProps) => {
   /**
    * Render JSX
    */
@@ -37,7 +37,7 @@ const Create = ({ history, classes, match }: IProps) => {
     <React.Fragment>
       <Button
         component={Link}
-        to={`/lesson/${match.params.lessonId}`}
+        to={`/lesson/${match.params.id}`}
         startIcon={<ArrowBack />}
       >
         Back

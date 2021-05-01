@@ -127,9 +127,6 @@ const Header = ({ history, isAuthed, setIsAuthed }: IProps) => {
                 open={open}
                 onClose={handleClose}
               >
-                <MenuItem component={Link} to="/profile" onClick={handleClose}>
-                  Profile
-                </MenuItem>
                 <MenuItem disabled={loading} onClick={submit}>
                   Logout {loading && <CircularProgress size={18} />}
                 </MenuItem>

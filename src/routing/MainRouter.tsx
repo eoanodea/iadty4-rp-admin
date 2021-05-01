@@ -64,11 +64,23 @@ const MainRouter = () => {
           <Switch>
             <Route exact path="/" component={Home} />
 
-            {routes
-              .filter((item) => item.authed === isAuthed)
-              .map(({ link, component }: IRouteType, i) => (
-                <Route path={link} component={component} key={i} />
-              ))}
+            {routes.map(({ link, component, authed }: IRouteType, i) => {
+              if (authed && !isAuthed)
+                return (
+                  <Route
+                    key={i}
+                    render={() => (
+                      <EmptyState
+                        message="You need to be logged in to view this page"
+                        action={() => history.push("/login")}
+                        actionLabel={"Login"}
+                      />
+                    )}
+                  />
+                );
+
+              return <Route path={link} component={component} key={i} />;
+            })}
 
             <Route
               render={() => (

@@ -17,8 +17,7 @@ import { ArrowBack, Check } from "@material-ui/icons";
 import { Link } from "react-router-dom";
 
 import { useMutation } from "@apollo/client";
-import { LOGIN } from "./../../gql/auth";
-import auth from "./../../helpers/auth-helper";
+import { REGISTER } from "./../../gql/auth";
 
 type IProps = {
   history: any;
@@ -39,28 +38,35 @@ const styles = ({ spacing }: any) =>
   });
 
 /**
- * LoginModule Component
+ * RegisterModule Component
  *
  * @param {History} history - the browser history object
  * @param {Theme} classes - classes passed from Material UI Theme
  */
-const Login = ({ history, classes }: IProps) => {
+const Register = ({ history, classes }: IProps) => {
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  const [nameError, setNameError] = useState("");
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
 
   const [loading, setLoading] = React.useState(false);
   const [error, setError] = React.useState("");
 
-  const [login] = useMutation(LOGIN);
+  const [register] = useMutation(REGISTER);
 
   /**
    * Handle validation for form inputs
    */
   const handleValidation = () => {
     let passed = true;
+
+    if (name.length < 3) {
+      setNameError("Name must be at least 3 characters");
+      passed = false;
+    }
 
     if (email.length < 3) {
       setEmailError("Email must be at least 3 characters");
@@ -82,20 +88,17 @@ const Login = ({ history, classes }: IProps) => {
     if (handleValidation()) {
       setError("");
       setLoading(true);
-      login({
+      register({
         variables: {
+          name,
           email,
           password,
         },
       })
         .then((res: any) => {
           setError("");
-          auth.setUserDetails(res.data.login, (success) => {
-            if (success) {
-              return history.push("/modules");
-            }
-            setError("The system encountered an error, please try again later");
-          });
+
+          return history.push(`/login`);
         })
         .catch((e: any) => {
           setLoading(false);
@@ -114,9 +117,20 @@ const Login = ({ history, classes }: IProps) => {
         Back
       </Button>
       <Card elevation={3} className={classes.wrapper}>
-        <CardHeader title="Login" />
+        <CardHeader title="Register" />
 
         <CardContent>
+          <TextField
+            name="name"
+            label="Name"
+            autoFocus={true}
+            margin="normal"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            onKeyDown={(e) => e.key === "Enter" && submit()}
+            error={nameError !== ""}
+            helperText={nameError}
+          />
           <TextField
             name="email"
             label="Email"
@@ -148,7 +162,7 @@ const Login = ({ history, classes }: IProps) => {
           </Typography>
 
           <Typography variant="caption">
-            Don't have an account? <Link to="/register">Register here</Link>
+            Already have an account? <Link to="/login">Login here</Link>
           </Typography>
         </CardContent>
         <CardActions>
@@ -159,7 +173,7 @@ const Login = ({ history, classes }: IProps) => {
             disabled={loading}
             endIcon={loading ? <CircularProgress size={18} /> : <Check />}
           >
-            Login
+            Sign up
           </Button>
         </CardActions>
       </Card>
@@ -167,4 +181,4 @@ const Login = ({ history, classes }: IProps) => {
   );
 };
 
-export default withStyles(styles)(Login);
+export default withStyles(styles)(Register);

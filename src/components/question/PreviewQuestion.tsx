@@ -47,7 +47,7 @@ const PreviewQuestion = ({ question }: IProps) => {
         {question.text.map((item) => {
           if (item.note) {
             return (
-              <React.Fragment>
+              <React.Fragment key={item.text}>
                 <span style={{ color: "#ff9100", textDecoration: "underline" }}>
                   {item.text}
                 </span>
@@ -61,7 +61,9 @@ const PreviewQuestion = ({ question }: IProps) => {
       <PreviewDocument photo={question.image} />
       <div>
         {question.options.map((option) => {
-          return <Chip label={option} className={classes.optionChip} />;
+          return (
+            <Chip key={option} label={option} className={classes.optionChip} />
+          );
         })}
       </div>
       <Button
