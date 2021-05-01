@@ -48,6 +48,7 @@
       "react-app/jest"
     ]
   },
+  "proxy": "https://iadt-researchproject-server.herokuapp.com",
   "browserslist": {
     "production": [
       ">0.2%",
