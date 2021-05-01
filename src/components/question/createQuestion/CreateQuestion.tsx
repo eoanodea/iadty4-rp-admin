@@ -44,7 +44,6 @@ const CreateQuestion = ({ history, match, update = null }: IProps) => {
           ...newQuestion,
           id: update.id,
           requiresPiano: update.requiresPiano || false,
-          text: update.text,
           image: update.image,
           options: update.options,
           type: update.type,
@@ -53,6 +52,10 @@ const CreateQuestion = ({ history, match, update = null }: IProps) => {
           answerArr: update.answerArr,
           answerHint: update.answerHint,
         };
+
+        newQuestion.text = update.text;
+
+        console.log("update!", newQuestion.text);
       }
 
       setQuestion(newQuestion);

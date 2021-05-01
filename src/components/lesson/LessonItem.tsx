@@ -32,7 +32,7 @@ import {
   Fab,
   Typography,
 } from "@material-ui/core";
-import { Add, Create, Delete, MoreVert, Book } from "@material-ui/icons";
+import { Add, Delete, MoreVert, Book } from "@material-ui/icons";
 import { Link } from "react-router-dom";
 
 import LessonActionArea from "./LessonActionArea";
@@ -160,15 +160,6 @@ const LessonItem = ({
                       open={open}
                       onClose={handleClose}
                     >
-                      <MenuItem
-                        component={Link}
-                        to={`/update/lesson/${lesson.id}`}
-                      >
-                        <ListItemIcon>
-                          <Create />
-                        </ListItemIcon>
-                        <ListItemText primary="Edit" />
-                      </MenuItem>
                       <MenuItem onClick={() => setOpenDeleteDialog(true)}>
                         <ListItemIcon>
                           <Delete />
@@ -190,11 +181,6 @@ const LessonItem = ({
                         updatedAt: Date;
                       }) => {
                         return (
-                          // <LessonItem
-                          //   lesson={lesson}
-                          //   key={lesson.id}
-                          //   displayActions={false}
-                          // />
                           <QuestionItem
                             lessonId={lesson.id}
                             key={question.id}

@@ -26,6 +26,11 @@ const QuestionType = () => {
   const classes = useStyles();
   const [question, setQuestion] = useQuestion();
 
+  const options =
+    question.questionTypeOptions.length < 1
+      ? ["Multiple Choice", "Text"]
+      : question.questionTypeOptions;
+
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     let newQuestion = question;
     newQuestion.type = capitalize(
@@ -55,7 +60,7 @@ const QuestionType = () => {
           value={capitalize(question.type.replace("_", " ").toLowerCase())}
           onChange={handleChange}
         >
-          {question.questionTypeOptions.map((item) => (
+          {options.map((item) => (
             <FormControlLabel
               key={item}
               value={capitalize(item.replace("_", " ").toLowerCase())}

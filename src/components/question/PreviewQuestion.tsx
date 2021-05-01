@@ -8,6 +8,7 @@ import {
   Chip,
 } from "@material-ui/core";
 import React from "react";
+import { config } from "../../config/config";
 import PreviewDocument from "./../../helpers/PreviewImage";
 import { QuestionValidator } from "./../../types/question";
 
@@ -58,7 +59,14 @@ const PreviewQuestion = ({ question }: IProps) => {
           return item.text + " ";
         })}
       </Typography>
-      <PreviewDocument photo={question.image} />
+
+      <PreviewDocument
+        photo={
+          question.image.includes("base64")
+            ? question.image
+            : config.server_url + "/images/" + question.image
+        }
+      />
       <div>
         {question.options.map((option) => {
           return (

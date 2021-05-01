@@ -11,6 +11,7 @@ import { Clear, PhotoCamera } from "@material-ui/icons";
 import React, { useEffect, useState } from "react";
 import { useQuestion } from "./../CreateQuestion";
 import PreviewDocument from "./../../../../helpers/PreviewImage";
+import { config } from "../../../../config/config";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -91,7 +92,13 @@ const QuestionImage = () => {
       <Typography variant="h1">Add an Image</Typography>
       {uploaded ? (
         <React.Fragment>
-          <PreviewDocument photo={question.image} />
+          <PreviewDocument
+            photo={
+              question.image.includes("base64")
+                ? question.image
+                : config.server_url + "/images/" + question.image
+            }
+          />
           <br />
           <Button
             variant="contained"

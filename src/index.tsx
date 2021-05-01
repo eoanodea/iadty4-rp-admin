@@ -23,7 +23,7 @@ import { ApolloClient, InMemoryCache } from "@apollo/client";
 import { config } from "./config/config";
 
 const client = new ApolloClient({
-  uri: config.server_url,
+  uri: config.server_url + "/graphql",
   cache: new InMemoryCache(),
 });
 

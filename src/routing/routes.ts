@@ -8,7 +8,6 @@ import {
 import {
   Create as CreateLesson,
   Read as ReadLesson,
-  Update as UpdateLesson,
   List as ListLesson,
 } from "./../pages/lesson";
 
@@ -87,13 +86,6 @@ const routes: IRouteType[] = [
     name: "Lesson",
     link: "/lesson/:id/:newFetch?",
     component: ReadLesson,
-    authed: true,
-  },
-
-  {
-    name: "Update Lesson",
-    link: "/update/lesson/:id",
-    component: UpdateLesson,
     authed: true,
   },
   {
