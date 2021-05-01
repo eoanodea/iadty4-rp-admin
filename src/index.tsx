@@ -24,6 +24,7 @@ import { config } from "./config/config";
 
 const client = new ApolloClient({
   uri: config.server_url + "/graphql",
+  credentials: "include",
   cache: new InMemoryCache(),
 });
 
