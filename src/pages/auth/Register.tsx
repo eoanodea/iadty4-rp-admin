@@ -14,16 +14,15 @@ import {
 
 import { ArrowBack, Check } from "@material-ui/icons";
 
-import { Link } from "react-router-dom";
+import { Link, RouteComponentProps } from "react-router-dom";
 
 import { useMutation } from "@apollo/client";
 import { REGISTER } from "./../../gql/auth";
 
-type IProps = {
-  history: any;
+interface IProps extends RouteComponentProps {
   match: any;
   classes: any;
-};
+}
 
 /**
  * Injected styles

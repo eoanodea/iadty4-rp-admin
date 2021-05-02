@@ -17,6 +17,7 @@ import {
 import { Close, Delete } from "@material-ui/icons";
 import { DELETE } from "./../../gql/question";
 import { useMutation } from "@apollo/client";
+import { IHistoryProps } from "../../types/router";
 
 /**
  * Injected styles
@@ -34,12 +35,11 @@ const styles = ({ spacing }: Theme) =>
     },
   });
 
-type IProps = {
-  history: any;
+interface IProps extends IHistoryProps {
   open: boolean;
   question: any;
   handleClose: (open: boolean) => void;
-};
+}
 
 /**
  * DeleteQuestion Component

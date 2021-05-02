@@ -1,5 +1,6 @@
 import { useQuery } from "@apollo/client";
 import React, { createContext, useContext, useEffect } from "react";
+import { IHistoryProps } from "../../../types/router";
 import { LIST_QUESTION_TYPE } from "./../../../gql/question";
 
 import { QuestionValidator } from "./../../../types/question";
@@ -22,11 +23,10 @@ export const QuestionContext = createContext<
   [QuestionValidator, (setQuestion: QuestionValidator) => void]
 >([initialQuestion, (_) => null]);
 
-type IProps = {
+interface IProps extends IHistoryProps {
   match: any;
-  history: any;
   update?: QuestionValidator | null;
-};
+}
 
 const CreateQuestion = ({ history, match, update = null }: IProps) => {
   const [question, setQuestion] = React.useState(initialQuestion);

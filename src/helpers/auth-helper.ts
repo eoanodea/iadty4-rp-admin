@@ -11,7 +11,7 @@ const auth = {
    */
   setUserDetails(
     user: { token: string; user: { email: string; id: string } },
-    cb: (arg0: boolean) => void
+    cb: (bool: boolean) => void
   ) {
     const jwt = {
       token: user.token,
@@ -29,7 +29,7 @@ const auth = {
    *
    * @param {*} cb
    */
-  unsetUserDetails(cb: any) {
+  unsetUserDetails(cb: (bool: boolean) => void) {
     sessionStorage.removeItem("jwt");
     cb(true);
   },

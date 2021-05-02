@@ -1,17 +1,3 @@
-/*
- * File: EmptyState.tsx
- * Project: cv-viewer
- * Version 0.1.0
- * File Created: Tuesday, 26th January 2021 1:06:24 pm
- * Author: Eoan O'Dea (eoan@web-space.design)
- * -----
- * File Description:
- * Last Modified: Sunday, 7th February 2021 5:50:56 pm
- * Modified By: Eoan O'Dea (eoan@web-space.design>)
- * -----
- * Copyright 2021 WebSpace, WebSpace
- */
-
 /**
  * Primary dependencies
  */

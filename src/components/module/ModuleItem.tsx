@@ -28,6 +28,7 @@ import { Link } from "react-router-dom";
 import LessonItem from "./../lesson/LessonItem";
 import { useMutation } from "@apollo/client";
 import { CREATE } from "./../../gql/lesson";
+import { IHistoryProps } from "../../types/router";
 
 /**
  * Injected styles
@@ -61,9 +62,8 @@ const styles = ({ palette, spacing }: Theme) =>
     },
   });
 
-type IProps = {
+interface IProps extends IHistoryProps {
   displayActions: boolean;
-  history?: History;
   classes: {
     card: string;
     fixedHeightCard: string;
@@ -77,7 +77,7 @@ type IProps = {
   delay?: number;
   disableHeight?: boolean;
   refetch?: () => void;
-};
+}
 
 /**
  * ModuleItem Component
@@ -202,6 +202,7 @@ const ModuleItem = ({
                     }) => {
                       return (
                         <LessonItem
+                          history={history}
                           lesson={lesson}
                           key={lesson.id}
                           link={`/lesson/${lesson.id}`}

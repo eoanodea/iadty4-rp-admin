@@ -1,17 +1,3 @@
-/*
- * File: Header.tsx
- * Project: cv-viewer
- * Version 0.1.0
- * File Created: Sunday, 7th February 2021 11:59:39 am
- * Author: Eoan O'Dea (eoan@web-space.design)
- * -----
- * File Description:
- * Last Modified: Sunday, 7th February 2021 5:55:45 pm
- * Modified By: Eoan O'Dea (eoan@web-space.design>)
- * -----
- * Copyright 2021 WebSpace, WebSpace
- */
-
 /**
  * Primary dependencies
  */
@@ -35,12 +21,12 @@ import { config } from "./../../config/config";
 
 import ReactGA from "react-ga";
 import auth from "./../../helpers/auth-helper";
+import { IHistoryProps } from "../../types/router";
 
-type IProps = {
+interface IProps extends IHistoryProps {
   isAuthed: boolean;
   setIsAuthed: (bool: boolean) => void;
-  history: any;
-};
+}
 
 /**
  * Header for the application

@@ -19,12 +19,12 @@ import { Link } from "react-router-dom";
 import { useMutation } from "@apollo/client";
 import { LOGIN } from "./../../gql/auth";
 import auth from "./../../helpers/auth-helper";
+import { RouteComponentProps } from "react-router-dom";
 
-type IProps = {
-  history: any;
+interface IProps extends RouteComponentProps {
   match: any;
   classes: any;
-};
+}
 
 /**
  * Injected styles

@@ -18,12 +18,12 @@ import { Link } from "react-router-dom";
 
 import { useMutation } from "@apollo/client";
 import { CREATE } from "./../../gql/module";
+import { RouteComponentProps } from "react-router-dom";
 
-type IProps = {
-  history: any;
+interface IProps extends RouteComponentProps {
   match: any;
   classes: any;
-};
+}
 
 /**
  * Injected styles

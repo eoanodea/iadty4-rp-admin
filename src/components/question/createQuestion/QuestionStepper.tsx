@@ -22,6 +22,7 @@ import QuestionDetails from "./steps/QuestionDetails";
 import QuestionOptions from "./steps/QuestionOptions";
 import { useQuestion } from "./CreateQuestion";
 import QuestionReview from "./steps/QuestionReview";
+import { IHistoryProps } from "../../../types/router";
 
 const steps = [
   {
@@ -96,11 +97,7 @@ function getSteps() {
   return steps.map((step) => step.title);
 }
 
-type IProps = {
-  history: any;
-};
-
-const QuestionStepper = ({ history }: IProps) => {
+const QuestionStepper = ({ history }: IHistoryProps) => {
   const classes = useStyles();
 
   const [question] = useQuestion();

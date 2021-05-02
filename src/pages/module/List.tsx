@@ -1,17 +1,3 @@
-/*
- * File: Modules.tsx
- * Project: cv-viewer
- * Version 0.1.0
- * File Created: Tuesday, 26th January 2021 1:09:55 pm
- * Author: Eoan O'Dea (eoan@web-space.design)
- * -----
- * File Description:
- * Last Modified: Sunday, 7th February 2021 5:50:20 pm
- * Modified By: Eoan O'Dea (eoan@web-space.design>)
- * -----
- * Copyright 2021 WebSpace, WebSpace
- */
-
 import { createStyles, Fab, Theme, withStyles } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import React from "react";
@@ -74,6 +60,7 @@ const List = ({ classes, match, history }: IProps) => {
       ) : (
         data.getModules.map((module: { id: string }) => (
           <ModuleItem
+            history={history}
             key={module.id}
             displayActions={false}
             module={module}

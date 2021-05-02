@@ -24,13 +24,11 @@ import EmptyState from "./../../components/global/EmptyState";
 import LessonItem from "./../../components/lesson/LessonItem";
 import { useQuery } from "@apollo/client";
 import { READ } from "./../../gql/lesson";
+import { RouteComponentProps } from "react-router-dom";
 
-//  import auth from "./../../helpers/auth-helper";
-
-type IProps = {
-  history: any;
+interface IProps extends RouteComponentProps {
   match: any;
-};
+}
 
 /**
  * Article Component

@@ -1,17 +1,3 @@
-/*
- * File: MainRouter.tsx
- * Project: cv-viewer
- * Version 0.1.0
- * File Created: Tuesday, 26th January 2021 1:05:02 pm
- * Author: Eoan O'Dea (eoan@web-space.design)
- * -----
- * File Description:
- * Last Modified: Sunday, 7th February 2021 5:37:20 pm
- * Modified By: Eoan O'Dea (eoan@web-space.design>)
- * -----
- * Copyright 2021 WebSpace, WebSpace
- */
-
 import React, { useEffect } from "react";
 import { Route, Switch, useHistory } from "react-router-dom";
 import { Grid } from "@material-ui/core";

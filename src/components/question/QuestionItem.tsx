@@ -35,6 +35,7 @@ import QuestionActionArea from "./QuestionActionArea";
 
 import DeleteQuestion from "./DeleteQuestion";
 import PreviewQuestion from "./PreviewQuestion";
+import { IHistoryProps } from "../../types/router";
 
 /**
  * Injected styles
@@ -68,9 +69,8 @@ const styles = ({ palette, spacing }: Theme) =>
     },
   });
 
-type IProps = {
+interface IProps extends IHistoryProps {
   displayActions: boolean;
-  history?: History;
   classes: {
     card: string;
     fixedHeightCard: string;
@@ -84,7 +84,7 @@ type IProps = {
   link?: string | null;
   delay?: number;
   disableHeight?: boolean;
-};
+}
 
 /**
  * QuestionItem Component

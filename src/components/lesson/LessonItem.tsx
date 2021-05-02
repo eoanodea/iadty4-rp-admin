@@ -39,6 +39,7 @@ import LessonActionArea from "./LessonActionArea";
 
 import DeleteLesson from "./DeleteLesson";
 import QuestionItem from "./../question/QuestionItem";
+import { IHistoryProps } from "../../types/router";
 
 /**
  * Injected styles
@@ -72,9 +73,8 @@ const styles = ({ palette, spacing }: Theme) =>
     },
   });
 
-type IProps = {
+interface IProps extends IHistoryProps {
   displayActions: boolean;
-  history?: History;
   classes: {
     card: string;
     fixedHeightCard: string;
@@ -87,7 +87,7 @@ type IProps = {
   link?: string | null;
   delay?: number;
   disableHeight?: boolean;
-};
+}
 
 /**
  * LessonItem Component
@@ -184,6 +184,7 @@ const LessonItem = ({
                           <QuestionItem
                             lessonId={lesson.id}
                             key={question.id}
+                            history={history}
                             question={question}
                             displayActions={false}
                           />

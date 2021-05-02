@@ -1,25 +1,12 @@
-/*
- * File: Questions.tsx
- * Project: cv-viewer
- * Version 0.1.0
- * File Created: Tuesday, 26th January 2021 1:09:55 pm
- * Author: Eoan O'Dea (eoan@web-space.design)
- * -----
- * File Description:
- * Last Modified: Sunday, 7th February 2021 5:50:20 pm
- * Modified By: Eoan O'Dea (eoan@web-space.design>)
- * -----
- * Copyright 2021 WebSpace, WebSpace
- */
-
 import { createStyles, Fab, Theme, withStyles } from "@material-ui/core";
-import { Link } from "react-router-dom";
+import { Link, RouteComponentProps } from "react-router-dom";
 import React from "react";
-import { useQuery, gql } from "@apollo/client";
+import { useQuery } from "@apollo/client";
 import Loading from "./../../components/global/Loading";
 import EmptyState from "./../../components/global/EmptyState";
 import QuestionItem from "./../../components/question/QuestionItem";
 import { Add } from "@material-ui/icons";
+import { LIST } from "../../gql/question";
 
 const styles = ({ spacing }: Theme) =>
   createStyles({
@@ -43,43 +30,23 @@ const styles = ({ spacing }: Theme) =>
     },
   });
 
-type IProps = {
+interface IProps extends RouteComponentProps {
   classes: {
-    root: any;
+    root: string;
     actions: string;
     fab: string;
   };
   match: any;
-  history: any;
-};
-
-const GET_QUESTIONS = gql`
-  query getQuestions {
-    getQuestions {
-      id
-      title
-      level
-      createdAt
-      updatedAt
-      questions {
-        id
-        createdAt
-        updatedAt
-      }
-    }
-  }
-`;
+}
 
 const List = ({ classes, match, history }: IProps) => {
-  const { loading, error, data, refetch } = useQuery(GET_QUESTIONS);
+  const { loading, error, data, refetch } = useQuery(LIST);
 
   let { newFetch } = match.params;
 
   if (newFetch) {
     refetch();
     history.push(`/questions`);
-
-    // newFetch = false;
   }
 
   if (loading) return <Loading />;
@@ -92,6 +59,7 @@ const List = ({ classes, match, history }: IProps) => {
       ) : (
         data.getQuestions.map((question: { id: any }) => (
           <QuestionItem
+            history={history}
             key={question.id}
             displayActions={false}
             question={question}

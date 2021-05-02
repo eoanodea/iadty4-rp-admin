@@ -41,12 +41,7 @@ const PreviewDocument = ({ photo }: IProps) => {
     } else setLoading(false);
   }, [preview, photo]);
 
-  if (loading)
-    return (
-      <Loading
-      //message={"Loading preview..."}
-      />
-    );
+  if (loading) return <Loading />;
   if (!preview) return <EmptyState message="Could not preview image" />;
 
   return (

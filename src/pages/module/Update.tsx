@@ -20,12 +20,12 @@ import { useMutation, useQuery } from "@apollo/client";
 import { READ, UPDATE } from "./../../gql/module";
 import Loading from "./../../components/global/Loading";
 import EmptyState from "./../../components/global/EmptyState";
+import { RouteComponentProps } from "react-router-dom";
 
-type IProps = {
-  history: any;
+interface IProps extends RouteComponentProps {
   match: any;
   classes: any;
-};
+}
 
 /**
  * Injected styles

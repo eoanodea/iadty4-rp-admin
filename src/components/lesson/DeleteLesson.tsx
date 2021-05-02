@@ -34,12 +34,12 @@ const styles = ({ spacing }: Theme) =>
     },
   });
 
-type IProps = {
-  history: any;
+interface IProps {
   open: boolean;
   lesson: any;
+  history: any;
   handleClose: (open: boolean) => void;
-};
+}
 
 /**
  * DeleteLesson Component

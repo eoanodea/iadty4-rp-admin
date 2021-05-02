@@ -10,12 +10,12 @@ import EmptyState from "./../../components/global/EmptyState";
 import Loading from "./../../components/global/Loading";
 import { useQuery } from "@apollo/client";
 import { READ } from "./../../gql/question";
+import { RouteComponentProps } from "react-router-dom";
 
-type IProps = {
-  history: any;
+interface IProps extends RouteComponentProps {
   match: any;
   classes: any;
-};
+}
 
 /**
  * Injected styles

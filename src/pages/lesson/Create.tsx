@@ -10,6 +10,7 @@ import {
   CardActions,
   CircularProgress,
   Typography,
+  Theme,
 } from "@material-ui/core";
 
 import { ArrowBack, Check } from "@material-ui/icons";
@@ -18,19 +19,21 @@ import { Link } from "react-router-dom";
 
 import { gql, useMutation } from "@apollo/client";
 import { CREATE } from "./../../gql/lesson";
+import { RouteComponentProps } from "react-router-dom";
 
-type IProps = {
-  history: any;
+interface IProps extends RouteComponentProps {
   match: any;
-  classes: any;
-};
+  classes: {
+    wrapper: string;
+  };
+}
 
 /**
  * Injected styles
  *
  * @param {int} spacing
  */
-const styles = ({ spacing }: any) =>
+const styles = ({ spacing }: Theme) =>
   createStyles({
     wrapper: {
       padding: spacing(4),
