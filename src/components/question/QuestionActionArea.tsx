@@ -1,20 +1,9 @@
-/**
- * File: QuestionActionArea.js
- * Project: ca2-client
- * Version 0.1.0
- * File Created: Friday, 15th January 2021 4:11:07 pm
- * Author: Eoan O'Dea (eoan@web-space.design)
- * -----
- * File Description: Question action area
- * Last Modified: Tuesday, 26th January 2021 7:10:45 pm
- * Modified By: Eoan O'Dea (eoan@web-space.design>)
- * -----
- * Copyright 2021 WebSpace, WebSpace
- */
-
 import { CardActionArea } from "@material-ui/core";
 import { Link } from "react-router-dom";
 
+/**
+ * Component Types
+ */
 type IProps = {
   link: string | null;
   children: any;

@@ -12,6 +12,11 @@ import {
 } from "@material-ui/core";
 import { Replay, Error } from "@material-ui/icons";
 
+/**
+ * Injected styles
+ *
+ * @param {int} spacing
+ */
 const styles = ({ spacing }: Theme) =>
   createStyles({
     wrapper: {
@@ -33,6 +38,9 @@ const styles = ({ spacing }: Theme) =>
     },
   });
 
+/**
+ * Componenet Types
+ */
 type IProps = {
   message?: string;
   action?: () => void;

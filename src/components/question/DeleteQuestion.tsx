@@ -35,6 +35,9 @@ const styles = ({ spacing }: Theme) =>
     },
   });
 
+/**
+ * Component Types
+ */
 interface IProps extends IHistoryProps {
   open: boolean;
   question: any;

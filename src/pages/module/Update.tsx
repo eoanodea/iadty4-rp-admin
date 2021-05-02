@@ -10,6 +10,7 @@ import {
   CardActions,
   CircularProgress,
   Typography,
+  Theme,
 } from "@material-ui/core";
 
 import { ArrowBack, Check } from "@material-ui/icons";
@@ -22,6 +23,9 @@ import Loading from "./../../components/global/Loading";
 import EmptyState from "./../../components/global/EmptyState";
 import { RouteComponentProps } from "react-router-dom";
 
+/**
+ * Component types
+ */
 interface IProps extends RouteComponentProps {
   match: any;
   classes: any;
@@ -32,7 +36,7 @@ interface IProps extends RouteComponentProps {
  *
  * @param {int} spacing
  */
-const styles = ({ spacing }: any) =>
+const styles = ({ spacing }: Theme) =>
   createStyles({
     wrapper: {
       padding: spacing(4),
@@ -40,7 +44,7 @@ const styles = ({ spacing }: any) =>
   });
 
 /**
- * EditModule Component
+ * UpdateModule Component
  *
  * @param {History} history - the browser history object
  * @param {Theme} classes - classes passed from Material UI Theme
@@ -56,9 +60,16 @@ const Update = ({ history, classes, match }: IProps) => {
 
   const { id } = match.params;
 
+  /**
+   * Fetch the current module and define
+   * the Update Module mutation
+   */
   const { loading, error, data } = useQuery(READ, { variables: { id } });
   const [updateModule, { loading: mutationLoading }] = useMutation(UPDATE);
 
+  /**
+   * Handle validation for form inputs
+   */
   const handleValidation = () => {
     let isValid = false;
     if (title.length < 3) {
@@ -71,6 +82,9 @@ const Update = ({ history, classes, match }: IProps) => {
     return isValid;
   };
 
+  /**
+   * Validate the inputted info, and if it passes run the mutation
+   */
   const submit = () => {
     if (handleValidation()) {
       setServerError("");
@@ -96,6 +110,9 @@ const Update = ({ history, classes, match }: IProps) => {
   };
 
   useEffect(() => {
+    /**
+     * If the module exists, set it in the state
+     */
     if (data && data.getModule) {
       setTitle(data.getModule.title);
       setLevel(data.getModule.level);

@@ -1,17 +1,3 @@
-/**
- * File: Article.js
- * Project: ca2-client
- * Version 0.1.0
- * File Created: Friday, 8th January 2021 5:34:58 pm
- * Author: Eoan O'Dea (eoan@web-space.design)
- * -----
- * File Description:
- * Last Modified: Friday, 29th January 2021 9:52:05 pm
- * Modified By: Eoan O'Dea (eoan@web-space.design>)
- * -----
- * Copyright 2021 WebSpace, WebSpace
- */
-
 import React from "react";
 
 import { Button } from "@material-ui/core";
@@ -26,33 +12,44 @@ import { useQuery } from "@apollo/client";
 import { READ } from "./../../gql/lesson";
 import { RouteComponentProps } from "react-router-dom";
 
+/**
+ * Component Types
+ */
 interface IProps extends RouteComponentProps {
   match: any;
 }
 
 /**
- * Article Component
+ * ReadLesson Component
  *
  * @param {Theme} classes - classes passed from Material UI Theme
  * @param {Match} match - Contains information about a react-router-dom Route
  */
 const Read = ({ history, match }: IProps) => {
-  const { id } = match.params;
+  const { id, newFetch } = match.params;
 
-  // const { loading, error, data } = useQuery(GET_LESSON, { id: id });
+  /**
+   * Destructered variables from the graphql query
+   */
   const { loading, error, data, refetch } = useQuery(READ, {
     variables: { id },
   });
 
-  let { newFetch } = match.params;
-
+  /**
+   * GraphQL often caches queries, but after running some
+   * create or update functions a manual refetch is required
+   *
+   * We pass this in the URL bar as an optional refetch boolean
+   * If it exists, we run the refetch function and redirect to the same page
+   */
   if (newFetch) {
     refetch();
     history.push(`/lesson/${id}`);
   }
 
-  // const [displayActions, setDisplayActions] = React.useState(true);
-
+  /**
+   * Render JSX
+   */
   if (loading) return <Loading />;
   if (error || !data.getLesson)
     return (

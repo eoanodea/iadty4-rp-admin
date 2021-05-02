@@ -12,6 +12,11 @@ import { config } from "../../config/config";
 import PreviewDocument from "./../../helpers/PreviewImage";
 import { QuestionValidator } from "./../../types/question";
 
+/**
+ * Injected styles
+ *
+ * @param {int} spacing
+ */
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     previewContainer: {
@@ -36,12 +41,24 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
+/**
+ * Component Types
+ */
 type IProps = {
   question: QuestionValidator;
 };
 
+/**
+ * PreviewQuestion Component
+ *
+ * @param {QuestionValidator} question - the Question object
+ */
 const PreviewQuestion = ({ question }: IProps) => {
   const classes = useStyles();
+
+  /**
+   * Render JSX
+   */
   return (
     <Card className={classes.previewContainer}>
       <Typography variant="h3">

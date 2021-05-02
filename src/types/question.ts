@@ -1,3 +1,9 @@
+/**
+ * This file defines type for various objects associated with Question
+ *
+ * Primarily used within the CreateQuestion Stepper
+ */
+
 export interface IItem {
   id: number;
   text: string;

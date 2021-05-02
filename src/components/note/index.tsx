@@ -21,6 +21,10 @@ import EmptyState from "./../global/EmptyState";
 import Loading from "./../global/Loading";
 import CreateNote from "./CreateNote";
 
+/**
+ * Injected styles
+ *
+ */
 const useStyles = makeStyles(() =>
   createStyles({
     iconButton: {
@@ -28,13 +32,22 @@ const useStyles = makeStyles(() =>
     },
   })
 );
-
+/**
+ * Component Types
+ */
 type IProps = {
   i: number;
   hasNote: boolean;
   onSelect: (i: number, id: string) => void;
 };
 
+/**
+ * NoteDialog Component
+ *
+ * @param {number} i - the index of the QuestionText within the list
+ * @param {bool} hasNote - whether the QuestionText already has a note
+ * @param {onSelect} onSelect - The function to call when a note has been selected
+ */
 const NoteDialog = ({ i, onSelect, hasNote = false }: IProps) => {
   const classes = useStyles();
   const { loading, error, data, refetch } = useQuery(LIST);
@@ -43,6 +56,12 @@ const NoteDialog = ({ i, onSelect, hasNote = false }: IProps) => {
   const [searchQuery, setSearchQuery] = useState("");
   const [openDialog, setOpenDialog] = useState(false);
 
+  /**
+   * A newely created note
+   *
+   * @param {string} title
+   * @param {string} id
+   */
   const newNote = (title: string, id: string) => {
     refetch();
     setSearchQuery(title);
@@ -50,11 +69,18 @@ const NoteDialog = ({ i, onSelect, hasNote = false }: IProps) => {
     selectItem(id);
   };
 
+  /**
+   * Selecting an item to send back to the Question Text
+   *
+   * @param {string} id
+   */
   const selectItem = (id: string) => {
     onSelect(i, id);
     setOpenDialog(false);
   };
-
+  /**
+   * Filter the notes based on the search query
+   */
   const filteredItems =
     data && data.getNotes
       ? data.getNotes.filter((item: any) => {
@@ -63,7 +89,9 @@ const NoteDialog = ({ i, onSelect, hasNote = false }: IProps) => {
           return true;
         })
       : [];
-
+  /**
+   * Render JSX
+   */
   return (
     <React.Fragment>
       <IconButton

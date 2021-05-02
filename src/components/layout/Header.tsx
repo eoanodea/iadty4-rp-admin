@@ -23,6 +23,9 @@ import ReactGA from "react-ga";
 import auth from "./../../helpers/auth-helper";
 import { IHistoryProps } from "../../types/router";
 
+/**
+ * Component Types
+ */
 interface IProps extends IHistoryProps {
   isAuthed: boolean;
   setIsAuthed: (bool: boolean) => void;
@@ -32,11 +35,17 @@ interface IProps extends IHistoryProps {
  * Header for the application
  */
 const Header = ({ history, isAuthed, setIsAuthed }: IProps) => {
+  /**
+   * Initialize Google Analytics
+   */
   ReactGA.initialize(config.ga_id);
 
   const [message, setMessage] = React.useState("");
 
   useEffect(() => {
+    /**
+     * Listen for changes in the router and send page views to Google Analytics
+     */
     history.listen(() => {
       ReactGA.pageview(window.location.pathname + window.location.search);
     });
@@ -50,7 +59,7 @@ const Header = ({ history, isAuthed, setIsAuthed }: IProps) => {
     if (jwt) {
       setLoading(true);
 
-      auth.unsetUserDetails((success: any) => {
+      auth.unsetUserDetails((success: boolean) => {
         if (success) {
           setIsAuthed(false);
           setLoading(false);

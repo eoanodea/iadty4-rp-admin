@@ -1,5 +1,8 @@
 import { clamp, distance } from "@popmotion/popcorn";
 
+/**
+ * Component Types
+ */
 export interface Position {
   top: number;
   height: number;

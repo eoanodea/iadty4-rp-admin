@@ -4,6 +4,11 @@ import { MuiThemeProvider } from "@material-ui/core/styles";
 import MainRouter from "./routing/MainRouter";
 import theme from "./theme";
 
+/**
+ * Entry point for the application
+ *
+ * @returns {JSX.Element}
+ */
 const App = () => {
   return (
     <Router>

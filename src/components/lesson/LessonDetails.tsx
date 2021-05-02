@@ -1,17 +1,3 @@
-/**
- * File: LessonDetails.js
- * Project: ca2-client
- * Version 0.1.0
- * File Created: Tuesday, 19th January 2021 1:09:58 pm
- * Author: Eoan O'Dea (eoan@web-space.design)
- * -----
- * File Description:
- * Last Modified: Tuesday, 26th January 2021 7:09:12 pm
- * Modified By: Eoan O'Dea (eoan@web-space.design>)
- * -----
- * Copyright 2021 WebSpace, WebSpace
- */
-
 import { createStyles, withStyles, Chip, Theme } from "@material-ui/core";
 import { AccountCircleOutlined, LocalOffer } from "@material-ui/icons";
 
@@ -31,10 +17,13 @@ const styles = ({ spacing }: Theme) =>
     },
   });
 
+/**
+ * Component Types
+ */
 type IProps = {
   link: string | null;
   label: string;
-  icon: any;
+  icon: JSX.Element;
 };
 
 /**
@@ -60,6 +49,9 @@ const LessonChip = ({ link, label, icon }: IProps) => {
   return <Chip icon={icon} label={label} color="primary" clickable />;
 };
 
+/**
+ * Component Types
+ */
 type ILessonDetailsProps = {
   classes: {
     chipContainer: any;

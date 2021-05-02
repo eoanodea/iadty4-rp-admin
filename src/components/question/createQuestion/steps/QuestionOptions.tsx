@@ -15,17 +15,16 @@ import {
   Typography,
 } from "@material-ui/core";
 import { Add, Close, Delete, DragIndicator, Edit } from "@material-ui/icons";
-import React, {
-  createRef,
-  FormEvent,
-  useCallback,
-  useEffect,
-  useState,
-} from "react";
+import { createRef, FormEvent, useCallback, useEffect, useState } from "react";
 import { useQuestion } from "./../CreateQuestion";
 import { IItem, IListItem } from "./../../../../types/question";
 import FixedSizeList from "./../../../motion/FixedSizeList";
 
+/**
+ * Injected styles
+ *
+ * @param {Theme} theme
+ */
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
@@ -57,6 +56,11 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
+/**
+ * QuestionOptions Component
+ *
+ * Allows the user to add options to the question
+ */
 const QuestionOptions = () => {
   const classes = useStyles();
 
@@ -71,6 +75,9 @@ const QuestionOptions = () => {
 
   const inputRef = createRef<HTMLInputElement>();
 
+  /**
+   * Sync the current items within the component with the question context
+   */
   const syncQuestions = useCallback(() => {
     let newQuestion = question;
     newQuestion.options = items.map((item) => {
@@ -80,6 +87,9 @@ const QuestionOptions = () => {
   }, [items, question, setQuestion]);
 
   useEffect(() => {
+    /**
+     * If there are existing options on the question, convert them to items
+     */
     if (question.options.length > 0 && items.length === 0) {
       const newItems = question.options.map((item, i) => {
         return { id: i, text: item };
@@ -87,11 +97,19 @@ const QuestionOptions = () => {
 
       return setItems(newItems);
     }
+    /**
+     * Check if the items and question.options are equal, if not sync them
+     */
     if (items.length > 0 && items.length !== question.options.length) {
       syncQuestions();
     }
   }, [question, items, syncQuestions]);
 
+  /**
+   * Validate the text input, and if passes, add the text as an option
+   *
+   * @param {FormEvent} e
+   */
   const submit = (e: FormEvent) => {
     e.preventDefault();
     if (activeText.length < 1)
@@ -117,6 +135,11 @@ const QuestionOptions = () => {
     setActiveTextError("");
   };
 
+  /**
+   * Edit a option
+   *
+   * @param {number} id
+   */
   const editItem = (id: number) => {
     const itemI = items.findIndex((item) => item.id === id);
     setEditIndex(id);
@@ -125,6 +148,11 @@ const QuestionOptions = () => {
     if (inputRef && inputRef.current) inputRef.current.focus();
   };
 
+  /**
+   * Remove an option
+   *
+   * @param {number} id
+   */
   const removeItem = (id: number) => {
     const itemI = items.findIndex((item) => item.id === id);
     const newItems = items;
@@ -136,6 +164,12 @@ const QuestionOptions = () => {
     setItems([...newItems]);
   };
 
+  /**
+   * Renders a single list item
+   *
+   * @param {IListItem} - {id, text} - the id and text of the item
+   * @returns
+   */
   const Item = ({ id, text }: IListItem) => {
     return (
       <ListItem className={classes.listItem}>
@@ -159,6 +193,9 @@ const QuestionOptions = () => {
     );
   };
 
+  /**
+   * Render JSX
+   */
   return (
     <div className={classes.root}>
       <Typography variant="h1">Add Options</Typography>

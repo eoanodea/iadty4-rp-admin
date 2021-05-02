@@ -19,6 +19,9 @@ import { Link, RouteComponentProps } from "react-router-dom";
 import { useMutation } from "@apollo/client";
 import { REGISTER } from "./../../gql/auth";
 
+/**
+ * Component types
+ */
 interface IProps extends RouteComponentProps {
   match: any;
   classes: any;
@@ -83,6 +86,9 @@ const Register = ({ history, classes }: IProps) => {
     return passed;
   };
 
+  /**
+   * Validate the inputted info, and if it passes run the register mutation
+   */
   const submit = () => {
     if (handleValidation()) {
       setError("");
@@ -96,7 +102,6 @@ const Register = ({ history, classes }: IProps) => {
       })
         .then((res: any) => {
           setError("");
-
           return history.push(`/login`);
         })
         .catch((e: any) => {

@@ -17,16 +17,21 @@ interface IProps extends RouteComponentProps {
 }
 
 /**
- * Article Component
+ * Read Question Component
  *
- * @param {Theme} classes - classes passed from Material UI Theme
  * @param {Match} match - Contains information about a react-router-dom Route
+ * @param {History} history - the browser history object
  */
 const Read = ({ history, match }: IProps) => {
   const { id } = match.params;
-
+  /**
+   * Destructered variables from the graphql query
+   */
   const { loading, error, data } = useQuery(READ, { variables: { id } });
 
+  /**
+   * Render JSX
+   */
   if (loading) return <Loading />;
   if (error || !data.getQuestion)
     return (

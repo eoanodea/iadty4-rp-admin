@@ -35,6 +35,9 @@ const styles = ({ spacing }: Theme) =>
     },
   });
 
+/**
+ * Component Types
+ */
 interface IProps extends IHistoryProps {
   open: boolean;
   module: any;
@@ -73,6 +76,7 @@ const DeleteModule = ({ history, open, module, handleClose }: IProps) => {
         setModuleError(err.toString());
       });
   };
+
   /**
    * Render JSX
    */

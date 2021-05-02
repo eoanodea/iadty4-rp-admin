@@ -62,6 +62,9 @@ const styles = ({ palette, spacing }: Theme) =>
     },
   });
 
+/**
+ * Component Types
+ */
 interface IProps extends IHistoryProps {
   displayActions: boolean;
   classes: {

@@ -1,17 +1,3 @@
-/**
- * File: QuestionItem.js
- * Project: ca2-client
- * Version 0.1.0
- * File Created: Friday, 15th January 2021 4:07:13 pm
- * Author: Eoan O'Dea (eoan@web-space.design)
- * -----
- * File Description:
- * Last Modified: Saturday, 30th January 2021 2:32:04 pm
- * Modified By: Eoan O'Dea (eoan@web-space.design>)
- * -----
- * Copyright 2021 WebSpace, WebSpace
- */
-
 import React from "react";
 
 import {
@@ -48,9 +34,7 @@ const styles = ({ palette, spacing }: Theme) =>
     card: {
       margin: `${spacing(4)}px auto`,
     },
-    fixedHeightCard: {
-      // height: 200,
-    },
+
     avatar: {
       background: palette.secondary.main,
     },
@@ -69,16 +53,11 @@ const styles = ({ palette, spacing }: Theme) =>
     },
   });
 
+/**
+ * Component Types
+ */
 interface IProps extends IHistoryProps {
   displayActions: boolean;
-  classes: {
-    card: string;
-    fixedHeightCard: string;
-    avatar: string;
-    chipContainer: string;
-    divider: string;
-    fab: string;
-  };
   question: any;
   lessonId?: string | null;
   link?: string | null;
@@ -93,7 +72,6 @@ interface IProps extends IHistoryProps {
  *
  * @param {bool} displayActions - if the question belongs to the authed user, display actions
  * @param {History} history - the browser history object
- * @param {Theme} classes - classes passed from Material UI Theme
  * @param {*} question - The question to be displayed
  * @param {*} link - The link to optionally display
  * @param {*} delay - The delay of the animation
@@ -101,12 +79,11 @@ interface IProps extends IHistoryProps {
 const QuestionItem = ({
   displayActions,
   history,
-  classes,
+
   question,
   link = null,
   delay = 0,
   lessonId = null,
-  disableHeight = true,
 }: IProps) => {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [openDeleteDialog, setOpenDeleteDialog] = React.useState(false);

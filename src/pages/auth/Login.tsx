@@ -21,6 +21,9 @@ import { LOGIN } from "./../../gql/auth";
 import auth from "./../../helpers/auth-helper";
 import { RouteComponentProps } from "react-router-dom";
 
+/**
+ * Component types
+ */
 interface IProps extends RouteComponentProps {
   match: any;
   classes: any;
@@ -78,6 +81,9 @@ const Login = ({ history, classes }: IProps) => {
     return passed;
   };
 
+  /**
+   * Validate the inputted info, and if it passes run the login mutation
+   */
   const submit = () => {
     if (handleValidation()) {
       setError("");

@@ -7,6 +7,9 @@ import { Link } from "react-router-dom";
 import CreateQuestion from "./../../components/question/createQuestion/CreateQuestion";
 import { RouteComponentProps } from "react-router-dom";
 
+/**
+ * Component types
+ */
 interface IProps extends RouteComponentProps {
   match: any;
   classes: any;

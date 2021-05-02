@@ -31,6 +31,9 @@ const styles = ({ spacing }: Theme) =>
     },
   });
 
+/**
+ * Component Types
+ */
 type IProps = {
   link: string | null;
   label: string;
@@ -60,6 +63,9 @@ const QuestionChip = ({ link, label, icon }: IProps) => {
   return <Chip icon={icon} label={label} color="primary" clickable />;
 };
 
+/**
+ * Component Types
+ */
 type IQuestionDetailsProps = {
   classes: {
     chipContainer: any;

@@ -7,12 +7,20 @@ import { ApolloProvider } from "@apollo/client";
 import { ApolloClient, InMemoryCache } from "@apollo/client";
 import { config } from "./config/config";
 
+/**
+ * Create a new Apollo Client instance
+ *
+ * Configure CORS options and use the InMemoryCache
+ */
 const client = new ApolloClient({
   uri: config.server_url + "/graphql",
   credentials: "include",
   cache: new InMemoryCache(),
 });
 
+/**
+ * Render the application to the DOM
+ */
 ReactDOM.render(
   <ApolloProvider client={client}>
     <App />

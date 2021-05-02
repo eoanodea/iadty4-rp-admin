@@ -1,5 +1,5 @@
 import { createStyles, Fab, Theme, withStyles } from "@material-ui/core";
-import { Link } from "react-router-dom";
+import { Link, RouteComponentProps } from "react-router-dom";
 import React from "react";
 import { useQuery } from "@apollo/client";
 import Loading from "./../../components/global/Loading";
@@ -8,6 +8,11 @@ import ModuleItem from "./../../components/module/ModuleItem";
 import { Add } from "@material-ui/icons";
 import { LIST } from "./../../gql/module";
 
+/**
+ * Injected styles
+ *
+ * @param {int} spacing
+ */
 const styles = ({ spacing }: Theme) =>
   createStyles({
     root: {
@@ -30,29 +35,51 @@ const styles = ({ spacing }: Theme) =>
     },
   });
 
-type IProps = {
+/**
+ * Component types
+ */
+interface IProps extends RouteComponentProps {
   classes: {
-    root: any;
+    root: string;
     actions: string;
     fab: string;
   };
   match: any;
-  history: any;
-};
+}
 
+/**
+ * ListLesson Component
+ *
+ * @param {Theme} classes - Injected css styles
+ * @param {any} match - the URL bar parameters
+ * @param {History} history - the browser history object
+ */
 const List = ({ classes, match, history }: IProps) => {
+  /**
+   * Destructered variables from the graphql query
+   */
   const { loading, error, data, refetch } = useQuery(LIST);
 
+  /**
+   * GraphQL often caches queries, but after running some
+   * create or update functions a manual refetch is required
+   *
+   * We pass this in the URL bar as an optional refetch boolean
+   */
   let { newFetch } = match.params;
-
+  /**
+   * If it exists, we run the refetch function and redirect to the same page
+   */
   if (newFetch) {
     refetch();
     history.push(`/modules`);
   }
 
+  /**
+   * Render JSX
+   */
   if (loading) return <Loading />;
   if (error) return <EmptyState message={error.message} />;
-
   return (
     <React.Fragment>
       {data.getModules.length < 1 ? (

@@ -8,6 +8,11 @@ import QuestionItem from "./../../components/question/QuestionItem";
 import { Add } from "@material-ui/icons";
 import { LIST } from "../../gql/question";
 
+/**
+ * Injected styles
+ *
+ * @param {int} spacing
+ */
 const styles = ({ spacing }: Theme) =>
   createStyles({
     root: {
@@ -30,6 +35,9 @@ const styles = ({ spacing }: Theme) =>
     },
   });
 
+/**
+ * Component types
+ */
 interface IProps extends RouteComponentProps {
   classes: {
     root: string;
@@ -39,19 +47,37 @@ interface IProps extends RouteComponentProps {
   match: any;
 }
 
+/**
+ * CreateModule Component
+ *
+ * @param {Theme} classes - Injected css styles
+ * @param {any} match - The parameters passed in the URL bar
+ * @param {History} history - the browser history object
+ */
 const List = ({ classes, match, history }: IProps) => {
+  /**
+   * Destructered variables from the graphql query
+   */
   const { loading, error, data, refetch } = useQuery(LIST);
-
+  /**
+   * GraphQL often caches queries, but after running some
+   * create or update functions a manual refetch is required
+   *
+   * We pass this in the URL bar as an optional refetch boolean
+   */
   let { newFetch } = match.params;
-
+  /**
+   * If it exists, we run the refetch function and redirect to the same page
+   */
   if (newFetch) {
     refetch();
     history.push(`/questions`);
   }
-
+  /**
+   * Render JSX
+   */
   if (loading) return <Loading />;
   if (error) return <EmptyState message={error.message} />;
-
   return (
     <React.Fragment>
       {data.getQuestions.length < 1 ? (

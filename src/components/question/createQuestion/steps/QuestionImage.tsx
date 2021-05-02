@@ -13,6 +13,11 @@ import { useQuestion } from "./../CreateQuestion";
 import PreviewDocument from "./../../../../helpers/PreviewImage";
 import { config } from "../../../../config/config";
 
+/**
+ * Injected styles
+ *
+ * @param {Theme} theme
+ */
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
@@ -33,12 +38,21 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
+/**
+ * QuestionImage Component
+ *
+ * Optionally upload an image to the question
+ */
 const QuestionImage = () => {
   const classes = useStyles();
   const [question, setQuestion] = useQuestion();
   const [uploaded, setUploaded] = useState<boolean>(false);
   const [error, setError] = useState("");
 
+  /**
+   * Check if an existing image is on the question object
+   * If so, set preview mode to true and display that image
+   */
   useEffect(() => {
     if (question.image !== "") {
       return setUploaded(true);
@@ -46,6 +60,13 @@ const QuestionImage = () => {
     setUploaded(false);
   }, [question, uploaded]);
 
+  /**
+   * Handle a file upload from the user,
+   * validate it and convert it to base64 format
+   *
+   * @param {React.ChangeEvent<HTMLInputElement>} event
+   * @returns {void}
+   */
   const onFileUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
     if (!event.target.files) {
       return setError("Please upload an image");
@@ -71,6 +92,12 @@ const QuestionImage = () => {
     }
   };
 
+  /**
+   * Convert the file to Base64 format
+   *
+   * @param {File} file
+   * @returns {string | null} Promise with either a string of the image, or null
+   */
   const getBase64Image = (file: File) => {
     return new Promise<string | null>(async (resolve, reject) => {
       const reader = new FileReader();
@@ -80,6 +107,9 @@ const QuestionImage = () => {
     });
   };
 
+  /**
+   * Clear the current upload
+   */
   const clearUpload = () => {
     let newQuestion = question;
     newQuestion.image = "";
@@ -87,6 +117,9 @@ const QuestionImage = () => {
     setQuestion(newQuestion);
   };
 
+  /**
+   * Render JSX
+   */
   return (
     <div className={classes.root}>
       <Typography variant="h1">Add an Image</Typography>

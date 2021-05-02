@@ -10,6 +10,7 @@ import {
   CardActions,
   CircularProgress,
   Typography,
+  Theme,
 } from "@material-ui/core";
 
 import { ArrowBack, Check } from "@material-ui/icons";
@@ -20,9 +21,12 @@ import { useMutation } from "@apollo/client";
 import { CREATE } from "./../../gql/module";
 import { RouteComponentProps } from "react-router-dom";
 
+/**
+ * Component types
+ */
 interface IProps extends RouteComponentProps {
   match: any;
-  classes: any;
+  classes: { wrapper: string };
 }
 
 /**
@@ -30,7 +34,7 @@ interface IProps extends RouteComponentProps {
  *
  * @param {int} spacing
  */
-const styles = ({ spacing }: any) =>
+const styles = ({ spacing }: Theme) =>
   createStyles({
     wrapper: {
       padding: spacing(4),
@@ -52,8 +56,14 @@ const Create = ({ history, classes }: IProps) => {
 
   const [serverError, setServerError] = useState("");
 
+  /**
+   * Define the add Module mutation
+   */
   const [addModule, { loading }] = useMutation(CREATE);
 
+  /**
+   * Handle validation for form inputs
+   */
   const handleValidation = () => {
     let isValid = false;
     if (title.length < 3) {
@@ -66,6 +76,9 @@ const Create = ({ history, classes }: IProps) => {
     return isValid;
   };
 
+  /**
+   * Validate the inputted info, and if it passes run the mutation
+   */
   const submit = () => {
     if (handleValidation()) {
       setServerError("");
@@ -126,8 +139,6 @@ const Create = ({ history, classes }: IProps) => {
             value={level}
             onChange={(e) => setLevel(parseInt(e.target.value))}
             onKeyDown={(e) => e.key === "Enter" && submit()}
-            // error={levelError !== ""}
-            // helperText={levelError}
           />
 
           <TextField
@@ -137,8 +148,6 @@ const Create = ({ history, classes }: IProps) => {
             value={type}
             onChange={(e) => setType(e.target.value)}
             onKeyDown={(e) => e.key === "Enter" && submit()}
-            // error={typeError !== ""}
-            // helperText={typeError}
           />
 
           <Typography variant="caption" color="error">

@@ -9,10 +9,18 @@ import { Check } from "@material-ui/icons";
 import { useState } from "react";
 import { CREATE } from "./../../gql/note";
 
+/**
+ * Component Types
+ */
 type IProps = {
   newNote: (title: string, id: string) => void;
 };
 
+/**
+ * CreateNote Component
+ *
+ * @param {newNote} newNote - The function to run after a new note has been created
+ */
 const CreateNote = ({ newNote }: IProps) => {
   const [title, setTitle] = useState("");
   const [titleError, setTitleError] = useState("");
@@ -26,6 +34,9 @@ const CreateNote = ({ newNote }: IProps) => {
 
   const [serverError, setServerError] = useState("");
 
+  /**
+   * Handle Validation for the input
+   */
   const handleValidation = () => {
     if (title.length < 3) {
       setTitleError("Title must be at least 3 characters");
@@ -40,6 +51,11 @@ const CreateNote = ({ newNote }: IProps) => {
     setNoteError("");
     return true;
   };
+
+  /**
+   * Submit the newely created note for
+   * validation and then save to the server
+   */
   const submit = () => {
     if (handleValidation()) {
       setLoading(true);
@@ -63,7 +79,9 @@ const CreateNote = ({ newNote }: IProps) => {
         });
     }
   };
-
+  /**
+   * Render JSX
+   */
   return (
     <div>
       <TextField

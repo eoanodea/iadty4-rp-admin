@@ -10,6 +10,11 @@ import routes, { IRouteType } from "./routes";
 import auth from "./../helpers/auth-helper";
 import Loading from "../components/global/Loading";
 
+/**
+ * Handles Routing for the application
+ *
+ * @returns {JSX.Element}
+ */
 const MainRouter = () => {
   /**
    * If set to true, displays routes that only authenticated users should see

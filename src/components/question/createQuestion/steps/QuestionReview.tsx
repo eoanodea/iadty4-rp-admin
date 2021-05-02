@@ -8,11 +8,17 @@ import {
   CircularProgress,
 } from "@material-ui/core";
 import { Check } from "@material-ui/icons";
-import React, { useState } from "react";
+import { useState } from "react";
 import { useQuestion } from "./../CreateQuestion";
 import { CREATE, UPDATE } from "./../../../../gql/question";
 import PreviewQuestion from "./../../PreviewQuestion";
+import { IHistoryProps } from "../../../../types/router";
 
+/**
+ * Injected styles
+ *
+ * @param {Theme} theme
+ */
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
@@ -26,11 +32,18 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-type IProps = {
+/**
+ * Component types
+ */
+interface IProps extends IHistoryProps {
   handleReset: () => void;
-  history: any;
-};
+}
 
+/**
+ * QuestionReview Component
+ *
+ * Review the current question after all steps are completed
+ */
 const QuestionReview = ({ handleReset, history }: IProps) => {
   const classes = useStyles();
   const [question] = useQuestion();
@@ -40,6 +53,12 @@ const QuestionReview = ({ handleReset, history }: IProps) => {
   const [addQuestion] = useMutation(CREATE);
   const [updateQuestion] = useMutation(UPDATE);
 
+  /**
+   * Capitalizes a string
+   *
+   * @param {string} str
+   * @returns {string} - the string but capitalized
+   */
   const capitalize = (str: string) => {
     return str
       .split(" ")
@@ -47,6 +66,10 @@ const QuestionReview = ({ handleReset, history }: IProps) => {
       .join(" ");
   };
 
+  /**
+   * Either create or update a question in on the server depending on
+   * if the question has a question.id or not
+   */
   const save = () => {
     setServerError("");
     setLoading(true);
@@ -95,6 +118,9 @@ const QuestionReview = ({ handleReset, history }: IProps) => {
     }
   };
 
+  /**
+   * Render JSX
+   */
   return (
     <div className={classes.root}>
       <Typography variant="h1">All Steps Complete</Typography>

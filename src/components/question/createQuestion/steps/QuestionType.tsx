@@ -13,6 +13,11 @@ import {
 import React from "react";
 import { useQuestion } from "./../CreateQuestion";
 
+/**
+ * Injected styles
+ *
+ * @param {Theme} theme
+ */
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
@@ -22,15 +27,31 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
+/**
+ * QuestionType Component
+ *
+ * Allows the user to select the type of question
+ */
 const QuestionType = () => {
   const classes = useStyles();
   const [question, setQuestion] = useQuestion();
 
+  /**
+   * Fetch the options from the server
+   *
+   * There was a bug here where on deployment the options wouldn't fetch sometimes,
+   * so a fallback to check if they exist, and if not, deliver hard coded options
+   */
   const options =
     question.questionTypeOptions.length < 1
       ? ["Multiple Choice", "Text"]
       : question.questionTypeOptions;
 
+  /**
+   * Handle selecting an option for the question type
+   *
+   * @param {React.ChangeEvent<HTMLInputElement>} event
+   */
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     let newQuestion = question;
     newQuestion.type = capitalize(
@@ -40,6 +61,12 @@ const QuestionType = () => {
     setQuestion({ ...newQuestion });
   };
 
+  /**
+   * Capitalizes a string
+   *
+   * @param {string} str
+   * @returns {string} - the string but capitalized
+   */
   const capitalize = (str: string) => {
     return str
       .split(" ")
@@ -47,6 +74,9 @@ const QuestionType = () => {
       .join(" ");
   };
 
+  /**
+   * Render JSX
+   */
   return (
     <div className={classes.root}>
       <Typography variant="h1">Select Question Type</Typography>
@@ -64,9 +94,7 @@ const QuestionType = () => {
             <FormControlLabel
               key={item}
               value={capitalize(item.replace("_", " ").toLowerCase())}
-              // defaultValue={capitalize(item.replace("_", " ").toLowerCase())}
               control={<Radio />}
-              // style={{ textTransform: "capitalize" }}
               label={item}
             />
           ))}

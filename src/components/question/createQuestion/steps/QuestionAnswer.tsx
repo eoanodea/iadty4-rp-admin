@@ -14,6 +14,11 @@ import { Autocomplete } from "@material-ui/lab";
 import React from "react";
 import { useQuestion } from "./../CreateQuestion";
 
+/**
+ * Injected styles
+ *
+ * @param {Theme} theme
+ */
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
@@ -23,10 +28,20 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
+/**
+ * QuestionAnswer Component
+ *
+ * Selects an answer from the list of options defined in the QuestionOptions component
+ */
 const QuestionAnswer = () => {
   const classes = useStyles();
   const [question, setQuestion] = useQuestion();
 
+  /**
+   * Handle change for a multi choice answer
+   *
+   * @param {string[]} value
+   */
   const handleMultiChoiceChange = (value: string[]) => {
     let newQuestion = question;
     newQuestion.answerArr = value;
@@ -34,6 +49,11 @@ const QuestionAnswer = () => {
     setQuestion(newQuestion);
   };
 
+  /**
+   * Handle change for a text answer
+   *
+   * @param {string} value
+   */
   const handleTextChange = (value: string) => {
     let newQuestion = question;
     newQuestion.answer = value;
@@ -44,6 +64,9 @@ const QuestionAnswer = () => {
   const icon = <CheckBoxOutlineBlank fontSize="small" />;
   const checkedIcon = <CheckBoxIcon fontSize="small" />;
 
+  /**
+   * Render JSX
+   */
   return (
     <div className={classes.root}>
       <Typography variant="h1">Select Question Answer</Typography>

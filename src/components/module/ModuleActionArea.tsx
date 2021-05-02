@@ -1,6 +1,9 @@
 import { CardActionArea } from "@material-ui/core";
 import { Link } from "react-router-dom";
 
+/**
+ * Component Types
+ */
 type IProps = {
   link: string | null;
   children: any;

@@ -12,6 +12,9 @@ import { useQuery } from "@apollo/client";
 import { READ } from "./../../gql/question";
 import { RouteComponentProps } from "react-router-dom";
 
+/**
+ * Component types
+ */
 interface IProps extends RouteComponentProps {
   match: any;
   classes: any;
@@ -28,14 +31,18 @@ const styles = ({ spacing }: any) =>
       padding: spacing(4),
     },
   });
+
 /**
  * UpdateQuestion Component
  *
  * @param {History} history - the browser history object
- * @param {Theme} classes - classes passed from Material UI Theme
+ * @param {any} match - classes passed from Material UI Theme
  */
-const Update = ({ history, classes, match }: IProps) => {
+const Update = ({ history, match }: IProps) => {
   const { id } = match.params;
+  /**
+   * Destructered variables from the graphql query
+   */
   const { loading, error, data } = useQuery(READ, { variables: { id } });
 
   /**

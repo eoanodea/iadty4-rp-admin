@@ -11,8 +11,9 @@ import {
   Theme,
   Typography,
 } from "@material-ui/core";
-
 import { Error as ErrorIcon } from "@material-ui/icons";
+
+import { IHistoryProps } from "../../../types/router";
 
 import QuestionText from "./steps/QuestionText";
 import QuestionImage from "./steps/QuestionImage";
@@ -22,8 +23,14 @@ import QuestionDetails from "./steps/QuestionDetails";
 import QuestionOptions from "./steps/QuestionOptions";
 import { useQuestion } from "./CreateQuestion";
 import QuestionReview from "./steps/QuestionReview";
-import { IHistoryProps } from "../../../types/router";
 
+/**
+ * Steps fed into the Stepper
+ * @param {string} title - The title for the stepper
+ * @param {string | array} name - The name of the field / fields to be validated on the question context
+ * @param {JSX.Element} component - The component to be rendered
+ * @param {boolean} required  - Whether the validator should run on this component
+ */
 const steps = [
   {
     title: "Add Question Text",
@@ -62,6 +69,12 @@ const steps = [
     required: true,
   },
 ];
+
+/**
+ * Injected styles
+ *
+ * @param {Theme} theme
+ */
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
@@ -93,10 +106,21 @@ const useStyles = makeStyles((theme: Theme) =>
     },
   })
 );
+
+/**
+ * Get the number of steps
+ *
+ * @returns {number}
+ */
 function getSteps() {
   return steps.map((step) => step.title);
 }
 
+/**
+ * QuestionStepper Component
+ *
+ * @param {History} history - the browser history object
+ */
 const QuestionStepper = ({ history }: IHistoryProps) => {
   const classes = useStyles();
 
@@ -107,18 +131,38 @@ const QuestionStepper = ({ history }: IHistoryProps) => {
   const [skipped, setSkipped] = React.useState(new Set<number>());
   const questionSteps = steps;
 
+  /**
+   * Get the number of steps
+   *
+   * @returns {number}
+   */
   const totalSteps = () => {
     return getSteps().length;
   };
 
+  /**
+   * Get the content of the step
+   *
+   * @param {number} step
+   * @returns {JSX.Element}
+   */
   const getStepContent = (step: number) => {
     return questionSteps[step].component;
   };
 
+  /**
+   * Check whether the step is optional or not
+   *
+   * @param {number} step
+   * @returns {bool}
+   */
   const isStepOptional = (step: number) => {
     return questionSteps[step].required !== true;
   };
 
+  /**
+   * Check if a step is optional and if so skip the element
+   */
   const handleSkip = () => {
     if (!isStepOptional(activeStep)) {
       // You probably want to guard against something like this
@@ -134,22 +178,47 @@ const QuestionStepper = ({ history }: IHistoryProps) => {
     });
   };
 
+  /**
+   * Get the number of skipped steps
+   *
+   * @returns {number}
+   */
   const skippedSteps = () => {
     return skipped.size;
   };
 
+  /**
+   * Get the number of completed steps
+   *
+   * @returns {number}
+   */
   const completedSteps = () => {
     return completed.size;
   };
 
+  /**
+   * Check if all steps are completed
+   *
+   * @returns {bool}
+   */
   const allStepsCompleted = () => {
     return completedSteps() === totalSteps() - skippedSteps();
   };
 
+  /**
+   * Check if it is the last step
+   *
+   * @returns {bool}
+   */
   const isLastStep = () => {
     return activeStep === totalSteps() - 1;
   };
 
+  /**
+   * Go to the next step
+   *
+   * @returns {void}
+   */
   const handleNext = () => {
     const newActiveStep =
       isLastStep() && !allStepsCompleted()
@@ -161,24 +230,45 @@ const QuestionStepper = ({ history }: IHistoryProps) => {
     setActiveStep(newActiveStep);
   };
 
+  /**
+   * Go to the previous step
+   *
+   * @returns {void}
+   */
   const handleBack = () => {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
   };
 
+  /**
+   * Step to the next step
+   *
+   * @returns {void}
+   */
   const handleStep = (step: number) => () => {
     setActiveStep(step);
   };
 
+  /**
+   * Validate a step and if it passes, go to the next step
+   *
+   * @returns {void}
+   */
   const handleComplete = () => {
     const newCompleted = new Set(completed);
     const newErrors = new Set(errors);
     setErrors(new Set());
+    /**
+     * Check if the step is required
+     */
     if (steps[activeStep].required) {
+      /**
+       * Check if the step name is not a string
+       */
       if (typeof steps[activeStep].name !== "string") {
-        //name is array
-
         const names = steps[activeStep].name as string[];
-
+        /**
+         * Loop through and check that all fields pass validation
+         */
         if (
           names.every((name) => {
             return question[name as string].length < 1;
@@ -189,7 +279,9 @@ const QuestionStepper = ({ history }: IHistoryProps) => {
         }
       } else {
         const name = steps[activeStep].name;
-
+        /**
+         * Set the error and fail the validation
+         */
         if (question[name as string].length < 1) {
           console.log("thats gotta be an error");
           newErrors.add(activeStep);
@@ -197,7 +289,9 @@ const QuestionStepper = ({ history }: IHistoryProps) => {
         }
       }
     }
-
+    /**
+     * Pass validation and complete the step
+     */
     newCompleted.add(activeStep);
     setCompleted(newCompleted);
 
@@ -211,24 +305,36 @@ const QuestionStepper = ({ history }: IHistoryProps) => {
     }
   };
 
+  /**
+   * Reset the steps and go back to step 1
+   */
   const handleReset = () => {
     setActiveStep(0);
     setCompleted(new Set<number>());
     setSkipped(new Set<number>());
   };
 
+  /**
+   * Check if a step has been skipped
+   */
   const isStepSkipped = (step: number) => {
     return skipped.has(step);
   };
-
+  /**
+   * Check if a step is completed
+   */
   function isStepComplete(step: number) {
     return completed.has(step);
   }
-
+  /**
+   * Check if a step contains an error
+   */
   function isStepError(step: number) {
     return errors.has(step);
   }
-
+  /**
+   * Render JSX
+   */
   return (
     <div className={classes.root}>
       <Stepper alternativeLabel nonLinear activeStep={activeStep}>

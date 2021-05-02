@@ -17,10 +17,13 @@ const styles = ({ spacing }: Theme) =>
     },
   });
 
+/**
+ * Component Types
+ */
 type IProps = {
   link: string | null;
   label: string;
-  icon: any;
+  icon: JSX.Element;
 };
 
 /**

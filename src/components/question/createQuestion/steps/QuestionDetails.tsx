@@ -8,6 +8,11 @@ import {
 } from "@material-ui/core";
 import { useQuestion } from "./../CreateQuestion";
 
+/**
+ * Injected styles
+ *
+ * @param {Theme} theme
+ */
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
@@ -17,6 +22,11 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
+/**
+ * QuestionDetails Component
+ *
+ * Enter additional details about the question
+ */
 const QuestionDetails = () => {
   const classes = useStyles();
   const [question, setQuestion] = useQuestion();

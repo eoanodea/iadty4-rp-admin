@@ -23,18 +23,17 @@ import {
   Edit,
   Link as LinkIcon,
 } from "@material-ui/icons";
-import React, {
-  createRef,
-  FormEvent,
-  useCallback,
-  useEffect,
-  useState,
-} from "react";
+import { createRef, FormEvent, useCallback, useEffect, useState } from "react";
 import { useQuestion } from "./../CreateQuestion";
 import { IItem, IListItem } from "./../../../../types/question";
 import FixedSizeList from "./../../../motion/FixedSizeList";
 import NoteDialog from "./../../../note";
 
+/**
+ * Injected styles
+ *
+ * @param {Theme} theme
+ */
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
@@ -66,6 +65,12 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
+/**
+ * QuestionText Component
+ *
+ * Allows the user to add Question Text,
+ * and re order the text by dragging and dropping
+ */
 const QuestionText = () => {
   const classes = useStyles();
 
@@ -78,8 +83,13 @@ const QuestionText = () => {
 
   const [items, setItems] = useState<IItem[]>(() => []);
 
+  /**
+   * Creates a Ref for the input field
+   */
   const inputRef = createRef<HTMLInputElement>();
-
+  /**
+   * Sync the current items within the component with the question context
+   */
   const syncQuestions = useCallback(() => {
     let newQuestion = question;
     newQuestion.text = items.map((item, i) => {
@@ -89,6 +99,9 @@ const QuestionText = () => {
   }, [items, question, setQuestion]);
 
   useEffect(() => {
+    /**
+     * If there are existing items on the question, convert them to items
+     */
     if (question.text.length > 0 && items.length === 0) {
       const newItems = question.text.map((item, i) => {
         return { id: i, text: item.text };
@@ -96,9 +109,17 @@ const QuestionText = () => {
 
       return setItems(newItems);
     }
+    /**
+     * Sync the questions
+     */
     syncQuestions();
   }, [question, items, syncQuestions]);
 
+  /**
+   * Validate the text input, and if passes, add the text as an item
+   *
+   * @param {FormEvent} e
+   */
   const submit = (e: FormEvent) => {
     e.preventDefault();
     if (activeText.length < 1)
@@ -124,6 +145,11 @@ const QuestionText = () => {
     setActiveTextError("");
   };
 
+  /**
+   * Edit an item
+   *
+   * @param {number} id
+   */
   const editItem = (id: number) => {
     const itemI = items.findIndex((item) => item.id === id);
     setEditIndex(id);
@@ -132,6 +158,11 @@ const QuestionText = () => {
     if (inputRef && inputRef.current) inputRef.current.focus();
   };
 
+  /**
+   * Remove an item
+   *
+   * @param {number} id
+   */
   const removeItem = (id: number) => {
     const itemI = items.findIndex((item) => item.id === id);
     const newItems = items;
@@ -141,6 +172,12 @@ const QuestionText = () => {
     syncQuestions();
   };
 
+  /**
+   * Attach a note to an existing question text
+   *
+   * @param {number} i
+   * @param {string} id
+   */
   const addNote = (i: number, id: string) => {
     const itemI = items.findIndex((item) => item.id === i);
 
@@ -150,6 +187,12 @@ const QuestionText = () => {
     syncQuestions();
   };
 
+  /**
+   * Renders a single list item
+   *
+   * @param {IListItem} - {id, text} - the id and text of the item
+   * @returns
+   */
   const Item = ({ id, text, note = "" }: IListItem) => {
     return (
       <ListItem className={classes.listItem}>
@@ -176,6 +219,9 @@ const QuestionText = () => {
     );
   };
 
+  /**
+   * Render JSX
+   */
   return (
     <div className={classes.root}>
       <Typography variant="h1">Add Question Text</Typography>
@@ -213,7 +259,6 @@ const QuestionText = () => {
         </IconButton>
         <Divider className={classes.divider} orientation="vertical" />
         <IconButton
-          // color="primary"
           className={classes.iconButton}
           aria-label="Add a link to text"
         >
