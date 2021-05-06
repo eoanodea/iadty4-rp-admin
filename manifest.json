@@ -1,6 +1,6 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "Easy Piano Admin",
+  "name": "Easy Piano Admin Dashboard",
   "icons": [
     {
       "src": "favicon.ico",
@@ -21,5 +21,28 @@
   "start_url": ".",
   "display": "standalone",
   "theme_color": "#000000",
-  "background_color": "#ffffff"
+  "background_color": "#ffffff",
+  "shortcuts": [
+    {
+      "name": "Login",
+      "short_name": "Login",
+      "description": "Login to the application",
+      "url": "/login",
+      "icons": [{ "src": "logo192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Register",
+      "short_name": "Register",
+      "description": "Sign up to the application",
+      "url": "/register",
+      "icons": [{ "src": "logo192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Modules",
+      "short_name": "Modules",
+      "description": "View a list of modules",
+      "url": "/modules",
+      "icons": [{ "src": "logo192.png", "sizes": "192x192" }]
+    }
+  ]
 }
