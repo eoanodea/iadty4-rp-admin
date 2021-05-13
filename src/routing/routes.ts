@@ -19,7 +19,6 @@ import {
 } from "./../pages/question";
 
 import Login from "./../pages/auth/Login";
-import Register from "../pages/auth/Register";
 
 /**
  * Route Types
@@ -47,12 +46,6 @@ const routes: IRouteType[] = [
     name: "Login",
     link: "/login",
     component: Login,
-    authed: false,
-  },
-  {
-    name: "Register",
-    link: "/register",
-    component: Register,
     authed: false,
   },
 

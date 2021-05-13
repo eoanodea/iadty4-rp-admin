@@ -96,7 +96,7 @@ const Login = ({ history, classes }: IProps) => {
       })
         .then((res: any) => {
           setError("");
-          auth.setUserDetails(res.data.login, (success) => {
+          auth.setUserDetails(res.data.adminLogin, (success) => {
             if (success) {
               return history.push("/modules");
             }
