@@ -65,15 +65,6 @@ const Home = ({ classes }: IProps) => {
             >
               Login
             </Button>
-            <Button
-              variant="contained"
-              color="primary"
-              component={Link}
-              aria-label="Button"
-              to="/register"
-            >
-              Register
-            </Button>
           </React.Fragment>
         )}
       </CardActions>
