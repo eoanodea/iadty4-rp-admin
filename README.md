@@ -12,7 +12,7 @@ It comminicates with the [Easy Piano server](https://github.com/eoanodea/iadty4-
 
 ### Demo
 
-Coming soon
+A live demo for the application can be found [here](https://adv-js-ca3.eoan.ie/)
 
 ### What you need to run this code
 
