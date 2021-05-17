@@ -104,6 +104,8 @@ const QuestionItem = ({
     setAnchorEl(null);
   };
 
+  const items = [...question.text].sort((a: any, b: any) => a.order - b.order);
+
   /**
    * Render JSX
    */
@@ -112,7 +114,7 @@ const QuestionItem = ({
       <Zoom in={true} style={{ transitionDelay: `${delay}ms` }}>
         <QuestionActionArea link={link}>
           <CardHeader
-            title={question.text.map((item: any) => item.text + " ")}
+            title={items.map((item: any) => item.text + " ")}
             subheader={
               question.type === "MULTIPLE_CHOICE"
                 ? "Answer: " + question.answerArr.map((item: string) => item)
@@ -178,7 +180,7 @@ const QuestionItem = ({
           <Help />
         </ListItemIcon>
         <ListItemText
-          primary={question.text.map((item: any) => item.text + " ")}
+          primary={items.map((item: any) => item.text + " ")}
           secondary={
             question.type === "MULTIPLE_CHOICE"
               ? "Answer: " + question.answerArr.map((item: string) => item)

@@ -76,8 +76,11 @@ const CreateQuestion = ({ history, match, update = null }: IProps) => {
           answerArr: update.answerArr,
           answerHint: update.answerHint,
         };
+        const items = [...update.text].sort(
+          (a: any, b: any) => a.order - b.order
+        );
 
-        newQuestion.text = update.text;
+        newQuestion.text = items;
       }
 
       setQuestion(newQuestion);

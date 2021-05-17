@@ -56,13 +56,15 @@ type IProps = {
 const PreviewQuestion = ({ question }: IProps) => {
   const classes = useStyles();
 
+  const items = [...question.text].sort((a: any, b: any) => a.order - b.order);
+
   /**
    * Render JSX
    */
   return (
     <Card className={classes.previewContainer}>
       <Typography variant="h3">
-        {question.text.map((item) => {
+        {items.map((item) => {
           if (item.note) {
             return (
               <React.Fragment key={item.text}>

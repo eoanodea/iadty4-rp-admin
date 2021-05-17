@@ -40,6 +40,7 @@ export const READ = gql`
         text {
           id
           text
+          order
         }
         type
         answer
