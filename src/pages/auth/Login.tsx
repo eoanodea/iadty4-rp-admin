@@ -152,10 +152,6 @@ const Login = ({ history, classes }: IProps) => {
           <Typography variant="caption" color="error">
             {error}
           </Typography>
-
-          <Typography variant="caption">
-            Don't have an account? <Link to="/register">Register here</Link>
-          </Typography>
         </CardContent>
         <CardActions>
           <Button
