@@ -14,6 +14,8 @@ It comminicates with the [Easy Piano server](https://github.com/eoanodea/iadty4-
 
 A live demo for the application can be found [here](https://adv-js-ca3.eoan.ie/)
 
+The showcase of the entire project can be found [here](https://onshow.iadt.ie/2021/student/eoan-odea/)
+
 ### What you need to run this code
 
 1. Node (14.15.4)
